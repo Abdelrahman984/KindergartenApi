@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36121.58 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kindergarten.Api", "Kindergarten.Api\Kindergarten.Api.csproj", "{26EE2B1F-19C0-4BF9-AA80-AB1A0D7E1AC6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5A76A1A7-7947-41F3-A7F3-0E16A88BD838} = {5A76A1A7-7947-41F3-A7F3-0E16A88BD838}
+		{AC796275-65CF-43EF-B288-7DC852699872} = {AC796275-65CF-43EF-B288-7DC852699872}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kindergarten.Domain", "Kindergarten.Domain\Kindergarten.Domain.csproj", "{7E2121D2-58D5-489F-A9A8-BAB565C8EDBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kindergarten.Application", "Kindergarten.Application\Kindergarten.Application.csproj", "{5A76A1A7-7947-41F3-A7F3-0E16A88BD838}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7E2121D2-58D5-489F-A9A8-BAB565C8EDBD} = {7E2121D2-58D5-489F-A9A8-BAB565C8EDBD}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kindergarten.Infrastructure", "Kindergarten.Infrastructure\Kindergarten.Infrastructure.csproj", "{AC796275-65CF-43EF-B288-7DC852699872}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5A76A1A7-7947-41F3-A7F3-0E16A88BD838} = {5A76A1A7-7947-41F3-A7F3-0E16A88BD838}
+		{7E2121D2-58D5-489F-A9A8-BAB565C8EDBD} = {7E2121D2-58D5-489F-A9A8-BAB565C8EDBD}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{26EE2B1F-19C0-4BF9-AA80-AB1A0D7E1AC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26EE2B1F-19C0-4BF9-AA80-AB1A0D7E1AC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26EE2B1F-19C0-4BF9-AA80-AB1A0D7E1AC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26EE2B1F-19C0-4BF9-AA80-AB1A0D7E1AC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E2121D2-58D5-489F-A9A8-BAB565C8EDBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E2121D2-58D5-489F-A9A8-BAB565C8EDBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E2121D2-58D5-489F-A9A8-BAB565C8EDBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E2121D2-58D5-489F-A9A8-BAB565C8EDBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A76A1A7-7947-41F3-A7F3-0E16A88BD838}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A76A1A7-7947-41F3-A7F3-0E16A88BD838}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A76A1A7-7947-41F3-A7F3-0E16A88BD838}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A76A1A7-7947-41F3-A7F3-0E16A88BD838}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC796275-65CF-43EF-B288-7DC852699872}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC796275-65CF-43EF-B288-7DC852699872}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC796275-65CF-43EF-B288-7DC852699872}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC796275-65CF-43EF-B288-7DC852699872}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A17A6FC8-2478-467C-A4AB-FB139BAFD7EC}
+	EndGlobalSection
+EndGlobal
