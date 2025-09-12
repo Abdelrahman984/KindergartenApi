@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kindergarten.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250910020402_Initial")]
+    [Migration("20250910212444_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -377,12 +377,7 @@ namespace Kindergarten.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("TeacherId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TeacherId");
 
                     b.ToTable("Classroom");
 
@@ -391,22 +386,19 @@ namespace Kindergarten.Infrastructure.Migrations
                         {
                             Id = new Guid("77777777-7777-7777-7777-777777777777"),
                             Capacity = 20,
-                            Name = "KG1",
-                            TeacherId = new Guid("44444444-4444-4444-4444-444444444444")
+                            Name = "KG1"
                         },
                         new
                         {
                             Id = new Guid("88888888-8888-8888-8888-888888888888"),
                             Capacity = 25,
-                            Name = "KG2",
-                            TeacherId = new Guid("55555555-5555-5555-5555-555555555555")
+                            Name = "KG2"
                         },
                         new
                         {
                             Id = new Guid("99999999-9999-9999-9999-999999999999"),
                             Capacity = 30,
-                            Name = "KG3",
-                            TeacherId = new Guid("66666666-6666-6666-6666-666666666666")
+                            Name = "KG3"
                         });
                 });
 
@@ -623,6 +615,58 @@ namespace Kindergarten.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Kindergarten.Domain.Entities.TeacherClassroom", b =>
+                {
+                    b.Property<Guid>("TeacherId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ClassroomId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("TeacherId", "ClassroomId");
+
+                    b.HasIndex("ClassroomId");
+
+                    b.ToTable("TeacherClassroom");
+
+                    b.HasData(
+                        new
+                        {
+                            TeacherId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            ClassroomId = new Guid("77777777-7777-7777-7777-777777777777")
+                        },
+                        new
+                        {
+                            TeacherId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            ClassroomId = new Guid("88888888-8888-8888-8888-888888888888")
+                        },
+                        new
+                        {
+                            TeacherId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            ClassroomId = new Guid("99999999-9999-9999-9999-999999999999")
+                        },
+                        new
+                        {
+                            TeacherId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            ClassroomId = new Guid("77777777-7777-7777-7777-777777777777")
+                        },
+                        new
+                        {
+                            TeacherId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            ClassroomId = new Guid("88888888-8888-8888-8888-888888888888")
+                        },
+                        new
+                        {
+                            TeacherId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            ClassroomId = new Guid("88888888-8888-8888-8888-888888888888")
+                        },
+                        new
+                        {
+                            TeacherId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            ClassroomId = new Guid("99999999-9999-9999-9999-999999999999")
+                        });
+                });
+
             modelBuilder.Entity("Kindergarten.Domain.Entities.Attendance", b =>
                 {
                     b.HasOne("Kindergarten.Domain.Entities.Student", "Student")
@@ -634,15 +678,6 @@ namespace Kindergarten.Infrastructure.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("Kindergarten.Domain.Entities.Classroom", b =>
-                {
-                    b.HasOne("Kindergarten.Domain.Entities.Teacher", "Teacher")
-                        .WithMany("Classrooms")
-                        .HasForeignKey("TeacherId");
-
-                    b.Navigation("Teacher");
-                });
-
             modelBuilder.Entity("Kindergarten.Domain.Entities.Student", b =>
                 {
                     b.HasOne("Kindergarten.Domain.Entities.Classroom", "Classroom")
@@ -651,7 +686,7 @@ namespace Kindergarten.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Kindergarten.Domain.Entities.Parent", "Parent")
-                        .WithMany("Children")
+                        .WithMany("Childrens")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.SetNull);
 
@@ -660,19 +695,40 @@ namespace Kindergarten.Infrastructure.Migrations
                     b.Navigation("Parent");
                 });
 
+            modelBuilder.Entity("Kindergarten.Domain.Entities.TeacherClassroom", b =>
+                {
+                    b.HasOne("Kindergarten.Domain.Entities.Classroom", "Classroom")
+                        .WithMany("TeacherClassrooms")
+                        .HasForeignKey("ClassroomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Kindergarten.Domain.Entities.Teacher", "Teacher")
+                        .WithMany("TeacherClassrooms")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Classroom");
+
+                    b.Navigation("Teacher");
+                });
+
             modelBuilder.Entity("Kindergarten.Domain.Entities.Classroom", b =>
                 {
                     b.Navigation("Students");
+
+                    b.Navigation("TeacherClassrooms");
                 });
 
             modelBuilder.Entity("Kindergarten.Domain.Entities.Parent", b =>
                 {
-                    b.Navigation("Children");
+                    b.Navigation("Childrens");
                 });
 
             modelBuilder.Entity("Kindergarten.Domain.Entities.Teacher", b =>
                 {
-                    b.Navigation("Classrooms");
+                    b.Navigation("TeacherClassrooms");
                 });
 #pragma warning restore 612, 618
         }

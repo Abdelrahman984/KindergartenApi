@@ -33,6 +33,13 @@ public class TeachersController : ControllerBase
         return Ok(students);
     }
 
+    [HttpGet("{teacherId:guid}/classrooms")]
+    public async Task<IActionResult> GetTeacherClassrooms(Guid teacherId)
+    {
+        var classrooms = await _teacherService.GetClassroomsByTeacherIdAsync(teacherId);
+        return Ok(classrooms);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create(TeacherCreateDto dto)
     {
@@ -47,10 +54,17 @@ public class TeachersController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("{id:guid}/deactivate")]
     public async Task<IActionResult> Deactivate(Guid id)
     {
         await _teacherService.DeactivateTeacherAsync(id);
+        return NoContent();
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteTeacher(Guid id)
+    {
+        await _teacherService.DeleteTeacherAsync(id);
         return NoContent();
     }
 }

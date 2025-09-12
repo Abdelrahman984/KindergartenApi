@@ -7,8 +7,7 @@ public class Classroom
     public int Capacity { get; private set; }
 
     // Relationships
-    public Guid? TeacherId { get; private set; }
-    public Teacher? Teacher { get; private set; }
+    public ICollection<TeacherClassroom> TeacherClassrooms { get; private set; } = new List<TeacherClassroom>();
     public ICollection<Student> Students { get; private set; } = new List<Student>();
 
     private Classroom() { }
@@ -19,6 +18,13 @@ public class Classroom
         Capacity = capacity;
     }
 
-    public void AssignTeacher(Guid teacherId) => TeacherId = teacherId;
+    public void AssignTeacher(Guid teacherId)
+    {
+        if (!TeacherClassrooms.Any(tc => tc.TeacherId == teacherId))
+        {
+            TeacherClassrooms.Add(new TeacherClassroom(teacherId, Id));
+        }
+    }
+
     public void UpdateCapacity(int newCapacity) => Capacity = newCapacity;
 }

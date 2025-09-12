@@ -21,7 +21,16 @@ public class TeacherService : ITeacherService
 
     public async Task<TeacherReadDto> CreateTeacherAsync(TeacherCreateDto dto)
     {
-        var teacher = _mapper.Map<Teacher>(dto);
+        var teacher = new Teacher(dto.FullName, dto.Subject, dto.PhoneNumber, dto.IsActive);
+
+        if (dto.ClassroomIds != null)
+        {
+            foreach (var classroomId in dto.ClassroomIds)
+            {
+                teacher.TeacherClassrooms.Add(new TeacherClassroom(teacher.Id, classroomId));
+            }
+        }
+
         await _teacherRepository.AddAsync(teacher);
         return _mapper.Map<TeacherReadDto>(teacher);
     }
@@ -60,5 +69,21 @@ public class TeacherService : ITeacherService
     {
         var students = await _classroomRepository.GetStudentsByTeacherIdAsync(teacherId);
         return _mapper.Map<IEnumerable<StudentReadDto>>(students);
+    }
+
+    public async Task<IEnumerable<ClassroomReadDto>> GetClassroomsByTeacherIdAsync(Guid teacherId)
+    {
+        var classrooms = await _classroomRepository.FindAsync(
+            c => c.TeacherClassrooms.Any(tc => tc.TeacherId == teacherId)
+        );
+        return _mapper.Map<IEnumerable<ClassroomReadDto>>(classrooms);
+    }
+
+    public async Task DeleteTeacherAsync(Guid id)
+    {
+        var teacher = await _teacherRepository.GetByIdAsync(id)
+            ?? throw new KeyNotFoundException("Teacher not found");
+
+        await _teacherRepository.DeleteAsync(id);
     }
 }

@@ -27,8 +27,20 @@ public class AppDbContext(DbContextOptions<AppDbContext> opts) : DbContext(opts)
         modelBuilder.Entity<Student>()
             .Ignore(s => s.FullName);
 
+        modelBuilder.Entity<TeacherClassroom>()
+            .HasKey(tc => new { tc.TeacherId, tc.ClassroomId });
+
+        modelBuilder.Entity<TeacherClassroom>()
+            .HasOne(tc => tc.Teacher)
+            .WithMany(t => t.TeacherClassrooms)
+            .HasForeignKey(tc => tc.TeacherId);
+
+        modelBuilder.Entity<TeacherClassroom>()
+            .HasOne(tc => tc.Classroom)
+            .WithMany(c => c.TeacherClassrooms)
+            .HasForeignKey(tc => tc.ClassroomId);
+
         // Seed data
         SeedData.Seed(modelBuilder);
-
     }
 }

@@ -9,7 +9,7 @@ public class Teacher
     public bool IsActive { get; private set; } = true;
 
     // Relationships
-    public ICollection<Classroom> Classrooms { get; private set; } = new List<Classroom>();
+    public ICollection<TeacherClassroom> TeacherClassrooms { get; private set; } = new List<TeacherClassroom>();
 
     // Constructors
     private Teacher() { }
@@ -21,12 +21,21 @@ public class Teacher
         PhoneNumber = phoneNumber;
     }
 
-    // Methods
-    public void UpdateInfo(string fullName, string subject, string phoneNumber)
+    public Teacher(string fullName, string subject, string phoneNumber, bool isActive = false)
     {
         FullName = fullName;
         Subject = subject;
         PhoneNumber = phoneNumber;
+        IsActive = isActive;
+    }
+
+    // Methods
+    public void UpdateInfo(string fullName, string subject, string phoneNumber, bool isActive)
+    {
+        FullName = fullName;
+        Subject = subject;
+        PhoneNumber = phoneNumber;
+        IsActive = isActive;
     }
 
     public void Deactivate() => IsActive = false;

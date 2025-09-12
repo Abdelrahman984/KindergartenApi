@@ -14,7 +14,7 @@ public class ClassroomRepository : GenericRepository<Classroom>, IClassroomRepos
 
     public async Task<IEnumerable<Student>> GetStudentsByTeacherIdAsync(Guid teacherId)
         => await _dbSet
-            .Where(c => c.TeacherId == teacherId)
+            .Where(c => c.TeacherClassrooms.Any(tc => tc.TeacherId == teacherId))
             .SelectMany(c => c.Students)
             .ToListAsync();
 }

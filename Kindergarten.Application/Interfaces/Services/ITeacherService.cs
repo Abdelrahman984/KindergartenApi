@@ -10,4 +10,6 @@ public interface ITeacherService
     Task UpdateTeacherAsync(Guid id, TeacherUpdateDto dto);
     Task DeactivateTeacherAsync(Guid id);
     Task<IEnumerable<StudentReadDto>> GetClassStudentsAsync(Guid teacherId);
+    Task<IEnumerable<ClassroomReadDto>> GetClassroomsByTeacherIdAsync(Guid teacherId);
+    Task DeleteTeacherAsync(Guid id);
 }
