@@ -55,8 +55,6 @@ public class StudentService : IStudentService
         studentDto.ParentAddress = parent.Address;
         studentDto.ClassroomName = classroom.Name;
 
-        await PopulateAttendanceRateAsync(studentDto);
-
         return studentDto;
     }
 
@@ -65,7 +63,6 @@ public class StudentService : IStudentService
     {
         var students = await _studentRepository.GetByFilterAsync(classroomId, name, isActive);
         var studentDtos = _mapper.Map<IEnumerable<StudentReadDto>>(students);
-        await PopulateAttendanceRatesAsync(studentDtos);
         return studentDtos;
     }
 
@@ -76,7 +73,6 @@ public class StudentService : IStudentService
         if (student == null) return null;
 
         var studentDto = _mapper.Map<StudentReadDto>(student);
-        await PopulateAttendanceRateAsync(studentDto);
         return studentDto;
     }
 
@@ -107,7 +103,6 @@ public class StudentService : IStudentService
     {
         var students = await _studentRepository.GetByClassroomIdAsync(classroomId);
         var studentDtos = _mapper.Map<IEnumerable<StudentReadDto>>(students);
-        await PopulateAttendanceRatesAsync(studentDtos);
         return studentDtos;
     }
 
@@ -115,20 +110,6 @@ public class StudentService : IStudentService
     {
         var students = await _studentRepository.GetByParentIdAsync(parentId);
         var studentDtos = _mapper.Map<IEnumerable<StudentReadDto>>(students);
-        await PopulateAttendanceRatesAsync(studentDtos);
         return studentDtos;
-    }
-
-    private async Task PopulateAttendanceRateAsync(StudentReadDto studentDto)
-    {
-        studentDto.AttendanceRate = await _attendanceService.GetStudentAttendancePercentageAsync(studentDto.Id);
-    }
-
-    private async Task PopulateAttendanceRatesAsync(IEnumerable<StudentReadDto> studentDtos)
-    {
-        foreach (var studentDto in studentDtos)
-        {
-            studentDto.AttendanceRate = await _attendanceService.GetStudentAttendancePercentageAsync(studentDto.Id);
-        }
     }
 }

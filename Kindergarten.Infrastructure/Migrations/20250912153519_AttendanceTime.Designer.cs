@@ -4,6 +4,7 @@ using Kindergarten.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kindergarten.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250912153519_AttendanceTime")]
+    partial class AttendanceTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,8 +38,7 @@ namespace Kindergarten.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Notes")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -46,8 +48,7 @@ namespace Kindergarten.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StudentId", "Date")
-                        .IsUnique();
+                    b.HasIndex("StudentId");
 
                     b.ToTable("Attendances");
                 });
@@ -231,7 +232,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             DateOfBirth = new DateTime(2020, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "أحمد",
                             FirstName = "ملك",
-                            GrandpaName = "محمد",
+                            GrandpaName = "كمال",
                             IsActive = true,
                             ParentId = new Guid("11111111-1111-1111-1111-111111111111"),
                             ParentPhone = "01012345678"
@@ -244,7 +245,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             DateOfBirth = new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "منى",
                             FirstName = "علا",
-                            GrandpaName = "علي",
+                            GrandpaName = "فوزي",
                             IsActive = true,
                             ParentId = new Guid("22222222-2222-2222-2222-222222222222"),
                             ParentPhone = "01098765432"
@@ -257,7 +258,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             DateOfBirth = new DateTime(2020, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "حسام",
                             FirstName = "ليلى",
-                            GrandpaName = "كامل",
+                            GrandpaName = "يوسف",
                             IsActive = true,
                             ParentId = new Guid("33333333-3333-3333-3333-333333333333"),
                             ParentPhone = "0103334444"
@@ -270,7 +271,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             DateOfBirth = new DateTime(2019, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "أحمد",
                             FirstName = "محمود",
-                            GrandpaName = "محمد",
+                            GrandpaName = "سعيد",
                             IsActive = true,
                             ParentId = new Guid("11111111-1111-1111-1111-111111111111"),
                             ParentPhone = "01012345678"
@@ -283,7 +284,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             DateOfBirth = new DateTime(2020, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "منى",
                             FirstName = "نور",
-                            GrandpaName = "علي",
+                            GrandpaName = "حسن",
                             IsActive = true,
                             ParentId = new Guid("22222222-2222-2222-2222-222222222222"),
                             ParentPhone = "01098765432"
@@ -296,7 +297,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             DateOfBirth = new DateTime(2019, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "حسام",
                             FirstName = "زياد",
-                            GrandpaName = "كامل",
+                            GrandpaName = "يوسف",
                             IsActive = true,
                             ParentId = new Guid("33333333-3333-3333-3333-333333333333"),
                             ParentPhone = "0103334444"
@@ -309,7 +310,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             DateOfBirth = new DateTime(2020, 4, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "أحمد",
                             FirstName = "جنى",
-                            GrandpaName = "محمد",
+                            GrandpaName = "علي",
                             IsActive = true,
                             ParentId = new Guid("11111111-1111-1111-1111-111111111111"),
                             ParentPhone = "01012345678"
@@ -322,7 +323,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             DateOfBirth = new DateTime(2021, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "منى",
                             FirstName = "فارس",
-                            GrandpaName = "علي",
+                            GrandpaName = "حسن",
                             IsActive = true,
                             ParentId = new Guid("22222222-2222-2222-2222-222222222222"),
                             ParentPhone = "01098765432"
@@ -387,7 +388,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             DateOfBirth = new DateTime(2020, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "أحمد",
                             FirstName = "سلمى",
-                            GrandpaName = "محمد",
+                            GrandpaName = "كمال",
                             IsActive = true,
                             ParentId = new Guid("11111111-1111-1111-1111-111111111111"),
                             ParentPhone = "01012345678"
@@ -400,7 +401,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             DateOfBirth = new DateTime(2021, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "منى",
                             FirstName = "ياسمين",
-                            GrandpaName = "علي",
+                            GrandpaName = "فوزي",
                             IsActive = true,
                             ParentId = new Guid("22222222-2222-2222-2222-222222222222"),
                             ParentPhone = "01098765432"
@@ -413,7 +414,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             DateOfBirth = new DateTime(2020, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "حسام",
                             FirstName = "حسن",
-                            GrandpaName = "كامل",
+                            GrandpaName = "يوسف",
                             IsActive = true,
                             ParentId = new Guid("33333333-3333-3333-3333-333333333333"),
                             ParentPhone = "0103334444"
@@ -426,7 +427,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             DateOfBirth = new DateTime(2019, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "أحمد",
                             FirstName = "مريم",
-                            GrandpaName = "محمد",
+                            GrandpaName = "سعيد",
                             IsActive = true,
                             ParentId = new Guid("11111111-1111-1111-1111-111111111111"),
                             ParentPhone = "01012345678"
@@ -439,7 +440,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             DateOfBirth = new DateTime(2020, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "منى",
                             FirstName = "آدم",
-                            GrandpaName = "علي",
+                            GrandpaName = "حسن",
                             IsActive = true,
                             ParentId = new Guid("22222222-2222-2222-2222-222222222222"),
                             ParentPhone = "01098765432"
@@ -508,7 +509,7 @@ namespace Kindergarten.Infrastructure.Migrations
                         {
                             Id = new Guid("88888888-8888-8888-8888-888888888888"),
                             FullName = "هالة محمود",
-                            IsActive = false,
+                            IsActive = true,
                             PhoneNumber = "0109992222",
                             Subject = "تربية فنية"
                         },

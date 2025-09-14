@@ -1,23 +1,39 @@
-﻿namespace Kindergarten.Domain.Entities;
+﻿using Kindergarten.Domain.Enums;
+
+namespace Kindergarten.Domain.Entities;
 
 public class Attendance
 {
     public Guid Id { get; private set; } = Guid.NewGuid();
-    public DateTime Date { get; private set; }
-    public bool IsPresent { get; private set; }
-
-    // Relationships
     public Guid StudentId { get; private set; }
     public Student Student { get; private set; } = null!;
+    public DateTime Date { get; private set; }
+    public TimeSpan? ArrivalTime { get; private set; }
+    public AttendanceStatus Status { get; private set; }
+    public string? Notes { get; private set; }
 
-    private Attendance() { }
+    private Attendance() { } // for ORM
 
-    public Attendance(Guid studentId, DateTime date, bool isPresent)
+    public Attendance(Guid studentId, DateTime date, TimeSpan? arrivalTime, AttendanceStatus status, string? notes)
     {
         StudentId = studentId;
-        Date = date.Date; // store only date
-        IsPresent = isPresent;
+        Date = date.Date;
+        ArrivalTime = arrivalTime;
+        Status = status;
+        Notes = notes;
     }
 
-    public void UpdateStatus(bool isPresent) => IsPresent = isPresent;
+    public static Attendance Create(Guid studentId, DateTime date, TimeSpan? arrivalTime, AttendanceStatus status, string? notes)
+        => new(studentId, date, arrivalTime, status, notes);
+
+    public void UpdateStatus(AttendanceStatus status, string? notes, TimeSpan? arrivalTime)
+    {
+        Status = status;
+        Notes = notes;
+
+        ArrivalTime = status == AttendanceStatus.Present || status == AttendanceStatus.Late
+            ? arrivalTime
+            : null;
+    }
+
 }

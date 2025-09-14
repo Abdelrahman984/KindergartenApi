@@ -6,6 +6,11 @@ namespace Kindergarten.Infrastructure.Persistence;
 public class AppDbContext(DbContextOptions<AppDbContext> opts) : DbContext(opts)
 {
     public DbSet<Student> Students { get; set; } = null!;
+    public DbSet<Teacher> Teachers { get; set; } = null!;
+    public DbSet<Classroom> Classrooms { get; set; } = null!;
+    public DbSet<Parent> Parents { get; set; } = null!;
+    public DbSet<Attendance> Attendances { get; set; } = null!;
+    public DbSet<TeacherClassroom> TeacherClassrooms { get; set; } = null!; // Junction table DbSet (m-m)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -39,6 +44,19 @@ public class AppDbContext(DbContextOptions<AppDbContext> opts) : DbContext(opts)
             .HasOne(tc => tc.Classroom)
             .WithMany(c => c.TeacherClassrooms)
             .HasForeignKey(tc => tc.ClassroomId);
+
+        // منع تكرار الحضور لنفس الطالب في نفس اليوم
+        modelBuilder.Entity<Attendance>().HasIndex(a => new { a.StudentId, a.Date })
+            .IsUnique();
+
+        // Notes optional
+        modelBuilder.Entity<Attendance>().Property(a => a.Notes)
+            .HasMaxLength(500);
+
+        // Date required
+        modelBuilder.Entity<Attendance>().Property(a => a.Date)
+            .IsRequired();
+
 
         // Seed data
         SeedData.Seed(modelBuilder);

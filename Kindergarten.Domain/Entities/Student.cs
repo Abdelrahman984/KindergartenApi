@@ -1,13 +1,19 @@
-﻿namespace Kindergarten.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Kindergarten.Domain.Entities;
 
 public class Student
 {
     public Guid Id { get; private set; } = Guid.NewGuid();
+    [Required]
     public string FirstName { get; private set; } = null!;
     public string FatherName { get; private set; } = null!;
     public string GrandpaName { get; private set; } = null!;
     public string FullName => $"{FirstName} {FatherName} {GrandpaName}";
     public DateTime DateOfBirth { get; private set; }
+    public int Age => DateTime.Today.Year - DateOfBirth.Year
+                  - (DateOfBirth.Date > DateTime.Today.AddYears(-(DateTime.Today.Year - DateOfBirth.Year)) ? 1 : 0);
+
     public string ParentPhone { get; private set; } = null!;
     public string Address { get; private set; } = null!;
     public bool IsActive { get; private set; } = true;
@@ -17,6 +23,8 @@ public class Student
     public Parent? Parent { get; private set; }
     public Guid? ClassroomId { get; private set; }
     public Classroom? Classroom { get; private set; }
+    public ICollection<Attendance> Attendances { get; private set; } = new List<Attendance>();
+
 
     // ctor for ORM
     protected Student() { }

@@ -33,15 +33,10 @@ public class MappingProfile : Profile
         CreateMap<ParentUpdateDto, Parent>();
 
         // Attendance
-        CreateMap<Attendance, AttendanceReadDto>();
+        CreateMap<Attendance, AttendanceReadDto>()
+           .ForMember(dest => dest.StudentName, opt => opt.MapFrom(src => src.Student.FullName))
+           .ForMember(dest => dest.ClassroomName, opt => opt.MapFrom(src => src.Student.Classroom!.Name))
+           .ForMember(dest => dest.ArrivalTime, opt => opt.MapFrom(src => src.ArrivalTime));
         CreateMap<AttendanceCreateDto, Attendance>();
-    }
-
-    private static int CalculateAge(DateTime dateOfBirth)
-    {
-        var today = DateTime.Today;
-        var age = today.Year - dateOfBirth.Year;
-        if (dateOfBirth.Date > today.AddYears(-age)) age--;
-        return Math.Max(age, 0);
     }
 }

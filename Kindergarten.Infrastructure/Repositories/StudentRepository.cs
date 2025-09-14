@@ -18,6 +18,9 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
     public async Task<IEnumerable<Student>> GetActiveStudentsAsync()
         => await _dbSet.Where(s => s.IsActive).ToListAsync();
 
+    public async Task<int> GetStudentsCountAsync() =>
+         await _context.Students.CountAsync();
+
     public async Task<IEnumerable<Student>> GetByFilterAsync(Guid? classroomId, string? name, bool? isActive)
     {
         var query = _dbSet

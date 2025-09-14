@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kindergarten.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250911054757_BigSeeding")]
-    partial class BigSeeding
+    [Migration("20250913195240_UpdateDataSeeding")]
+    partial class UpdateDataSeeding
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,11 +31,17 @@ namespace Kindergarten.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<TimeSpan?>("ArrivalTime")
+                        .HasColumnType("time");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsPresent")
-                        .HasColumnType("bit");
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("StudentId")
                         .HasColumnType("uniqueidentifier");
@@ -44,324 +50,7 @@ namespace Kindergarten.Infrastructure.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Attendance");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("aaaaaaaa-1111-1111-1111-aaaaaaaaaaaa"),
-                            Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbbbbbb-2222-2222-2222-bbbbbbbbbbbb"),
-                            Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = false,
-                            StudentId = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
-                        },
-                        new
-                        {
-                            Id = new Guid("cccccccc-3333-3333-3333-cccccccccccc"),
-                            Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc")
-                        },
-                        new
-                        {
-                            Id = new Guid("aaaa1111-1111-1111-1111-aaaaaaaaaaaa"),
-                            Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd")
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbb1111-1111-1111-1111-bbbbbbbbbbbb"),
-                            Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee")
-                        },
-                        new
-                        {
-                            Id = new Guid("dddddddd-4444-4444-4444-dddddddddddd"),
-                            Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = false,
-                            StudentId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
-                        },
-                        new
-                        {
-                            Id = new Guid("eeeeeeee-5555-5555-5555-eeeeeeeeeeee"),
-                            Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
-                        },
-                        new
-                        {
-                            Id = new Guid("ffffffff-6666-6666-6666-ffffffffffff"),
-                            Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc")
-                        },
-                        new
-                        {
-                            Id = new Guid("aaaa2222-2222-2222-2222-aaaaaaaaaaaa"),
-                            Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = false,
-                            StudentId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd")
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbb2222-2222-2222-2222-bbbbbbbbbbbb"),
-                            Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee")
-                        },
-                        new
-                        {
-                            Id = new Guid("11111111-aaaa-bbbb-cccc-111111111111"),
-                            Date = new DateTime(2024, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
-                        },
-                        new
-                        {
-                            Id = new Guid("22222222-bbbb-cccc-dddd-222222222222"),
-                            Date = new DateTime(2024, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
-                        },
-                        new
-                        {
-                            Id = new Guid("33333333-cccc-dddd-eeee-333333333333"),
-                            Date = new DateTime(2024, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = false,
-                            StudentId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc")
-                        },
-                        new
-                        {
-                            Id = new Guid("aaaa3333-3333-3333-3333-aaaaaaaaaaaa"),
-                            Date = new DateTime(2024, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd")
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbb3333-3333-3333-3333-bbbbbbbbbbbb"),
-                            Date = new DateTime(2024, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = false,
-                            StudentId = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee")
-                        },
-                        new
-                        {
-                            Id = new Guid("44444444-aaaa-bbbb-cccc-111111111111"),
-                            Date = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
-                        },
-                        new
-                        {
-                            Id = new Guid("44444444-aaaa-bbbb-cccc-222222222222"),
-                            Date = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = false,
-                            StudentId = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
-                        },
-                        new
-                        {
-                            Id = new Guid("44444444-aaaa-bbbb-cccc-333333333333"),
-                            Date = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc")
-                        },
-                        new
-                        {
-                            Id = new Guid("aaaa4444-4444-4444-4444-aaaaaaaaaaaa"),
-                            Date = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = false,
-                            StudentId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd")
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbb4444-4444-4444-4444-bbbbbbbbbbbb"),
-                            Date = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee")
-                        },
-                        new
-                        {
-                            Id = new Guid("55555555-aaaa-bbbb-cccc-111111111111"),
-                            Date = new DateTime(2024, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = false,
-                            StudentId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
-                        },
-                        new
-                        {
-                            Id = new Guid("55555555-aaaa-bbbb-cccc-222222222222"),
-                            Date = new DateTime(2024, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = false,
-                            StudentId = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
-                        },
-                        new
-                        {
-                            Id = new Guid("55555555-aaaa-bbbb-cccc-333333333333"),
-                            Date = new DateTime(2024, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc")
-                        },
-                        new
-                        {
-                            Id = new Guid("aaaa5555-5555-5555-5555-aaaaaaaaaaaa"),
-                            Date = new DateTime(2024, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd")
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbb5555-5555-5555-5555-bbbbbbbbbbbb"),
-                            Date = new DateTime(2024, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = false,
-                            StudentId = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee")
-                        },
-                        new
-                        {
-                            Id = new Guid("66666666-aaaa-bbbb-cccc-111111111111"),
-                            Date = new DateTime(2024, 9, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
-                        },
-                        new
-                        {
-                            Id = new Guid("66666666-aaaa-bbbb-cccc-222222222222"),
-                            Date = new DateTime(2024, 9, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
-                        },
-                        new
-                        {
-                            Id = new Guid("66666666-aaaa-bbbb-cccc-333333333333"),
-                            Date = new DateTime(2024, 9, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc")
-                        },
-                        new
-                        {
-                            Id = new Guid("aaaa6666-6666-6666-6666-aaaaaaaaaaaa"),
-                            Date = new DateTime(2024, 9, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd")
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbb6666-6666-6666-6666-bbbbbbbbbbbb"),
-                            Date = new DateTime(2024, 9, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee")
-                        },
-                        new
-                        {
-                            Id = new Guid("77777777-aaaa-bbbb-cccc-111111111111"),
-                            Date = new DateTime(2024, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
-                        },
-                        new
-                        {
-                            Id = new Guid("77777777-aaaa-bbbb-cccc-222222222222"),
-                            Date = new DateTime(2024, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = false,
-                            StudentId = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
-                        },
-                        new
-                        {
-                            Id = new Guid("77777777-aaaa-bbbb-cccc-333333333333"),
-                            Date = new DateTime(2024, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = false,
-                            StudentId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc")
-                        },
-                        new
-                        {
-                            Id = new Guid("aaaa7777-7777-7777-7777-aaaaaaaaaaaa"),
-                            Date = new DateTime(2024, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd")
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbb7777-7777-7777-7777-bbbbbbbbbbbb"),
-                            Date = new DateTime(2024, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = false,
-                            StudentId = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee")
-                        },
-                        new
-                        {
-                            Id = new Guid("88888888-aaaa-bbbb-cccc-111111111111"),
-                            Date = new DateTime(2024, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = false,
-                            StudentId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
-                        },
-                        new
-                        {
-                            Id = new Guid("88888888-aaaa-bbbb-cccc-222222222222"),
-                            Date = new DateTime(2024, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
-                        },
-                        new
-                        {
-                            Id = new Guid("88888888-aaaa-bbbb-cccc-333333333333"),
-                            Date = new DateTime(2024, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc")
-                        },
-                        new
-                        {
-                            Id = new Guid("aaaa8888-8888-8888-8888-aaaaaaaaaaaa"),
-                            Date = new DateTime(2024, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd")
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbb8888-8888-8888-8888-bbbbbbbbbbbb"),
-                            Date = new DateTime(2024, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee")
-                        },
-                        new
-                        {
-                            Id = new Guid("99999999-aaaa-bbbb-cccc-111111111111"),
-                            Date = new DateTime(2024, 9, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
-                        },
-                        new
-                        {
-                            Id = new Guid("99999999-aaaa-bbbb-cccc-222222222222"),
-                            Date = new DateTime(2024, 9, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
-                        },
-                        new
-                        {
-                            Id = new Guid("99999999-aaaa-bbbb-cccc-333333333333"),
-                            Date = new DateTime(2024, 9, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = false,
-                            StudentId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc")
-                        },
-                        new
-                        {
-                            Id = new Guid("aaaa9999-9999-9999-9999-aaaaaaaaaaaa"),
-                            Date = new DateTime(2024, 9, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = false,
-                            StudentId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd")
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbb9999-9999-9999-9999-bbbbbbbbbbbb"),
-                            Date = new DateTime(2024, 9, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsPresent = true,
-                            StudentId = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee")
-                        });
+                    b.ToTable("Attendances");
                 });
 
             modelBuilder.Entity("Kindergarten.Domain.Entities.Classroom", b =>
@@ -379,7 +68,7 @@ namespace Kindergarten.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Classroom");
+                    b.ToTable("Classrooms");
 
                     b.HasData(
                         new
@@ -422,27 +111,27 @@ namespace Kindergarten.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Parent");
+                    b.ToTable("Parents");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                            Address = "١٢٣ شارع الرئيسي، القاهرة، مصر",
+                            Address = "١٢٣ شارع الرئيسي، القاهرة",
                             FullName = "أحمد علي",
                             PhoneNumber = "01012345678"
                         },
                         new
                         {
                             Id = new Guid("22222222-2222-2222-2222-222222222222"),
-                            Address = "٤٥٦ شارع الحديقة، الإسكندرية، مصر",
+                            Address = "٤٥٦ شارع الحديقة، الإسكندرية",
                             FullName = "منى حسن",
                             PhoneNumber = "01098765432"
                         },
                         new
                         {
                             Id = new Guid("33333333-3333-3333-3333-333333333333"),
-                            Address = "٧٨٩ طريق الحديقة، الجيزة، مصر",
+                            Address = "٧٨٩ طريق الحديقة، الجيزة",
                             FullName = "حسام يوسف",
                             PhoneNumber = "0103334444"
                         });
@@ -499,7 +188,7 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            Address = "١٢٣ شارع الرئيسي، القاهرة، مصر",
+                            Address = "١٢٣ شارع الرئيسي، القاهرة",
                             ClassroomId = new Guid("77777777-7777-7777-7777-777777777777"),
                             DateOfBirth = new DateTime(2019, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "أحمد",
@@ -512,7 +201,7 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Address = "٤٥٦ شارع الحديقة، الإسكندرية، مصر",
+                            Address = "٤٥٦ شارع الحديقة، الإسكندرية",
                             ClassroomId = new Guid("88888888-8888-8888-8888-888888888888"),
                             DateOfBirth = new DateTime(2020, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "منى",
@@ -525,7 +214,7 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
-                            Address = "٧٨٩ طريق الحديقة، الجيزة، مصر",
+                            Address = "٧٨٩ طريق الحديقة، الجيزة",
                             ClassroomId = new Guid("99999999-9999-9999-9999-999999999999"),
                             DateOfBirth = new DateTime(2019, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "حسام",
@@ -538,12 +227,12 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
-                            Address = "١٢٣ شارع الرئيسي، القاهرة، مصر",
+                            Address = "١٢٣ شارع الرئيسي، القاهرة",
                             ClassroomId = new Guid("77777777-7777-7777-7777-777777777777"),
                             DateOfBirth = new DateTime(2020, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "أحمد",
                             FirstName = "ملك",
-                            GrandpaName = "كمال",
+                            GrandpaName = "محمد",
                             IsActive = true,
                             ParentId = new Guid("11111111-1111-1111-1111-111111111111"),
                             ParentPhone = "01012345678"
@@ -551,12 +240,12 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"),
-                            Address = "٤٥٦ شارع الحديقة، الإسكندرية، مصر",
+                            Address = "٤٥٦ شارع الحديقة، الإسكندرية",
                             ClassroomId = new Guid("88888888-8888-8888-8888-888888888888"),
                             DateOfBirth = new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "منى",
                             FirstName = "علا",
-                            GrandpaName = "فوزي",
+                            GrandpaName = "علي",
                             IsActive = true,
                             ParentId = new Guid("22222222-2222-2222-2222-222222222222"),
                             ParentPhone = "01098765432"
@@ -564,12 +253,12 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("11111111-aaaa-aaaa-aaaa-111111111111"),
-                            Address = "٧٨٩ طريق الحديقة، الجيزة، مصر",
+                            Address = "٧٨٩ طريق الحديقة، الجيزة",
                             ClassroomId = new Guid("99999999-9999-9999-9999-999999999999"),
                             DateOfBirth = new DateTime(2020, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "حسام",
                             FirstName = "ليلى",
-                            GrandpaName = "يوسف",
+                            GrandpaName = "كامل",
                             IsActive = true,
                             ParentId = new Guid("33333333-3333-3333-3333-333333333333"),
                             ParentPhone = "0103334444"
@@ -577,12 +266,12 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("22222222-bbbb-bbbb-bbbb-222222222222"),
-                            Address = "١٢٣ شارع الرئيسي، القاهرة، مصر",
+                            Address = "١٢٣ شارع الرئيسي، القاهرة",
                             ClassroomId = new Guid("77777777-7777-7777-7777-777777777777"),
                             DateOfBirth = new DateTime(2019, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "أحمد",
                             FirstName = "محمود",
-                            GrandpaName = "سعيد",
+                            GrandpaName = "محمد",
                             IsActive = true,
                             ParentId = new Guid("11111111-1111-1111-1111-111111111111"),
                             ParentPhone = "01012345678"
@@ -590,12 +279,12 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("33333333-cccc-cccc-cccc-333333333333"),
-                            Address = "٤٥٦ شارع الحديقة، الإسكندرية، مصر",
+                            Address = "٤٥٦ شارع الحديقة، الإسكندرية",
                             ClassroomId = new Guid("88888888-8888-8888-8888-888888888888"),
                             DateOfBirth = new DateTime(2020, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "منى",
                             FirstName = "نور",
-                            GrandpaName = "حسن",
+                            GrandpaName = "علي",
                             IsActive = true,
                             ParentId = new Guid("22222222-2222-2222-2222-222222222222"),
                             ParentPhone = "01098765432"
@@ -603,12 +292,12 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("44444444-dddd-dddd-dddd-444444444444"),
-                            Address = "٧٨٩ طريق الحديقة، الجيزة، مصر",
+                            Address = "٧٨٩ طريق الحديقة، الجيزة",
                             ClassroomId = new Guid("99999999-9999-9999-9999-999999999999"),
                             DateOfBirth = new DateTime(2019, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "حسام",
                             FirstName = "زياد",
-                            GrandpaName = "يوسف",
+                            GrandpaName = "كامل",
                             IsActive = true,
                             ParentId = new Guid("33333333-3333-3333-3333-333333333333"),
                             ParentPhone = "0103334444"
@@ -616,12 +305,12 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("55555555-eeee-eeee-eeee-555555555555"),
-                            Address = "١٢٣ شارع الرئيسي، القاهرة، مصر",
+                            Address = "١٢٣ شارع الرئيسي، القاهرة",
                             ClassroomId = new Guid("77777777-7777-7777-7777-777777777777"),
                             DateOfBirth = new DateTime(2020, 4, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "أحمد",
                             FirstName = "جنى",
-                            GrandpaName = "علي",
+                            GrandpaName = "محمد",
                             IsActive = true,
                             ParentId = new Guid("11111111-1111-1111-1111-111111111111"),
                             ParentPhone = "01012345678"
@@ -629,12 +318,12 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("66666666-aaaa-aaaa-aaaa-666666666666"),
-                            Address = "٤٥٦ شارع الحديقة، الإسكندرية، مصر",
+                            Address = "٤٥٦ شارع الحديقة، الإسكندرية",
                             ClassroomId = new Guid("88888888-8888-8888-8888-888888888888"),
                             DateOfBirth = new DateTime(2021, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "منى",
                             FirstName = "فارس",
-                            GrandpaName = "حسن",
+                            GrandpaName = "علي",
                             IsActive = true,
                             ParentId = new Guid("22222222-2222-2222-2222-222222222222"),
                             ParentPhone = "01098765432"
@@ -642,7 +331,7 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("77777777-bbbb-bbbb-bbbb-777777777777"),
-                            Address = "٧٨٩ طريق الحديقة، الجيزة، مصر",
+                            Address = "٧٨٩ طريق الحديقة، الجيزة",
                             ClassroomId = new Guid("99999999-9999-9999-9999-999999999999"),
                             DateOfBirth = new DateTime(2019, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "حسام",
@@ -655,7 +344,7 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("88888888-cccc-cccc-cccc-888888888888"),
-                            Address = "١٢٣ شارع الرئيسي، القاهرة، مصر",
+                            Address = "١٢٣ شارع الرئيسي، القاهرة",
                             ClassroomId = new Guid("77777777-7777-7777-7777-777777777777"),
                             DateOfBirth = new DateTime(2020, 5, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "أحمد",
@@ -668,7 +357,7 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("99999999-dddd-dddd-dddd-999999999999"),
-                            Address = "٤٥٦ شارع الحديقة، الإسكندرية، مصر",
+                            Address = "٤٥٦ شارع الحديقة، الإسكندرية",
                             ClassroomId = new Guid("88888888-8888-8888-8888-888888888888"),
                             DateOfBirth = new DateTime(2021, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "منى",
@@ -681,7 +370,7 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("aaaaaaa1-eeee-eeee-eeee-aaaaaaaaaaaa"),
-                            Address = "٧٨٩ طريق الحديقة، الجيزة، مصر",
+                            Address = "٧٨٩ طريق الحديقة، الجيزة",
                             ClassroomId = new Guid("99999999-9999-9999-9999-999999999999"),
                             DateOfBirth = new DateTime(2019, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "حسام",
@@ -694,12 +383,12 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("bbbbbbb2-aaaa-aaaa-aaaa-bbbbbbbbbbbb"),
-                            Address = "١٢٣ شارع الرئيسي، القاهرة، مصر",
+                            Address = "١٢٣ شارع الرئيسي، القاهرة",
                             ClassroomId = new Guid("77777777-7777-7777-7777-777777777777"),
                             DateOfBirth = new DateTime(2020, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "أحمد",
                             FirstName = "سلمى",
-                            GrandpaName = "كمال",
+                            GrandpaName = "محمد",
                             IsActive = true,
                             ParentId = new Guid("11111111-1111-1111-1111-111111111111"),
                             ParentPhone = "01012345678"
@@ -707,12 +396,12 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("ccccccc3-bbbb-bbbb-bbbb-cccccccccccc"),
-                            Address = "٤٥٦ شارع الحديقة، الإسكندرية، مصر",
+                            Address = "٤٥٦ شارع الحديقة، الإسكندرية",
                             ClassroomId = new Guid("88888888-8888-8888-8888-888888888888"),
                             DateOfBirth = new DateTime(2021, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "منى",
                             FirstName = "ياسمين",
-                            GrandpaName = "فوزي",
+                            GrandpaName = "علي",
                             IsActive = true,
                             ParentId = new Guid("22222222-2222-2222-2222-222222222222"),
                             ParentPhone = "01098765432"
@@ -720,12 +409,12 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("ddddddd4-cccc-cccc-cccc-dddddddddddd"),
-                            Address = "٧٨٩ طريق الحديقة، الجيزة، مصر",
+                            Address = "٧٨٩ طريق الحديقة، الجيزة",
                             ClassroomId = new Guid("99999999-9999-9999-9999-999999999999"),
                             DateOfBirth = new DateTime(2020, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "حسام",
                             FirstName = "حسن",
-                            GrandpaName = "يوسف",
+                            GrandpaName = "كامل",
                             IsActive = true,
                             ParentId = new Guid("33333333-3333-3333-3333-333333333333"),
                             ParentPhone = "0103334444"
@@ -733,12 +422,12 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("eeeeeee5-dddd-dddd-dddd-eeeeeeeeeeee"),
-                            Address = "١٢٣ شارع الرئيسي، القاهرة، مصر",
+                            Address = "١٢٣ شارع الرئيسي، القاهرة",
                             ClassroomId = new Guid("77777777-7777-7777-7777-777777777777"),
                             DateOfBirth = new DateTime(2019, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "أحمد",
                             FirstName = "مريم",
-                            GrandpaName = "سعيد",
+                            GrandpaName = "محمد",
                             IsActive = true,
                             ParentId = new Guid("11111111-1111-1111-1111-111111111111"),
                             ParentPhone = "01012345678"
@@ -746,12 +435,12 @@ namespace Kindergarten.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("fffffff6-eeee-eeee-eeee-ffffffffffff"),
-                            Address = "٤٥٦ شارع الحديقة، الإسكندرية، مصر",
+                            Address = "٤٥٦ شارع الحديقة، الإسكندرية",
                             ClassroomId = new Guid("88888888-8888-8888-8888-888888888888"),
                             DateOfBirth = new DateTime(2020, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "منى",
                             FirstName = "آدم",
-                            GrandpaName = "حسن",
+                            GrandpaName = "علي",
                             IsActive = true,
                             ParentId = new Guid("22222222-2222-2222-2222-222222222222"),
                             ParentPhone = "01098765432"
@@ -781,7 +470,7 @@ namespace Kindergarten.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teacher");
+                    b.ToTable("Teachers");
 
                     b.HasData(
                         new
@@ -820,7 +509,7 @@ namespace Kindergarten.Infrastructure.Migrations
                         {
                             Id = new Guid("88888888-8888-8888-8888-888888888888"),
                             FullName = "هالة محمود",
-                            IsActive = true,
+                            IsActive = false,
                             PhoneNumber = "0109992222",
                             Subject = "تربية فنية"
                         },
@@ -854,7 +543,7 @@ namespace Kindergarten.Infrastructure.Migrations
 
                     b.HasIndex("ClassroomId");
 
-                    b.ToTable("TeacherClassroom");
+                    b.ToTable("TeacherClassrooms");
 
                     b.HasData(
                         new
@@ -897,7 +586,7 @@ namespace Kindergarten.Infrastructure.Migrations
             modelBuilder.Entity("Kindergarten.Domain.Entities.Attendance", b =>
                 {
                     b.HasOne("Kindergarten.Domain.Entities.Student", "Student")
-                        .WithMany()
+                        .WithMany("Attendances")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -951,6 +640,11 @@ namespace Kindergarten.Infrastructure.Migrations
             modelBuilder.Entity("Kindergarten.Domain.Entities.Parent", b =>
                 {
                     b.Navigation("Childrens");
+                });
+
+            modelBuilder.Entity("Kindergarten.Domain.Entities.Student", b =>
+                {
+                    b.Navigation("Attendances");
                 });
 
             modelBuilder.Entity("Kindergarten.Domain.Entities.Teacher", b =>

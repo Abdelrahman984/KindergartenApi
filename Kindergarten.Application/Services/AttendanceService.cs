@@ -1,168 +1,186 @@
 ﻿using AutoMapper;
 using Kindergarten.Application.DTOs;
+using Kindergarten.Application.Interfaces;
 using Kindergarten.Application.Interfaces.Repositories;
 using Kindergarten.Application.Interfaces.Services;
 using Kindergarten.Domain.Entities;
+using Kindergarten.Domain.Enums;
 
 namespace Kindergarten.Application.Services;
-
 public class AttendanceService : IAttendanceService
 {
-    private readonly IAttendanceRepository _attendanceRepository;
-    private readonly IStudentRepository _studentRepository;
-    private readonly ITeacherRepository _teacherRepository;
-    private readonly IClassroomRepository _classroomRepository;
-    private readonly IParentRepository _parentRepository;
+    private readonly IAttendanceRepository _attendanceRepo;
+    private readonly IStudentRepository _studentRepo;
+    private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
 
     public AttendanceService(
-        IAttendanceRepository attendanceRepository,
-        IStudentRepository studentRepository,
-        ITeacherRepository teacherRepository,
-        IClassroomRepository classroomRepository,
-        IParentRepository parentRepository,
+        IAttendanceRepository attendanceRepo,
+        IStudentRepository studentRepo,
+        IUnitOfWork uow,
         IMapper mapper)
     {
-        _attendanceRepository = attendanceRepository;
-        _studentRepository = studentRepository;
-        _teacherRepository = teacherRepository;
-        _classroomRepository = classroomRepository;
-        _parentRepository = parentRepository;
+        _attendanceRepo = attendanceRepo;
+        _studentRepo = studentRepo;
+        _uow = uow;
         _mapper = mapper;
     }
 
-    public async Task MarkAttendanceAsync(AttendanceCreateDto dto)
+    public async Task<AttendanceReadDto> MarkAttendanceAsync(AttendanceCreateDto dto)
     {
-        var existing = (await _attendanceRepository.GetByDateAsync(dto.Date))
-            .FirstOrDefault(a => a.StudentId == dto.StudentId);
+        var student = await _studentRepo.GetByIdAsync(dto.StudentId);
+        if (student is null)
+            throw new KeyNotFoundException("Student not found");
+
+        var existing = await _attendanceRepo.GetByStudentAndDateAsync(dto.StudentId, dto.Date);
 
         if (existing is not null)
         {
-            existing.UpdateStatus(dto.IsPresent);
-            await _attendanceRepository.UpdateAsync(existing);
+            existing.UpdateStatus(dto.Status, dto.Notes, dto.ArrivalTime);
+            await _attendanceRepo.UpdateAsync(existing);
         }
         else
         {
-            var attendance = _mapper.Map<Attendance>(dto);
-            await _attendanceRepository.AddAsync(attendance);
+            existing = Attendance.Create(dto.StudentId, dto.Date, dto.ArrivalTime, dto.Status, dto.Notes);
+            await _attendanceRepo.AddAsync(existing);
         }
+
+        await _uow.SaveChangesAsync();
+        return _mapper.Map<AttendanceReadDto>(existing);
     }
 
-    public async Task<IEnumerable<AttendanceReadDto>> GetStudentAttendanceAsync(Guid studentId)
+    public async Task<IEnumerable<AttendanceReadDto>> GetByDateAsync(DateTime date)
     {
-        var records = await _attendanceRepository.GetByStudentAsync(studentId);
+        var records = await _attendanceRepo.GetByDateAsync(date);
         return _mapper.Map<IEnumerable<AttendanceReadDto>>(records);
     }
 
-    public async Task<IEnumerable<AttendanceReadDto>> GetDailyAttendanceAsync(DateTime date)
+    public async Task<IEnumerable<AttendanceReadDto>> GetByStudentAsync(Guid studentId)
     {
-        var records = await _attendanceRepository.GetByDateAsync(date);
+        var records = await _attendanceRepo.GetByStudentAsync(studentId);
         return _mapper.Map<IEnumerable<AttendanceReadDto>>(records);
     }
 
-    public async Task<AttendanceRateDto> GetStudentAttendanceRateAsync(Guid studentId, DateTime from, DateTime to)
+    public async Task<IEnumerable<AttendanceReadDto>> GetDailyWithUnmarkedAsync(DateTime date)
     {
-        if (to < from)
+        var students = await _studentRepo.GetAllAsync();
+        var records = await _attendanceRepo.GetByDateAsync(date);
+        var recordsDict = records.ToDictionary(r => r.StudentId, r => r);
+
+        var result = new List<AttendanceReadDto>();
+
+        foreach (var student in students)
         {
-            (from, to) = (to, from);
-        }
-
-        var records = await _attendanceRepository.GetByStudentAndRangeAsync(studentId, from, to);
-
-        var presentDays = records.Count(r => r.IsPresent);
-
-        var totalDays = records
-            .Select(r => r.Date.Date)
-            .Distinct()
-            .Count();
-
-        var rate = totalDays == 0 ? 0d : (double)presentDays / totalDays;
-
-        return new AttendanceRateDto(studentId, from.Date, to.Date, presentDays, totalDays, rate);
-    }
-
-    public async Task<AttendanceAggregateRateDto> GetAllStudentsAttendanceRateAsync(DateTime from, DateTime to)
-    {
-        if (to < from) (from, to) = (to, from);
-
-        var students = await _studentRepository.GetActiveStudentsAsync();
-        var studentIds = students.Select(s => s.Id).ToArray();
-        if (studentIds.Length == 0)
-            return new AttendanceAggregateRateDto(from.Date, to.Date, 0, 0, 0);
-
-        var records = await _attendanceRepository.GetByStudentsAndRangeAsync(studentIds, from, to);
-        return ComputeAggregate(from, to, records);
-    }
-
-    public async Task<AttendanceAggregateRateDto> GetTeacherStudentsAttendanceRateAsync(Guid teacherId, DateTime from, DateTime to)
-    {
-        if (to < from) (from, to) = (to, from);
-
-        var students = await _classroomRepository.GetStudentsByTeacherIdAsync(teacherId);
-        var studentIds = students.Select(s => s.Id).ToArray();
-        if (studentIds.Length == 0)
-            return new AttendanceAggregateRateDto(from.Date, to.Date, 0, 0, 0);
-
-        var records = await _attendanceRepository.GetByStudentsAndRangeAsync(studentIds, from, to);
-        return ComputeAggregate(from, to, records);
-    }
-
-    public async Task<AttendanceAggregateRateDto> GetParentChildrenAttendanceRateAsync(Guid parentId, DateTime from, DateTime to)
-    {
-        if (to < from) (from, to) = (to, from);
-
-        var parent = await _parentRepository.GetWithChildrenAsync(parentId);
-        var studentIds = parent?.Childrens.Select(c => c.Id).ToArray() ?? Array.Empty<Guid>();
-        if (studentIds.Length == 0)
-            return new AttendanceAggregateRateDto(from.Date, to.Date, 0, 0, 0);
-
-        var records = await _attendanceRepository.GetByStudentsAndRangeAsync(studentIds, from, to);
-        return ComputeAggregate(from, to, records);
-    }
-
-    private static AttendanceAggregateRateDto ComputeAggregate(DateTime from, DateTime to, IEnumerable<Attendance> records)
-    {
-        var presentDays = records.Count(r => r.IsPresent);
-        var totalDays = records
-            .GroupBy(r => new { r.StudentId, Date = r.Date.Date })
-            .Count();
-        var rate = totalDays == 0 ? 0d : (double)presentDays / totalDays;
-        return new AttendanceAggregateRateDto(from.Date, to.Date, presentDays, totalDays, rate);
-    }
-
-    public async Task<IEnumerable<AttendanceRateDto>> GetAllStudentsAttendanceRatesAsync(DateTime from, DateTime to)
-    {
-        if (to < from)
-        {
-            (from, to) = (to, from);
-        }
-
-        var records = await _attendanceRepository.GetByRangeAsync(from, to);
-
-        var grouped = records
-            .GroupBy(r => r.StudentId)
-            .Select(g =>
+            if (recordsDict.TryGetValue(student.Id, out var record))
             {
-                var presentDays = g.Count(r => r.IsPresent);
-                var totalDays = g.Select(r => r.Date.Date).Distinct().Count();
-                var rate = totalDays == 0 ? 0d : (double)presentDays / totalDays;
-                return new AttendanceRateDto(g.Key, from.Date, to.Date, presentDays, totalDays, rate);
-            })
-            .ToList();
+                result.Add(_mapper.Map<AttendanceReadDto>(record));
+            }
+            else
+            {
+                result.Add(new AttendanceReadDto
+                {
+                    Id = Guid.Empty,
+                    StudentId = student.Id,
+                    StudentName = student.FullName,
+                    Date = date.Date,
+                    Status = AttendanceStatus.Unmarked,
+                    Notes = ""
+                });
+            }
+        }
 
-        return grouped;
+        return result;
     }
 
-    public async Task<double> GetStudentAttendancePercentageAsync(Guid studentId)
+    // Stats methods
+
+    // 📌 Daily Stats
+    public Task<AttendanceStatsDto> GetDailyStatsAsync(DateTime date)
+        => _attendanceRepo.GetDailyStatsAsync(date);
+
+    // 📌 Weekly Report
+    public async Task<AttendanceReportDto> GetWeeklyReportAsync(DateTime anyDate)
     {
-        var records = await _attendanceRepository.GetByStudentAsync(studentId);
+        int daysFromSaturday = ((int)anyDate.DayOfWeek + 1) % 7;
+        var weekStart = anyDate.Date.AddDays(-daysFromSaturday);
+        var weekEnd = weekStart.AddDays(6);
 
-        if (!records.Any())
-            return 0.0;
+        var studentsCount = await _studentRepo.GetStudentsCountAsync();
+        var report = new AttendanceReportDto
+        {
+            StartDate = weekStart,
+            EndDate = weekEnd
+        };
 
-        var presentDays = records.Count(r => r.IsPresent);
-        var totalDays = records.Count();
+        for (int i = 0; i < 7; i++)
+        {
+            var date = weekStart.AddDays(i);
+            var attendances = await _attendanceRepo.GetByDateAsync(date);
 
-        return totalDays == 0 ? 0.0 : (double)presentDays / totalDays;
+            var stats = new AttendanceStatsDto
+            {
+                Date = date,
+                PresentCount = attendances.Count(a => a.Status == AttendanceStatus.Present),
+                AbsentCount = attendances.Count(a => a.Status == AttendanceStatus.Absent),
+                LateCount = attendances.Count(a => a.Status == AttendanceStatus.Late),
+                UnmarkedCount = studentsCount - attendances.Count()
+            };
+
+            report.Breakdown.Add(stats);
+            report.PresentTotal += stats.PresentCount;
+            report.AbsentTotal += stats.AbsentCount;
+            report.LateTotal += stats.LateCount;
+            report.UnmarkedTotal += stats.UnmarkedCount;
+        }
+
+        return report;
     }
+
+    // 📌 Monthly Report
+    public async Task<AttendanceReportDto> GetMonthlyReportAsync(DateTime anyDate)
+    {
+        var monthStart = new DateTime(anyDate.Year, anyDate.Month, 1);
+        var monthEnd = monthStart.AddMonths(1).AddDays(-1);
+
+        var studentsCount = await _studentRepo.GetStudentsCountAsync();
+        var report = new AttendanceReportDto
+        {
+            StartDate = monthStart,
+            EndDate = monthEnd
+        };
+
+        for (var date = monthStart; date <= monthEnd; date = date.AddDays(1))
+        {
+            var attendances = await _attendanceRepo.GetByDateAsync(date);
+
+            var stats = new AttendanceStatsDto
+            {
+                Date = date,
+                PresentCount = attendances.Count(a => a.Status == AttendanceStatus.Present),
+                AbsentCount = attendances.Count(a => a.Status == AttendanceStatus.Absent),
+                LateCount = attendances.Count(a => a.Status == AttendanceStatus.Late),
+                UnmarkedCount = studentsCount - attendances.Count()
+            };
+
+            report.Breakdown.Add(stats);
+            report.PresentTotal += stats.PresentCount;
+            report.AbsentTotal += stats.AbsentCount;
+            report.LateTotal += stats.LateCount;
+            report.UnmarkedTotal += stats.UnmarkedCount;
+        }
+
+        return report;
+    }
+
+    public Task<double> GetStudentAttendancePercentageAsync(Guid studentId)
+        => _attendanceRepo.GetStudentAttendancePercentageAsync(studentId);
+
+    public Task<double> GetOverallAttendancePercentageAsync()
+        => _attendanceRepo.GetOverallAttendancePercentageAsync();
+
+    public Task<AttendanceTrendDto> GetTrendsAsync(DateTime today)
+        => _attendanceRepo.GetAttendanceTrendsAsync(today);
+
+    public Task<List<StudentAttendancePercentageDto>> GetAllStudentsPercentagesAsync()
+        => _attendanceRepo.GetAllStudentsAttendancePercentageAsync();
 }

@@ -1,9 +1,11 @@
+using Kindergarten.Application.Interfaces;
 using Kindergarten.Application.Interfaces.Repositories;
 using Kindergarten.Application.Interfaces.Services;
 using Kindergarten.Application.Mappings;
 using Kindergarten.Application.Services;
 using Kindergarten.Infrastructure.Persistence;
 using Kindergarten.Infrastructure.Repositories;
+using Kindergarten.Infrastructure.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -17,6 +19,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddAutoMapper(cfg => { }, typeof(MappingProfile).Assembly);
 
 // Register Repositories
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<IClassroomRepository, ClassroomRepository>();
@@ -29,6 +32,8 @@ builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IClassroomService, ClassroomService>();
 builder.Services.AddScoped<IParentService, ParentService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Controllers
 builder.Services.AddControllers()
@@ -52,6 +57,13 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await AttendanceSeeder.SeedAsync(db);
+}
+
 
 // Middleware
 if (app.Environment.IsDevelopment())
