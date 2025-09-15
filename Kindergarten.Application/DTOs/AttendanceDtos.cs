@@ -26,23 +26,37 @@ public class AttendanceTrendDto
 public class AttendanceStatsDto
 {
     public DateTime Date { get; set; }
+
+    // Counts
     public int PresentCount { get; set; }
     public int AbsentCount { get; set; }
     public int LateCount { get; set; }
     public int UnmarkedCount { get; set; }
+
+    // Total Required (كل الطلاب)
+    public int TotalRequired { get; set; }
+
+    // نسبة مئوية محسوبة (للاستخدام في UI لو حبيت)
+    public double PresentPercentage => TotalRequired == 0 ? 0 : (double)PresentCount / TotalRequired * 100;
+    public double AbsentPercentage => TotalRequired == 0 ? 0 : (double)AbsentCount / TotalRequired * 100;
+    public double LatePercentage => TotalRequired == 0 ? 0 : (double)LateCount / TotalRequired * 100;
+    public double UnmarkedPercentage => TotalRequired == 0 ? 0 : (double)UnmarkedCount / TotalRequired * 100;
 }
+
 public class AttendanceReportDto
 {
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
 
-    // 📌 Summary
+    // 📌 Summary Totals
     public int PresentTotal { get; set; }
     public int AbsentTotal { get; set; }
     public int LateTotal { get; set; }
     public int UnmarkedTotal { get; set; }
+    public int TotalRequired { get; set; }
 
-    // 📌 Breakdown
+    // 📌 Breakdown (Day by Day)
     public List<AttendanceStatsDto> Breakdown { get; set; } = new();
 }
+
 

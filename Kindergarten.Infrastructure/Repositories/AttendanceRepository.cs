@@ -39,53 +39,6 @@ public class AttendanceRepository(AppDbContext context) : GenericRepository<Atte
     }
 
     // --- إحصائيات ---
-    public async Task<AttendanceStatsDto> GetDailyStatsAsync(DateTime date)
-    {
-        var students = await _context.Students.ToListAsync();
-
-        var attendancesToday = await _context.Attendances
-            .Where(a => a.Date == date.Date)
-            .ToListAsync();
-
-        int presentCount = 0;
-        int absentCount = 0;
-        int lateCount = 0;
-        int unmarkedCount = 0;
-
-        foreach (var student in students)
-        {
-            var attendance = attendancesToday.FirstOrDefault(a => a.StudentId == student.Id);
-            if (attendance == null)
-            {
-                unmarkedCount++;
-            }
-            else
-            {
-                switch (attendance.Status)
-                {
-                    case AttendanceStatus.Present:
-                        presentCount++;
-                        break;
-                    case AttendanceStatus.Absent:
-                        absentCount++;
-                        break;
-                    case AttendanceStatus.Late:
-                        lateCount++;
-                        break;
-                }
-            }
-        }
-
-        return new AttendanceStatsDto
-        {
-            Date = date.Date,
-            PresentCount = presentCount,
-            AbsentCount = absentCount,
-            LateCount = lateCount,
-            UnmarkedCount = unmarkedCount
-        };
-    }
-
     public async Task<double> GetStudentAttendancePercentageAsync(Guid studentId)
     {
         var records = await _context.Attendances

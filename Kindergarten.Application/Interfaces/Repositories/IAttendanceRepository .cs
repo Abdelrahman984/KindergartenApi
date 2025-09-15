@@ -9,7 +9,6 @@ public interface IAttendanceRepository : IGenericRepository<Attendance>
     Task<IEnumerable<Attendance>> GetByDateAsync(DateTime date);
     Task<IEnumerable<Attendance>> GetByStudentAsync(Guid studentId);
     // إحصائيات
-    Task<AttendanceStatsDto> GetDailyStatsAsync(DateTime date);
     Task<double> GetStudentAttendancePercentageAsync(Guid studentId);
     Task<double> GetOverallAttendancePercentageAsync();
     Task<AttendanceTrendDto> GetAttendanceTrendsAsync(DateTime today);

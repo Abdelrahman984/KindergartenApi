@@ -20,7 +20,7 @@ public static class AttendanceSeeder
 
         foreach (var student in students)
         {
-            for (int d = 0; d < 10; d++)
+            for (int d = 0; d < 30; d++)
             {
                 // حالة حضور عشوائية بين Present, Absent, Late
                 var status = (AttendanceStatus)random.Next(1, 4); // 1-3 فقط، Unmarked مش للـ Seeder

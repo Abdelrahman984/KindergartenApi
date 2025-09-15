@@ -95,8 +95,41 @@ public class AttendanceService : IAttendanceService
     // Stats methods
 
     // 📌 Daily Stats
-    public Task<AttendanceStatsDto> GetDailyStatsAsync(DateTime date)
-        => _attendanceRepo.GetDailyStatsAsync(date);
+    public async Task<AttendanceStatsDto> GetDailyStatsAsync(DateTime date)
+    {
+        var students = await _studentRepo.GetActiveStudentsAsync();
+        var attendances = await _attendanceRepo.GetByDateAsync(date);
+
+        int presentCount = 0, absentCount = 0, lateCount = 0, unmarkedCount = 0;
+
+        foreach (var student in students)
+        {
+            var attendance = attendances.FirstOrDefault(a => a.StudentId == student.Id);
+            if (attendance == null)
+            {
+                unmarkedCount++;
+            }
+            else
+            {
+                switch (attendance.Status)
+                {
+                    case AttendanceStatus.Present: presentCount++; break;
+                    case AttendanceStatus.Absent: absentCount++; break;
+                    case AttendanceStatus.Late: lateCount++; break;
+                }
+            }
+        }
+
+        return new AttendanceStatsDto
+        {
+            Date = date.Date,
+            PresentCount = presentCount,
+            AbsentCount = absentCount,
+            LateCount = lateCount,
+            UnmarkedCount = unmarkedCount,
+            TotalRequired = students.Count()
+        };
+    }
 
     // 📌 Weekly Report
     public async Task<AttendanceReportDto> GetWeeklyReportAsync(DateTime anyDate)
@@ -109,7 +142,8 @@ public class AttendanceService : IAttendanceService
         var report = new AttendanceReportDto
         {
             StartDate = weekStart,
-            EndDate = weekEnd
+            EndDate = weekEnd,
+            TotalRequired = studentsCount * 7 // عدد الطلاب × 7 أيام
         };
 
         for (int i = 0; i < 7; i++)
@@ -123,7 +157,8 @@ public class AttendanceService : IAttendanceService
                 PresentCount = attendances.Count(a => a.Status == AttendanceStatus.Present),
                 AbsentCount = attendances.Count(a => a.Status == AttendanceStatus.Absent),
                 LateCount = attendances.Count(a => a.Status == AttendanceStatus.Late),
-                UnmarkedCount = studentsCount - attendances.Count()
+                UnmarkedCount = studentsCount - attendances.Count(),
+                TotalRequired = studentsCount
             };
 
             report.Breakdown.Add(stats);
@@ -146,7 +181,8 @@ public class AttendanceService : IAttendanceService
         var report = new AttendanceReportDto
         {
             StartDate = monthStart,
-            EndDate = monthEnd
+            EndDate = monthEnd,
+            TotalRequired = studentsCount * (monthEnd.Day - monthStart.Day + 1)
         };
 
         for (var date = monthStart; date <= monthEnd; date = date.AddDays(1))
@@ -159,7 +195,8 @@ public class AttendanceService : IAttendanceService
                 PresentCount = attendances.Count(a => a.Status == AttendanceStatus.Present),
                 AbsentCount = attendances.Count(a => a.Status == AttendanceStatus.Absent),
                 LateCount = attendances.Count(a => a.Status == AttendanceStatus.Late),
-                UnmarkedCount = studentsCount - attendances.Count()
+                UnmarkedCount = studentsCount - attendances.Count(),
+                TotalRequired = studentsCount
             };
 
             report.Breakdown.Add(stats);
@@ -168,10 +205,8 @@ public class AttendanceService : IAttendanceService
             report.LateTotal += stats.LateCount;
             report.UnmarkedTotal += stats.UnmarkedCount;
         }
-
         return report;
     }
-
     public Task<double> GetStudentAttendancePercentageAsync(Guid studentId)
         => _attendanceRepo.GetStudentAttendancePercentageAsync(studentId);
 
