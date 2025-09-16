@@ -74,6 +74,26 @@ public static class SeedData
             new { Id = student20Id, FirstName = "آدم", FatherName = "منى", GrandpaName = "علي", DateOfBirth = new DateTime(2020, 11, 11), ParentPhone = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id }
         );
 
+        // 🔹 Subjects
+        var mathId = Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-000000000001");
+        var scienceId = Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-000000000002");
+        var arabicId = Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-000000000003");
+        var englishId = Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-000000000004");
+        var artId = Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-000000000005");
+        var peId = Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-000000000006");
+        var csId = Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-000000000007");
+
+        modelBuilder.Entity<Subject>().HasData(
+            new { Id = mathId, Name = "رياضيات" },
+            new { Id = scienceId, Name = "علوم" },
+            new { Id = arabicId, Name = "عربي" },
+            new { Id = englishId, Name = "لغة إنجليزية" },
+            new { Id = artId, Name = "تربية فنية" },
+            new { Id = peId, Name = "تربية رياضية" },
+            new { Id = csId, Name = "علوم الحاسوب" }
+        );
+
+
         // 🔹 Teachers
         var teacher1Id = Guid.Parse("44444444-4444-4444-4444-444444444444");
         var teacher2Id = Guid.Parse("55555555-5555-5555-5555-555555555555");
@@ -84,13 +104,13 @@ public static class SeedData
         var teacher7Id = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
 
         modelBuilder.Entity<Teacher>().HasData(
-            new { Id = teacher1Id, FullName = "فاطمة إبراهيم", Subject = "رياضيات", PhoneNumber = "0105551234", IsActive = true },
-            new { Id = teacher2Id, FullName = "أماني صلاح", Subject = "علوم", PhoneNumber = "0107779999", IsActive = true },
-            new { Id = teacher3Id, FullName = "عائشة مصطفى", Subject = "عربي", PhoneNumber = "0102226666", IsActive = true },
-            new { Id = teacher4Id, FullName = "سعيد عبد الله", Subject = "لغة إنجليزية", PhoneNumber = "0108881111", IsActive = true },
-            new { Id = teacher5Id, FullName = "هالة محمود", Subject = "تربية فنية", PhoneNumber = "0109992222", IsActive = false },
-            new { Id = teacher6Id, FullName = "خالد حسن", Subject = "تربية رياضية", PhoneNumber = "0103335555", IsActive = true },
-            new { Id = teacher7Id, FullName = "منى يوسف", Subject = "علوم الحاسوب", PhoneNumber = "0104446666", IsActive = true }
+            new { Id = teacher1Id, FullName = "فاطمة إبراهيم", SubjectId = mathId, PhoneNumber = "0105551234", IsActive = true },
+            new { Id = teacher2Id, FullName = "أماني صلاح", SubjectId = scienceId, PhoneNumber = "0107779999", IsActive = true },
+            new { Id = teacher3Id, FullName = "عائشة مصطفى", SubjectId = arabicId, PhoneNumber = "0102226666", IsActive = true },
+            new { Id = teacher4Id, FullName = "أميرة عبد الله", SubjectId = englishId, PhoneNumber = "0108881111", IsActive = true },
+            new { Id = teacher5Id, FullName = "هالة محمود", SubjectId = artId, PhoneNumber = "0109992222", IsActive = false },
+            new { Id = teacher6Id, FullName = "خديجة حسن", SubjectId = peId, PhoneNumber = "0103335555", IsActive = true },
+            new { Id = teacher7Id, FullName = "منى يوسف", SubjectId = csId, PhoneNumber = "0104446666", IsActive = true }
         );
 
 

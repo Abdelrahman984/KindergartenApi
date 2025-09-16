@@ -18,7 +18,9 @@ public class MappingProfile : Profile
 
 
         // Teacher
-        CreateMap<Teacher, TeacherReadDto>();
+        CreateMap<Teacher, TeacherReadDto>()
+            .ForMember(dest => dest.SubjectName,
+                opt => opt.MapFrom(src => src.Subject.Name));
         CreateMap<TeacherCreateDto, Teacher>();
         CreateMap<TeacherUpdateDto, Teacher>();
 
@@ -38,5 +40,10 @@ public class MappingProfile : Profile
            .ForMember(dest => dest.ClassroomName, opt => opt.MapFrom(src => src.Student.Classroom!.Name))
            .ForMember(dest => dest.ArrivalTime, opt => opt.MapFrom(src => src.ArrivalTime));
         CreateMap<AttendanceCreateDto, Attendance>();
+
+        // Subject
+        CreateMap<Subject, SubjectReadDto>();
+        CreateMap<SubjectCreateDto, Subject>();
+
     }
 }

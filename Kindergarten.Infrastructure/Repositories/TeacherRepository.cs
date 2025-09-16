@@ -11,4 +11,12 @@ public class TeacherRepository : GenericRepository<Teacher>, ITeacherRepository
 
     public async Task<IEnumerable<Teacher>> GetActiveTeachersAsync()
         => await _dbSet.Where(t => t.IsActive).ToListAsync();
+
+    public async Task<IEnumerable<Teacher>> GetAllTeachersAsync()
+    {
+        return await _context.Teachers
+            .Include(t => t.Subject) // هنا نجيب المادة مع المدرس
+            .ToListAsync();
+    }
+
 }

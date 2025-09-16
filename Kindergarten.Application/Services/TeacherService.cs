@@ -21,7 +21,7 @@ public class TeacherService : ITeacherService
 
     public async Task<TeacherReadDto> CreateTeacherAsync(TeacherCreateDto dto)
     {
-        var teacher = new Teacher(dto.FullName, dto.Subject, dto.PhoneNumber, dto.IsActive);
+        var teacher = new Teacher(dto.FullName, dto.PhoneNumber, dto.IsActive);
 
         if (dto.ClassroomIds != null)
         {
@@ -37,7 +37,7 @@ public class TeacherService : ITeacherService
 
     public async Task<IEnumerable<TeacherReadDto>> GetAllAsync()
     {
-        var teachers = await _teacherRepository.GetAllAsync();
+        var teachers = await _teacherRepository.GetAllTeachersAsync();
         return _mapper.Map<IEnumerable<TeacherReadDto>>(teachers);
     }
 

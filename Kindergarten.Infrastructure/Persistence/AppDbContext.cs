@@ -11,6 +11,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> opts) : DbContext(opts)
     public DbSet<Parent> Parents { get; set; } = null!;
     public DbSet<Attendance> Attendances { get; set; } = null!;
     public DbSet<TeacherClassroom> TeacherClassrooms { get; set; } = null!; // Junction table DbSet (m-m)
+    public DbSet<Subject> Subjects { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -31,6 +32,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> opts) : DbContext(opts)
         });
         modelBuilder.Entity<Student>()
             .Ignore(s => s.FullName);
+
+        modelBuilder.Entity<Teacher>()
+            .HasOne(t => t.Subject)
+            .WithMany(s => s.Teachers)
+            .HasForeignKey(t => t.SubjectId)
+            .OnDelete(DeleteBehavior.Restrict);
+
 
         modelBuilder.Entity<TeacherClassroom>()
             .HasKey(tc => new { tc.TeacherId, tc.ClassroomId });
@@ -57,7 +65,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> opts) : DbContext(opts)
         modelBuilder.Entity<Attendance>().Property(a => a.Date)
             .IsRequired();
 
-
+        modelBuilder.Entity<Subject>().HasKey(s => s.Id);
+        modelBuilder.Entity<Subject>().Property(s => s.Name).IsRequired().HasMaxLength(100);
         // Seed data
         SeedData.Seed(modelBuilder);
     }

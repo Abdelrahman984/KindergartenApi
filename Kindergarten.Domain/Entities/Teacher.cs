@@ -4,7 +4,8 @@ public class Teacher
 {
     public Guid Id { get; private set; } = Guid.NewGuid();
     public string FullName { get; private set; } = null!;
-    public string Subject { get; private set; } = null!;
+    public Guid SubjectId { get; set; }
+    public Subject Subject { get; set; }
     public string PhoneNumber { get; private set; } = null!;
     public bool IsActive { get; private set; } = true;
 
@@ -14,26 +15,23 @@ public class Teacher
     // Constructors
     private Teacher() { }
 
-    public Teacher(string fullName, string subject, string phoneNumber)
+    public Teacher(string fullName, string phoneNumber)
     {
         FullName = fullName;
-        Subject = subject;
         PhoneNumber = phoneNumber;
     }
 
-    public Teacher(string fullName, string subject, string phoneNumber, bool isActive = false)
+    public Teacher(string fullName, string phoneNumber, bool isActive = false)
     {
         FullName = fullName;
-        Subject = subject;
         PhoneNumber = phoneNumber;
         IsActive = isActive;
     }
 
     // Methods
-    public void UpdateInfo(string fullName, string subject, string phoneNumber, bool isActive)
+    public void UpdateInfo(string fullName, string phoneNumber, bool isActive)
     {
         FullName = fullName;
-        Subject = subject;
         PhoneNumber = phoneNumber;
         IsActive = isActive;
     }
