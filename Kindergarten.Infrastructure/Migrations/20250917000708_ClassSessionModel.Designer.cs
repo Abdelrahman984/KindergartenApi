@@ -4,6 +4,7 @@ using Kindergarten.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kindergarten.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250917000708_ClassSessionModel")]
+    partial class ClassSessionModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,89 +85,6 @@ namespace Kindergarten.Infrastructure.Migrations
                     b.HasIndex("TeacherId");
 
                     b.ToTable("ClassSessions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("aaaa1111-2222-3333-4444-555555555555"),
-                            ClassroomId = new Guid("77777777-7777-7777-7777-777777777777"),
-                            EndTime = new DateTime(2025, 9, 17, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartTime = new DateTime(2025, 9, 17, 8, 0, 0, 0, DateTimeKind.Unspecified),
-                            SubjectId = new Guid("aaaaaaaa-bbbb-cccc-dddd-000000000001"),
-                            TeacherId = new Guid("44444444-4444-4444-4444-444444444444")
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbb2222-3333-4444-5555-666666666666"),
-                            ClassroomId = new Guid("88888888-8888-8888-8888-888888888888"),
-                            EndTime = new DateTime(2025, 9, 17, 10, 15, 0, 0, DateTimeKind.Unspecified),
-                            StartTime = new DateTime(2025, 9, 17, 9, 15, 0, 0, DateTimeKind.Unspecified),
-                            SubjectId = new Guid("aaaaaaaa-bbbb-cccc-dddd-000000000002"),
-                            TeacherId = new Guid("55555555-5555-5555-5555-555555555555")
-                        },
-                        new
-                        {
-                            Id = new Guid("cccc3333-4444-5555-6666-777777777777"),
-                            ClassroomId = new Guid("99999999-9999-9999-9999-999999999999"),
-                            EndTime = new DateTime(2025, 9, 17, 11, 30, 0, 0, DateTimeKind.Unspecified),
-                            StartTime = new DateTime(2025, 9, 17, 10, 30, 0, 0, DateTimeKind.Unspecified),
-                            SubjectId = new Guid("aaaaaaaa-bbbb-cccc-dddd-000000000003"),
-                            TeacherId = new Guid("66666666-6666-6666-6666-666666666666")
-                        },
-                        new
-                        {
-                            Id = new Guid("dddd4444-5555-6666-7777-888888888888"),
-                            ClassroomId = new Guid("77777777-7777-7777-7777-777777777777"),
-                            EndTime = new DateTime(2025, 9, 18, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartTime = new DateTime(2025, 9, 18, 8, 0, 0, 0, DateTimeKind.Unspecified),
-                            SubjectId = new Guid("aaaaaaaa-bbbb-cccc-dddd-000000000004"),
-                            TeacherId = new Guid("77777777-7777-7777-7777-777777777777")
-                        },
-                        new
-                        {
-                            Id = new Guid("eeee5555-6666-7777-8888-999999999999"),
-                            ClassroomId = new Guid("88888888-8888-8888-8888-888888888888"),
-                            EndTime = new DateTime(2025, 9, 18, 10, 15, 0, 0, DateTimeKind.Unspecified),
-                            StartTime = new DateTime(2025, 9, 18, 9, 15, 0, 0, DateTimeKind.Unspecified),
-                            SubjectId = new Guid("aaaaaaaa-bbbb-cccc-dddd-000000000005"),
-                            TeacherId = new Guid("88888888-8888-8888-8888-888888888888")
-                        },
-                        new
-                        {
-                            Id = new Guid("ffff6666-7777-8888-9999-aaaaaaaaaaaa"),
-                            ClassroomId = new Guid("99999999-9999-9999-9999-999999999999"),
-                            EndTime = new DateTime(2025, 9, 18, 11, 30, 0, 0, DateTimeKind.Unspecified),
-                            StartTime = new DateTime(2025, 9, 18, 10, 30, 0, 0, DateTimeKind.Unspecified),
-                            SubjectId = new Guid("aaaaaaaa-bbbb-cccc-dddd-000000000006"),
-                            TeacherId = new Guid("99999999-9999-9999-9999-999999999999")
-                        },
-                        new
-                        {
-                            Id = new Guid("1111aaaa-bbbb-cccc-dddd-eeeeeeeeeeee"),
-                            ClassroomId = new Guid("77777777-7777-7777-7777-777777777777"),
-                            EndTime = new DateTime(2025, 9, 19, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartTime = new DateTime(2025, 9, 19, 8, 0, 0, 0, DateTimeKind.Unspecified),
-                            SubjectId = new Guid("aaaaaaaa-bbbb-cccc-dddd-000000000007"),
-                            TeacherId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
-                        },
-                        new
-                        {
-                            Id = new Guid("2222bbbb-cccc-dddd-eeee-ffffffffffff"),
-                            ClassroomId = new Guid("88888888-8888-8888-8888-888888888888"),
-                            EndTime = new DateTime(2025, 9, 19, 10, 15, 0, 0, DateTimeKind.Unspecified),
-                            StartTime = new DateTime(2025, 9, 19, 9, 15, 0, 0, DateTimeKind.Unspecified),
-                            SubjectId = new Guid("aaaaaaaa-bbbb-cccc-dddd-000000000001"),
-                            TeacherId = new Guid("44444444-4444-4444-4444-444444444444")
-                        },
-                        new
-                        {
-                            Id = new Guid("3333cccc-dddd-eeee-ffff-111111111111"),
-                            ClassroomId = new Guid("99999999-9999-9999-9999-999999999999"),
-                            EndTime = new DateTime(2025, 9, 19, 11, 30, 0, 0, DateTimeKind.Unspecified),
-                            StartTime = new DateTime(2025, 9, 19, 10, 30, 0, 0, DateTimeKind.Unspecified),
-                            SubjectId = new Guid("aaaaaaaa-bbbb-cccc-dddd-000000000002"),
-                            TeacherId = new Guid("55555555-5555-5555-5555-555555555555")
-                        });
                 });
 
             modelBuilder.Entity("Kindergarten.Domain.Entities.Classroom", b =>

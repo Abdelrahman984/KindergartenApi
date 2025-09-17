@@ -9,6 +9,7 @@ public class Classroom
     // Relationships
     public ICollection<TeacherClassroom> TeacherClassrooms { get; private set; } = new List<TeacherClassroom>();
     public ICollection<Student> Students { get; private set; } = new List<Student>();
+    public ICollection<ClassSession> ClassSessions { get; private set; } = new List<ClassSession>();
 
     private Classroom() { }
 

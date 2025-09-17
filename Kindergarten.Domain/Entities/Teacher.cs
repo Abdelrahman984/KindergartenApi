@@ -11,6 +11,7 @@ public class Teacher
 
     // Relationships
     public ICollection<TeacherClassroom> TeacherClassrooms { get; private set; } = new List<TeacherClassroom>();
+    public ICollection<ClassSession> ClassSessions { get; private set; } = new List<ClassSession>();
 
     // Constructors
     private Teacher() { }

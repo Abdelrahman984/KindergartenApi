@@ -44,6 +44,16 @@ public class MappingProfile : Profile
         // Subject
         CreateMap<Subject, SubjectReadDto>();
         CreateMap<SubjectCreateDto, Subject>();
+        CreateMap<SubjectUpdateDto, Subject>();
+
+        // ClassSession
+        CreateMap<ClassSession, ClassSessionReadDto>()
+            .ForMember(dest => dest.ClassroomName, opt => opt.MapFrom(src => src.Classroom.Name))
+            .ForMember(dest => dest.TeacherName, opt => opt.MapFrom(src => src.Teacher.FullName))
+            .ForMember(dest => dest.SubjectName, opt => opt.MapFrom(src => src.Subject.Name));
+        CreateMap<ClassSessionCreateDto, ClassSession>();
+        CreateMap<ClassSessionUpdateDto, ClassSession>();
+
 
     }
 }

@@ -128,5 +128,100 @@ public static class SeedData
             new { TeacherId = teacher3Id, ClassroomId = class2Id },
             new { TeacherId = teacher3Id, ClassroomId = class3Id }
         );
+
+        // 🔹 ClassSessions
+        var classSession1Id = Guid.Parse("aaaa1111-2222-3333-4444-555555555555");
+        var classSession2Id = Guid.Parse("bbbb2222-3333-4444-5555-666666666666");
+        var classSession3Id = Guid.Parse("cccc3333-4444-5555-6666-777777777777");
+        var classSession4Id = Guid.Parse("dddd4444-5555-6666-7777-888888888888");
+        var classSession5Id = Guid.Parse("eeee5555-6666-7777-8888-999999999999");
+        var classSession6Id = Guid.Parse("ffff6666-7777-8888-9999-aaaaaaaaaaaa");
+        var classSession7Id = Guid.Parse("1111aaaa-bbbb-cccc-dddd-eeeeeeeeeeee");
+        var classSession8Id = Guid.Parse("2222bbbb-cccc-dddd-eeee-ffffffffffff");
+        var classSession9Id = Guid.Parse("3333cccc-dddd-eeee-ffff-111111111111");
+
+        modelBuilder.Entity<ClassSession>().HasData(
+            new
+            {
+                Id = classSession1Id,
+                StartTime = new DateTime(2025, 9, 17, 8, 0, 0),
+                EndTime = new DateTime(2025, 9, 17, 9, 0, 0),
+                ClassroomId = class1Id,
+                TeacherId = teacher1Id,
+                SubjectId = mathId
+            },
+            new
+            {
+                Id = classSession2Id,
+                StartTime = new DateTime(2025, 9, 17, 9, 15, 0),
+                EndTime = new DateTime(2025, 9, 17, 10, 15, 0),
+                ClassroomId = class2Id,
+                TeacherId = teacher2Id,
+                SubjectId = scienceId
+            },
+            new
+            {
+                Id = classSession3Id,
+                StartTime = new DateTime(2025, 9, 17, 10, 30, 0),
+                EndTime = new DateTime(2025, 9, 17, 11, 30, 0),
+                ClassroomId = class3Id,
+                TeacherId = teacher3Id,
+                SubjectId = arabicId
+            },
+            new
+            {
+                Id = classSession4Id,
+                StartTime = new DateTime(2025, 9, 18, 8, 0, 0),
+                EndTime = new DateTime(2025, 9, 18, 9, 0, 0),
+                ClassroomId = class1Id,
+                TeacherId = teacher4Id,
+                SubjectId = englishId
+            },
+            new
+            {
+                Id = classSession5Id,
+                StartTime = new DateTime(2025, 9, 18, 9, 15, 0),
+                EndTime = new DateTime(2025, 9, 18, 10, 15, 0),
+                ClassroomId = class2Id,
+                TeacherId = teacher5Id,
+                SubjectId = artId
+            },
+            new
+            {
+                Id = classSession6Id,
+                StartTime = new DateTime(2025, 9, 18, 10, 30, 0),
+                EndTime = new DateTime(2025, 9, 18, 11, 30, 0),
+                ClassroomId = class3Id,
+                TeacherId = teacher6Id,
+                SubjectId = peId
+            },
+            new
+            {
+                Id = classSession7Id,
+                StartTime = new DateTime(2025, 9, 19, 8, 0, 0),
+                EndTime = new DateTime(2025, 9, 19, 9, 0, 0),
+                ClassroomId = class1Id,
+                TeacherId = teacher7Id,
+                SubjectId = csId
+            },
+            new
+            {
+                Id = classSession8Id,
+                StartTime = new DateTime(2025, 9, 19, 9, 15, 0),
+                EndTime = new DateTime(2025, 9, 19, 10, 15, 0),
+                ClassroomId = class2Id,
+                TeacherId = teacher1Id,
+                SubjectId = mathId
+            },
+            new
+            {
+                Id = classSession9Id,
+                StartTime = new DateTime(2025, 9, 19, 10, 30, 0),
+                EndTime = new DateTime(2025, 9, 19, 11, 30, 0),
+                ClassroomId = class3Id,
+                TeacherId = teacher2Id,
+                SubjectId = scienceId
+            }
+        );
     }
 }

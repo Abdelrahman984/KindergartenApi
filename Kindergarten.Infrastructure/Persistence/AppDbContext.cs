@@ -12,6 +12,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> opts) : DbContext(opts)
     public DbSet<Attendance> Attendances { get; set; } = null!;
     public DbSet<TeacherClassroom> TeacherClassrooms { get; set; } = null!; // Junction table DbSet (m-m)
     public DbSet<Subject> Subjects { get; set; } = null!;
+    public DbSet<ClassSession> ClassSessions { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -67,6 +68,23 @@ public class AppDbContext(DbContextOptions<AppDbContext> opts) : DbContext(opts)
 
         modelBuilder.Entity<Subject>().HasKey(s => s.Id);
         modelBuilder.Entity<Subject>().Property(s => s.Name).IsRequired().HasMaxLength(100);
+
+        modelBuilder.Entity<ClassSession>().HasKey(cs => cs.Id);
+        modelBuilder.Entity<ClassSession>().Property(cs => cs.StartTime).IsRequired();
+        modelBuilder.Entity<ClassSession>().Property(cs => cs.EndTime).IsRequired();
+        modelBuilder.Entity<ClassSession>()
+            .HasOne(cs => cs.Classroom)
+            .WithMany(c => c.ClassSessions)
+            .HasForeignKey(cs => cs.ClassroomId);
+        modelBuilder.Entity<ClassSession>()
+            .HasOne(cs => cs.Teacher)
+            .WithMany(t => t.ClassSessions)
+            .HasForeignKey(cs => cs.TeacherId);
+        modelBuilder.Entity<ClassSession>()
+            .HasOne(cs => cs.Subject)
+            .WithMany(s => s.ClassSessions)
+            .HasForeignKey(cs => cs.SubjectId);
+
         // Seed data
         SeedData.Seed(modelBuilder);
     }
