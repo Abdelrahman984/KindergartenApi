@@ -6,11 +6,11 @@ namespace Kindergarten.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class SubjectController : ControllerBase
+    public class SubjectsController : ControllerBase
     {
         private readonly ISubjectService _service;
 
-        public SubjectController(ISubjectService service)
+        public SubjectsController(ISubjectService service)
         {
             _service = service;
         }
