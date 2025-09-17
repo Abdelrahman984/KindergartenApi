@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Kindergarten.Application.DTOs;
+using Kindergarten.Application.Interfaces.Repositories;
 using Kindergarten.Application.Interfaces.Services;
 using Kindergarten.Domain.Entities;
-using Kindergarten.Infrastructure.Repositories;
 
 namespace Kindergarten.Application.Services
 {

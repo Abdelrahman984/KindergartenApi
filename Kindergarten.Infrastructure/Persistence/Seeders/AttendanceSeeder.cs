@@ -3,7 +3,7 @@ using Kindergarten.Domain.Entities;
 using Kindergarten.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
-namespace Kindergarten.Infrastructure.Persistence;
+namespace Kindergarten.Infrastructure.Persistence.Seeders;
 
 public static class AttendanceSeeder
 {

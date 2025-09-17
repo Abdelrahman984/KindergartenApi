@@ -55,5 +55,23 @@ namespace Kindergarten.Application.Services
             await _repository.DeleteAsync(session);
             return true;
         }
+
+        public async Task<IEnumerable<ClassSessionReadDto>> GetByClassroomIdAsync(Guid classroomId)
+        {
+            var sessions = await _repository.GetByClassroomIdAsync(classroomId);
+            return _mapper.Map<IEnumerable<ClassSessionReadDto>>(sessions);
+        }
+
+        public async Task<IEnumerable<ClassSessionReadDto>> GetByTeacherIdAsync(Guid teacherId)
+        {
+            var sessions = await _repository.GetByTeacherIdAsync(teacherId);
+            return _mapper.Map<IEnumerable<ClassSessionReadDto>>(sessions);
+        }
+
+        public async Task<IEnumerable<ClassSessionReadDto>> GetBySubjectIdAsync(Guid subjectId)
+        {
+            var sessions = await _repository.GetBySubjectIdAsync(subjectId);
+            return _mapper.Map<IEnumerable<ClassSessionReadDto>>(sessions);
+        }
     }
 }

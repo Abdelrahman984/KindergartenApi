@@ -1,4 +1,5 @@
-﻿using Kindergarten.Domain.Entities;
+﻿using Kindergarten.Application.Interfaces.Repositories;
+using Kindergarten.Domain.Entities;
 using Kindergarten.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,8 +38,16 @@ namespace Kindergarten.Infrastructure.Repositories
 
         public async Task DeleteAsync(Subject entity)
         {
+            // فك الربط بين المعلمين والمادة
+            var teachers = _context.Teachers.Where(t => t.SubjectId == entity.Id);
+            foreach (var teacher in teachers)
+            {
+                teacher.SubjectId = null; // إزالة الربط
+            }
+
             _context.Subjects.Remove(entity);
             await _context.SaveChangesAsync();
         }
+
     }
 }

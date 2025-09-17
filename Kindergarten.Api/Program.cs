@@ -4,6 +4,9 @@ using Kindergarten.Application.Interfaces.Services;
 using Kindergarten.Application.Mappings;
 using Kindergarten.Application.Services;
 using Kindergarten.Infrastructure.Persistence;
+using Kindergarten.Infrastructure.Persistence.Seeders;
+
+//using Kindergarten.Infrastructure.Persistence.Seeders;
 using Kindergarten.Infrastructure.Repositories;
 using Kindergarten.Infrastructure.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
@@ -66,6 +69,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await AttendanceSeeder.SeedAsync(db);
+    await ClassSessionSeeder.SeedAsync(db);
 }
 
 

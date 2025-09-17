@@ -1,6 +1,6 @@
 ﻿using Kindergarten.Domain.Entities;
 
-namespace Kindergarten.Infrastructure.Repositories
+namespace Kindergarten.Application.Interfaces.Repositories
 {
     public interface ISubjectRepository
     {

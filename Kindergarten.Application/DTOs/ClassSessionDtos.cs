@@ -20,8 +20,13 @@
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
 
+        public Guid ClassroomId { get; set; }   // Add this
         public string ClassroomName { get; set; }
+
+        public Guid TeacherId { get; set; }     // Add this
         public string TeacherName { get; set; }
+
+        public Guid SubjectId { get; set; }     // Add this
         public string SubjectName { get; set; }
     }
 

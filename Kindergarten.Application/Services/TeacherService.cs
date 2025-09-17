@@ -21,7 +21,10 @@ public class TeacherService : ITeacherService
 
     public async Task<TeacherReadDto> CreateTeacherAsync(TeacherCreateDto dto)
     {
-        var teacher = new Teacher(dto.FullName, dto.PhoneNumber, dto.IsActive);
+        var teacher = new Teacher(dto.FullName, dto.PhoneNumber, dto.IsActive)
+        {
+            SubjectId = dto.SubjectId // <-- Set the SubjectId here
+        };
 
         if (dto.ClassroomIds != null)
         {

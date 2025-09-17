@@ -4,8 +4,8 @@ public class Teacher
 {
     public Guid Id { get; private set; } = Guid.NewGuid();
     public string FullName { get; private set; } = null!;
-    public Guid SubjectId { get; set; }
-    public Subject Subject { get; set; }
+    public Guid? SubjectId { get; set; }
+    public Subject? Subject { get; set; }
     public string PhoneNumber { get; private set; } = null!;
     public bool IsActive { get; private set; } = true;
 

@@ -49,5 +49,35 @@ namespace Kindergarten.Infrastructure.Repositories
             _context.ClassSessions.Remove(entity);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<ClassSession>> GetByClassroomIdAsync(Guid classroomId)
+        {
+            return await _context.ClassSessions
+                .Include(cs => cs.Classroom)
+                .Include(cs => cs.Teacher)
+                .Include(cs => cs.Subject)
+                .Where(cs => cs.ClassroomId == classroomId)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ClassSession>> GetByTeacherIdAsync(Guid teacherId)
+        {
+            return await _context.ClassSessions
+                .Include(cs => cs.Classroom)
+                .Include(cs => cs.Teacher)
+                .Include(cs => cs.Subject)
+                .Where(cs => cs.TeacherId == teacherId)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ClassSession>> GetBySubjectIdAsync(Guid subjectId)
+        {
+            return await _context.ClassSessions
+                .Include(cs => cs.Classroom)
+                .Include(cs => cs.Teacher)
+                .Include(cs => cs.Subject)
+                .Where(cs => cs.SubjectId == subjectId)
+                .ToListAsync();
+        }
     }
 }

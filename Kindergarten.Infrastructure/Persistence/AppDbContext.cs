@@ -1,4 +1,5 @@
 ﻿using Kindergarten.Domain.Entities;
+using Kindergarten.Infrastructure.Persistence.Seeders;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kindergarten.Infrastructure.Persistence;

@@ -30,6 +30,27 @@ namespace Kindergarten.Api.Controllers
             return Ok(session);
         }
 
+        [HttpGet("ByClassroom/{classroomId}")]
+        public async Task<IActionResult> GetByClassroomId(Guid classroomId)
+        {
+            var sessions = await _service.GetByClassroomIdAsync(classroomId);
+            return Ok(sessions);
+        }
+
+        [HttpGet("ByTeacher/{teacherId}")]
+        public async Task<IActionResult> GetByTeacherId(Guid teacherId)
+        {
+            var sessions = await _service.GetByTeacherIdAsync(teacherId);
+            return Ok(sessions);
+        }
+
+        [HttpGet("BySubject/{subjectId}")]
+        public async Task<IActionResult> GetBySubjectId(Guid subjectId)
+        {
+            var sessions = await _service.GetBySubjectIdAsync(subjectId);
+            return Ok(sessions);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ClassSessionCreateDto dto)
         {
