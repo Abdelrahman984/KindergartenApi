@@ -12,4 +12,5 @@ public interface ITeacherService
     Task<IEnumerable<StudentReadDto>> GetClassStudentsAsync(Guid teacherId);
     Task<IEnumerable<ClassroomReadDto>> GetClassroomsByTeacherIdAsync(Guid teacherId);
     Task DeleteTeacherAsync(Guid id);
+    Task<AssignedSubjectDto> GetAssignedSubjectAsync(Guid teacherId);
 }

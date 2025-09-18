@@ -1,17 +1,21 @@
-﻿namespace Kindergarten.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Kindergarten.Domain.Entities;
 
 public class Teacher
 {
     public Guid Id { get; private set; } = Guid.NewGuid();
+    [Required, MaxLength(100)]
     public string FullName { get; private set; } = null!;
-    public Guid? SubjectId { get; set; }
-    public Subject? Subject { get; set; }
+    [Required, MaxLength(15)]
     public string PhoneNumber { get; private set; } = null!;
     public bool IsActive { get; private set; } = true;
+    public Guid? SubjectId { get; set; }
+    public Subject? Subject { get; set; }
 
     // Relationships
-    public ICollection<TeacherClassroom> TeacherClassrooms { get; private set; } = new List<TeacherClassroom>();
-    public ICollection<ClassSession> ClassSessions { get; private set; } = new List<ClassSession>();
+    public ICollection<TeacherClassroom>? TeacherClassrooms { get; private set; } = new List<TeacherClassroom>();
+    public ICollection<ClassSession>? ClassSessions { get; private set; } = new List<ClassSession>();
 
     // Constructors
     private Teacher() { }

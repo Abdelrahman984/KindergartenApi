@@ -9,5 +9,6 @@ namespace Kindergarten.Application.Interfaces.Services
         Task<SubjectReadDto> CreateAsync(SubjectCreateDto dto);
         Task<SubjectReadDto> UpdateAsync(SubjectUpdateDto dto);
         Task<bool> DeleteAsync(Guid id);
+        Task UpdateSubjectTeachersAsync(Guid subjectId, List<Guid> teacherIds);
     }
 }

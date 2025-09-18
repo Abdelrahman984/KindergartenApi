@@ -40,6 +40,16 @@ public class TeachersController : ControllerBase
         return Ok(classrooms);
     }
 
+    [HttpGet("{teacherId:guid}/assigned-subject")]
+    public async Task<IActionResult> GetTeacherAssignedSubject(Guid teacherId)
+    {
+        var result = await _teacherService.GetAssignedSubjectAsync(teacherId);
+        if (result == null)
+            return NotFound();
+
+        return Ok(result);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create(TeacherCreateDto dto)
     {

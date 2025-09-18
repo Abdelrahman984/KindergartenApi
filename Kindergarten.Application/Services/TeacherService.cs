@@ -89,4 +89,22 @@ public class TeacherService : ITeacherService
 
         await _teacherRepository.DeleteAsync(id);
     }
+
+    public async Task<AssignedSubjectDto> GetAssignedSubjectAsync(Guid teacherId)
+    {
+        var teacher = await _teacherRepository.GetByIdWithSubjectAsync(teacherId);
+        if (teacher == null)
+            return null;
+
+        if (teacher.SubjectId != Guid.Empty && teacher.Subject != null)
+        {
+            return new AssignedSubjectDto
+            {
+                Assigned = true,
+                SubjectName = teacher.Subject.Name
+            };
+        }
+
+        return new AssignedSubjectDto { Assigned = false };
+    }
 }

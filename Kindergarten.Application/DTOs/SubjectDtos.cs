@@ -16,4 +16,10 @@
         public Guid Id { get; set; }
         public string Name { get; set; }
     }
+
+    public class AssignedSubjectDto
+    {
+        public bool Assigned { get; set; }
+        public string? SubjectName { get; set; }
+    }
 }

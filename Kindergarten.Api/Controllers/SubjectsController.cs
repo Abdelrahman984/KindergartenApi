@@ -37,6 +37,13 @@ namespace Kindergarten.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
+        [HttpPost("{subjectId}/teachers")]
+        public async Task<IActionResult> UpdateTeachers(Guid subjectId, [FromBody] List<Guid> teacherIds)
+        {
+            await _service.UpdateSubjectTeachersAsync(subjectId, teacherIds);
+            return NoContent();
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] SubjectUpdateDto dto)
         {

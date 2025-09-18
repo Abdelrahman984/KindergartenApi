@@ -9,12 +9,14 @@ namespace Kindergarten.Application.Services
     public class SubjectService : ISubjectService
     {
         private readonly ISubjectRepository _repository;
+        private readonly ITeacherRepository _teacherRepository;
         private readonly IMapper _mapper;
 
-        public SubjectService(ISubjectRepository repository, IMapper mapper)
+        public SubjectService(ISubjectRepository repository, IMapper mapper, ITeacherRepository teacherRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _teacherRepository = teacherRepository;
         }
 
         public async Task<IEnumerable<SubjectReadDto>> GetAllAsync()
@@ -55,5 +57,15 @@ namespace Kindergarten.Application.Services
             await _repository.DeleteAsync(subject);
             return true;
         }
+        public async Task UpdateSubjectTeachersAsync(Guid subjectId, List<Guid> teacherIds)
+        {
+            var teachers = await _teacherRepository.GetBulkTeachersByIdsAsync(teacherIds);
+            foreach (var teacher in teachers)
+            {
+                teacher.SubjectId = subjectId;
+            }
+            await _teacherRepository.UpdateBulkTeachersAsync(teachers);
+        }
+
     }
 }
