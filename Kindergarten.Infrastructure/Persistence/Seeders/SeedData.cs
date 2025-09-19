@@ -1,4 +1,5 @@
 ﻿using Kindergarten.Domain.Entities;
+using Kindergarten.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kindergarten.Infrastructure.Persistence.Seeders;
@@ -11,12 +12,19 @@ public static class SeedData
         var parent1Id = Guid.Parse("11111111-1111-1111-1111-111111111111");
         var parent2Id = Guid.Parse("22222222-2222-2222-2222-222222222222");
         var parent3Id = Guid.Parse("33333333-3333-3333-3333-333333333333");
+        var parent4Id = Guid.Parse("44444444-4444-4444-4444-444444444444");
+        var parent5Id = Guid.Parse("55555555-5555-5555-5555-555555555555");
+        var parent6Id = Guid.Parse("66666666-6666-6666-6666-666666666666");
 
         modelBuilder.Entity<Parent>().HasData(
             new { Id = parent1Id, FullName = "أحمد علي", PhoneNumber = "01012345678", Address = "١٢٣ شارع الرئيسي، القاهرة" },
-            new { Id = parent2Id, FullName = "منى حسن", PhoneNumber = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية" },
-            new { Id = parent3Id, FullName = "حسام يوسف", PhoneNumber = "0103334444", Address = "٧٨٩ طريق الحديقة، الجيزة" }
+            new { Id = parent2Id, FullName = "بكري حسن", PhoneNumber = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية" },
+            new { Id = parent3Id, FullName = "حسام يوسف", PhoneNumber = "0103334444", Address = "٧٨٩ طريق الحديقة، الجيزة" },
+            new { Id = parent4Id, FullName = "طارق سمير", PhoneNumber = "0104445555", Address = "١٠١ شارع النيل، القاهرة" },
+            new { Id = parent5Id, FullName = "خالد عادل", PhoneNumber = "0106667777", Address = "٢٠٢ شارع الحرية، الإسكندرية" },
+            new { Id = parent6Id, FullName = "عمر ناصر", PhoneNumber = "0108889999", Address = "٣٠٣ شارع الجامعة، الجيزة" }
         );
+
 
         // 🔹 Classrooms (IDs used by Students seeding)
         var class1Id = Guid.Parse("77777777-7777-7777-7777-777777777777");
@@ -28,6 +36,7 @@ public static class SeedData
             new { Id = class2Id, Name = "KG2", Capacity = 25 },
             new { Id = class3Id, Name = "KG3", Capacity = 30 }
         );
+
 
         // 🔹 Students
         var student1Id = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
@@ -53,26 +62,38 @@ public static class SeedData
 
         modelBuilder.Entity<Student>().HasData(
             new { Id = student1Id, FirstName = "عمر", FatherName = "أحمد", GrandpaName = "محمد", DateOfBirth = new DateTime(2019, 5, 12), ParentPhone = "01012345678", Address = "١٢٣ شارع الرئيسي، القاهرة", IsActive = true, ParentId = parent1Id, ClassroomId = class1Id },
-            new { Id = student2Id, FirstName = "سارة", FatherName = "منى", GrandpaName = "علي", DateOfBirth = new DateTime(2020, 3, 25), ParentPhone = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
-            new { Id = student3Id, FirstName = "يوسف", FatherName = "حسام", GrandpaName = "كامل", DateOfBirth = new DateTime(2019, 10, 2), ParentPhone = "0103334444", Address = "٧٨٩ طريق الحديقة، الجيزة", IsActive = true, ParentId = parent3Id, ClassroomId = class3Id },
-            new { Id = student4Id, FirstName = "ملك", FatherName = "أحمد", GrandpaName = "محمد", DateOfBirth = new DateTime(2020, 6, 15), ParentPhone = "01012345678", Address = "١٢٣ شارع الرئيسي، القاهرة", IsActive = true, ParentId = parent1Id, ClassroomId = class1Id },
-            new { Id = student5Id, FirstName = "علا", FatherName = "منى", GrandpaName = "علي", DateOfBirth = new DateTime(2021, 1, 10), ParentPhone = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
-            new { Id = student6Id, FirstName = "ليلى", FatherName = "حسام", GrandpaName = "كامل", DateOfBirth = new DateTime(2020, 2, 20), ParentPhone = "0103334444", Address = "٧٨٩ طريق الحديقة، الجيزة", IsActive = true, ParentId = parent3Id, ClassroomId = class3Id },
-            new { Id = student7Id, FirstName = "محمود", FatherName = "أحمد", GrandpaName = "محمد", DateOfBirth = new DateTime(2019, 8, 5), ParentPhone = "01012345678", Address = "١٢٣ شارع الرئيسي، القاهرة", IsActive = true, ParentId = parent1Id, ClassroomId = class1Id },
-            new { Id = student8Id, FirstName = "نور", FatherName = "منى", GrandpaName = "علي", DateOfBirth = new DateTime(2020, 11, 30), ParentPhone = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
-            new { Id = student9Id, FirstName = "زياد", FatherName = "حسام", GrandpaName = "كامل", DateOfBirth = new DateTime(2019, 7, 18), ParentPhone = "0103334444", Address = "٧٨٩ طريق الحديقة، الجيزة", IsActive = true, ParentId = parent3Id, ClassroomId = class3Id },
-            new { Id = student10Id, FirstName = "جنى", FatherName = "أحمد", GrandpaName = "محمد", DateOfBirth = new DateTime(2020, 4, 22), ParentPhone = "01012345678", Address = "١٢٣ شارع الرئيسي، القاهرة", IsActive = true, ParentId = parent1Id, ClassroomId = class1Id },
-            new { Id = student11Id, FirstName = "فارس", FatherName = "منى", GrandpaName = "علي", DateOfBirth = new DateTime(2021, 2, 14), ParentPhone = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
-            new { Id = student12Id, FirstName = "هنا", FatherName = "حسام", GrandpaName = "كامل", DateOfBirth = new DateTime(2019, 9, 9), ParentPhone = "0103334444", Address = "٧٨٩ طريق الحديقة، الجيزة", IsActive = true, ParentId = parent3Id, ClassroomId = class3Id },
-            new { Id = student13Id, FirstName = "سيف", FatherName = "أحمد", GrandpaName = "محمد", DateOfBirth = new DateTime(2020, 5, 17), ParentPhone = "01012345678", Address = "١٢٣ شارع الرئيسي، القاهرة", IsActive = true, ParentId = parent1Id, ClassroomId = class1Id },
-            new { Id = student14Id, FirstName = "ريم", FatherName = "منى", GrandpaName = "علي", DateOfBirth = new DateTime(2021, 3, 27), ParentPhone = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
-            new { Id = student15Id, FirstName = "طارق", FatherName = "حسام", GrandpaName = "كامل", DateOfBirth = new DateTime(2019, 12, 3), ParentPhone = "0103334444", Address = "٧٨٩ طريق الحديقة، الجيزة", IsActive = true, ParentId = parent3Id, ClassroomId = class3Id },
-            new { Id = student16Id, FirstName = "سلمى", FatherName = "أحمد", GrandpaName = "محمد", DateOfBirth = new DateTime(2020, 7, 21), ParentPhone = "01012345678", Address = "١٢٣ شارع الرئيسي، القاهرة", IsActive = true, ParentId = parent1Id, ClassroomId = class1Id },
-            new { Id = student17Id, FirstName = "ياسمين", FatherName = "منى", GrandpaName = "علي", DateOfBirth = new DateTime(2021, 1, 19), ParentPhone = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
-            new { Id = student18Id, FirstName = "حسن", FatherName = "حسام", GrandpaName = "كامل", DateOfBirth = new DateTime(2020, 2, 28), ParentPhone = "0103334444", Address = "٧٨٩ طريق الحديقة، الجيزة", IsActive = true, ParentId = parent3Id, ClassroomId = class3Id },
-            new { Id = student19Id, FirstName = "مريم", FatherName = "أحمد", GrandpaName = "محمد", DateOfBirth = new DateTime(2019, 8, 15), ParentPhone = "01012345678", Address = "١٢٣ شارع الرئيسي، القاهرة", IsActive = true, ParentId = parent1Id, ClassroomId = class1Id },
-            new { Id = student20Id, FirstName = "آدم", FatherName = "منى", GrandpaName = "علي", DateOfBirth = new DateTime(2020, 11, 11), ParentPhone = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id }
-        );
+            new { Id = student2Id, FirstName = "ملك", FatherName = "أحمد", GrandpaName = "محمد", DateOfBirth = new DateTime(2020, 6, 15), ParentPhone = "01012345678", Address = "١٢٣ شارع الرئيسي، القاهرة", IsActive = true, ParentId = parent1Id, ClassroomId = class1Id },
+            new { Id = student3Id, FirstName = "سيف", FatherName = "أحمد", GrandpaName = "محمد", DateOfBirth = new DateTime(2020, 5, 17), ParentPhone = "01012345678", Address = "١٢٣ شارع الرئيسي، القاهرة", IsActive = true, ParentId = parent1Id, ClassroomId = class1Id },
+
+
+            new { Id = student4Id, FirstName = "سارة", FatherName = "بكري", GrandpaName = "علي", DateOfBirth = new DateTime(2020, 3, 25), ParentPhone = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
+            new { Id = student5Id, FirstName = "علا", FatherName = "بكري", GrandpaName = "علي", DateOfBirth = new DateTime(2021, 1, 10), ParentPhone = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
+            new { Id = student6Id, FirstName = "ريم", FatherName = "بكري", GrandpaName = "علي", DateOfBirth = new DateTime(2021, 3, 27), ParentPhone = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
+
+
+            new { Id = student7Id, FirstName = "يوسف", FatherName = "حسام", GrandpaName = "كامل", DateOfBirth = new DateTime(2019, 10, 2), ParentPhone = "0103334444", Address = "٧٨٩ طريق الحديقة، الجيزة", IsActive = true, ParentId = parent3Id, ClassroomId = class3Id },
+            new { Id = student8Id, FirstName = "ليلى", FatherName = "حسام", GrandpaName = "كامل", DateOfBirth = new DateTime(2020, 2, 20), ParentPhone = "0103334444", Address = "٧٨٩ طريق الحديقة، الجيزة", IsActive = true, ParentId = parent3Id, ClassroomId = class3Id },
+            new { Id = student9Id, FirstName = "طارق", FatherName = "حسام", GrandpaName = "كامل", DateOfBirth = new DateTime(2019, 12, 3), ParentPhone = "0103334444", Address = "٧٨٩ طريق الحديقة، الجيزة", IsActive = true, ParentId = parent3Id, ClassroomId = class3Id },
+
+
+            new { Id = student10Id, FirstName = "محمود", FatherName = "طارق", GrandpaName = "سمير", DateOfBirth = new DateTime(2019, 8, 5), ParentPhone = "0104445555", Address = "١٠١ شارع النيل، القاهرة", IsActive = true, ParentId = parent4Id, ClassroomId = class1Id },
+            new { Id = student11Id, FirstName = "نور", FatherName = "طارق", GrandpaName = "سمير", DateOfBirth = new DateTime(2020, 11, 30), ParentPhone = "0104445555", Address = "١٠١ شارع النيل، القاهرة", IsActive = true, ParentId = parent4Id, ClassroomId = class2Id },
+            new { Id = student12Id, FirstName = "سلمى", FatherName = "طارق", GrandpaName = "سمير", DateOfBirth = new DateTime(2020, 7, 21), ParentPhone = "0104445555", Address = "١٠١ شارع النيل، القاهرة", IsActive = true, ParentId = parent4Id, ClassroomId = class1Id },
+
+
+            new { Id = student13Id, FirstName = "زياد", FatherName = "خالد", GrandpaName = "عادل", DateOfBirth = new DateTime(2019, 7, 18), ParentPhone = "0106667777", Address = "٢٠٢ شارع الحرية، الإسكندرية", IsActive = true, ParentId = parent5Id, ClassroomId = class3Id },
+            new { Id = student14Id, FirstName = "جنى", FatherName = "خالد", GrandpaName = "عادل", DateOfBirth = new DateTime(2020, 4, 22), ParentPhone = "0106667777", Address = "٢٠٢ شارع الحرية، الإسكندرية", IsActive = true, ParentId = parent5Id, ClassroomId = class1Id },
+            new { Id = student15Id, FirstName = "حسن", FatherName = "خالد", GrandpaName = "عادل", DateOfBirth = new DateTime(2020, 2, 28), ParentPhone = "0106667777", Address = "٢٠٢ شارع الحرية، الإسكندرية", IsActive = true, ParentId = parent5Id, ClassroomId = class3Id },
+
+
+            new { Id = student16Id, FirstName = "فارس", FatherName = "عمر", GrandpaName = "ناصر", DateOfBirth = new DateTime(2021, 2, 14), ParentPhone = "0108889999", Address = "٣٠٣ شارع الجامعة، الجيزة", IsActive = true, ParentId = parent6Id, ClassroomId = class2Id },
+            new { Id = student17Id, FirstName = "هناء", FatherName = "عمر", GrandpaName = "ناصر", DateOfBirth = new DateTime(2019, 9, 9), ParentPhone = "0108889999", Address = "٣٠٣ شارع الجامعة، الجيزة", IsActive = true, ParentId = parent6Id, ClassroomId = class3Id },
+            new { Id = student18Id, FirstName = "مريم", FatherName = "عمر", GrandpaName = "ناصر", DateOfBirth = new DateTime(2019, 8, 15), ParentPhone = "0108889999", Address = "٣٠٣ شارع الجامعة، الجيزة", IsActive = true, ParentId = parent6Id, ClassroomId = class1Id },
+
+            new { Id = student19Id, FirstName = "ياسمين", FatherName = "بكري", GrandpaName = "حسن", DateOfBirth = new DateTime(2021, 1, 19), ParentPhone = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
+            new { Id = student20Id, FirstName = "آدم", FatherName = "خالد", GrandpaName = "عادل", DateOfBirth = new DateTime(2020, 11, 11), ParentPhone = "0106667777", Address = "٢٠٢ شارع الحرية، الإسكندرية", IsActive = true, ParentId = parent5Id, ClassroomId = class2Id }
+            );
+
 
         // 🔹 Subjects
         var mathId = Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-000000000001");
@@ -120,6 +141,7 @@ public static class SeedData
         );
 
 
+        // 🔹 Teacher-Classroom Assignments (many-to-many)
         modelBuilder.Entity<TeacherClassroom>().HasData(
             // teacher1 teaches all classrooms
             new { TeacherId = teacher1Id, ClassroomId = class1Id },
@@ -135,5 +157,34 @@ public static class SeedData
             new { TeacherId = teacher3Id, ClassroomId = class3Id }
         );
 
+
+        modelBuilder.Entity<Fee>().HasData(
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000001"), StudentId = student1Id, ParentId = parent1Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Pending },
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000002"), StudentId = student2Id, ParentId = parent1Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Paid, PaymentDate = new DateTime(2024, 9, 2), TransactionId = "1DONE1" },
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000003"), StudentId = student3Id, ParentId = parent1Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Overdue },
+
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000004"), StudentId = student4Id, ParentId = parent2Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Paid, PaymentDate = new DateTime(2024, 9, 3), TransactionId = "2DONE2" },
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000005"), StudentId = student5Id, ParentId = parent2Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Pending },
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000006"), StudentId = student6Id, ParentId = parent2Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Overdue },
+
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000007"), StudentId = student7Id, ParentId = parent3Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Pending },
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000008"), StudentId = student8Id, ParentId = parent3Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Paid, PaymentDate = new DateTime(2024, 9, 2), TransactionId = "3DONE3" },
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000009"), StudentId = student9Id, ParentId = parent3Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Overdue },
+
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000010"), StudentId = student10Id, ParentId = parent4Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Paid, PaymentDate = new DateTime(2024, 9, 4), TransactionId = "4DONE4" },
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000011"), StudentId = student11Id, ParentId = parent4Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Pending },
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000012"), StudentId = student12Id, ParentId = parent4Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Overdue },
+
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000013"), StudentId = student13Id, ParentId = parent5Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Pending },
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000014"), StudentId = student14Id, ParentId = parent5Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Paid, PaymentDate = new DateTime(2024, 9, 2), TransactionId = "5DONE5" },
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000015"), StudentId = student15Id, ParentId = parent5Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Overdue },
+
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000016"), StudentId = student16Id, ParentId = parent6Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Paid, PaymentDate = new DateTime(2024, 9, 5), TransactionId = "6DONE6" },
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000017"), StudentId = student17Id, ParentId = parent6Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Pending },
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000018"), StudentId = student18Id, ParentId = parent6Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Overdue },
+
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000019"), StudentId = student19Id, ParentId = parent2Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Pending },
+            new { Id = Guid.Parse("00000000-0000-0000-0000-000000000020"), StudentId = student20Id, ParentId = parent5Id, Amount = 1500m, DueDate = new DateTime(2024, 9, 1), Status = FeeStatus.Paid, PaymentDate = new DateTime(2024, 9, 2), TransactionId = "7DONE7" }
+        );
     }
 }

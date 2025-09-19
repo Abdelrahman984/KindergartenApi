@@ -9,6 +9,7 @@ public class Parent
 
     // Relationships
     public ICollection<Student> Childrens { get; private set; } = new List<Student>();
+    public ICollection<Fee> Fees { get; private set; } = new List<Fee>(); // ⬅️ Added
 
     private Parent() { }
 

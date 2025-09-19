@@ -4,6 +4,7 @@ using Kindergarten.Application.Interfaces.Services;
 using Kindergarten.Application.Mappings;
 using Kindergarten.Application.Services;
 using Kindergarten.Infrastructure.Persistence;
+using Kindergarten.Infrastructure.Persistence.Repositories;
 using Kindergarten.Infrastructure.Persistence.Seeders;
 
 //using Kindergarten.Infrastructure.Persistence.Seeders;
@@ -30,6 +31,7 @@ builder.Services.AddScoped<IParentRepository, ParentRepository>();
 builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 builder.Services.AddScoped<IClassSessionRepository, ClassSessionRepository>();
+builder.Services.AddScoped<IFeeRepository, FeeRepository>();
 
 // Register Services
 builder.Services.AddScoped<IStudentService, StudentService>();
@@ -39,6 +41,7 @@ builder.Services.AddScoped<IParentService, ParentService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IClassSessionService, ClassSessionService>();
+builder.Services.AddScoped<IFeeService, FeeService>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

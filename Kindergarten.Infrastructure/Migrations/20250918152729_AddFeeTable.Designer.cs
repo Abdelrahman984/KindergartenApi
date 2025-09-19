@@ -4,6 +4,7 @@ using Kindergarten.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kindergarten.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250918152729_AddFeeTable")]
+    partial class AddFeeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,9 +151,6 @@ namespace Kindergarten.Infrastructure.Migrations
                     b.Property<Guid>("StudentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("TransactionId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
@@ -175,10 +175,8 @@ namespace Kindergarten.Infrastructure.Migrations
                             Amount = 1500m,
                             DueDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ParentId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            PaymentDate = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Paid",
-                            StudentId = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            TransactionId = "1DONE1"
+                            StudentId = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
                         },
                         new
                         {
@@ -186,7 +184,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             Amount = 1500m,
                             DueDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ParentId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            Status = "Overdue",
+                            Status = "Pending",
                             StudentId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc")
                         },
                         new
@@ -195,10 +193,8 @@ namespace Kindergarten.Infrastructure.Migrations
                             Amount = 1500m,
                             DueDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ParentId = new Guid("22222222-2222-2222-2222-222222222222"),
-                            PaymentDate = new DateTime(2024, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Paid",
-                            StudentId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
-                            TransactionId = "2DONE2"
+                            StudentId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd")
                         },
                         new
                         {
@@ -215,7 +211,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             Amount = 1500m,
                             DueDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ParentId = new Guid("22222222-2222-2222-2222-222222222222"),
-                            Status = "Overdue",
+                            Status = "Paid",
                             StudentId = new Guid("11111111-aaaa-aaaa-aaaa-111111111111")
                         },
                         new
@@ -233,10 +229,8 @@ namespace Kindergarten.Infrastructure.Migrations
                             Amount = 1500m,
                             DueDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ParentId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            PaymentDate = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Paid",
-                            StudentId = new Guid("33333333-cccc-cccc-cccc-333333333333"),
-                            TransactionId = "3DONE3"
+                            StudentId = new Guid("33333333-cccc-cccc-cccc-333333333333")
                         },
                         new
                         {
@@ -244,7 +238,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             Amount = 1500m,
                             DueDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ParentId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            Status = "Overdue",
+                            Status = "Pending",
                             StudentId = new Guid("44444444-dddd-dddd-dddd-444444444444")
                         },
                         new
@@ -253,10 +247,8 @@ namespace Kindergarten.Infrastructure.Migrations
                             Amount = 1500m,
                             DueDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ParentId = new Guid("44444444-4444-4444-4444-444444444444"),
-                            PaymentDate = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Paid",
-                            StudentId = new Guid("55555555-eeee-eeee-eeee-555555555555"),
-                            TransactionId = "4DONE4"
+                            StudentId = new Guid("55555555-eeee-eeee-eeee-555555555555")
                         },
                         new
                         {
@@ -273,7 +265,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             Amount = 1500m,
                             DueDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ParentId = new Guid("44444444-4444-4444-4444-444444444444"),
-                            Status = "Overdue",
+                            Status = "Paid",
                             StudentId = new Guid("77777777-bbbb-bbbb-bbbb-777777777777")
                         },
                         new
@@ -291,10 +283,8 @@ namespace Kindergarten.Infrastructure.Migrations
                             Amount = 1500m,
                             DueDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ParentId = new Guid("55555555-5555-5555-5555-555555555555"),
-                            PaymentDate = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Paid",
-                            StudentId = new Guid("99999999-dddd-dddd-dddd-999999999999"),
-                            TransactionId = "5DONE5"
+                            StudentId = new Guid("99999999-dddd-dddd-dddd-999999999999")
                         },
                         new
                         {
@@ -302,7 +292,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             Amount = 1500m,
                             DueDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ParentId = new Guid("55555555-5555-5555-5555-555555555555"),
-                            Status = "Overdue",
+                            Status = "Pending",
                             StudentId = new Guid("aaaaaaa1-eeee-eeee-eeee-aaaaaaaaaaaa")
                         },
                         new
@@ -311,10 +301,8 @@ namespace Kindergarten.Infrastructure.Migrations
                             Amount = 1500m,
                             DueDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ParentId = new Guid("66666666-6666-6666-6666-666666666666"),
-                            PaymentDate = new DateTime(2024, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Paid",
-                            StudentId = new Guid("bbbbbbb2-aaaa-aaaa-aaaa-bbbbbbbbbbbb"),
-                            TransactionId = "6DONE6"
+                            StudentId = new Guid("bbbbbbb2-aaaa-aaaa-aaaa-bbbbbbbbbbbb")
                         },
                         new
                         {
@@ -331,7 +319,7 @@ namespace Kindergarten.Infrastructure.Migrations
                             Amount = 1500m,
                             DueDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ParentId = new Guid("66666666-6666-6666-6666-666666666666"),
-                            Status = "Overdue",
+                            Status = "Paid",
                             StudentId = new Guid("ddddddd4-cccc-cccc-cccc-dddddddddddd")
                         },
                         new
@@ -349,10 +337,8 @@ namespace Kindergarten.Infrastructure.Migrations
                             Amount = 1500m,
                             DueDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ParentId = new Guid("55555555-5555-5555-5555-555555555555"),
-                            PaymentDate = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Paid",
-                            StudentId = new Guid("fffffff6-eeee-eeee-eeee-ffffffffffff"),
-                            TransactionId = "7DONE7"
+                            StudentId = new Guid("fffffff6-eeee-eeee-eeee-ffffffffffff")
                         });
                 });
 

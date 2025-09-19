@@ -24,6 +24,7 @@ public class Student
     public Guid? ClassroomId { get; private set; }
     public Classroom? Classroom { get; private set; }
     public ICollection<Attendance> Attendances { get; private set; } = new List<Attendance>();
+    public ICollection<Fee> Fees { get; private set; } = new List<Fee>();
 
 
     // ctor for ORM
