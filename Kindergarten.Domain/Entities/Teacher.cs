@@ -17,6 +17,15 @@ public class Teacher
     public ICollection<TeacherClassroom>? TeacherClassrooms { get; private set; } = new List<TeacherClassroom>();
     public ICollection<ClassSession>? ClassSessions { get; private set; } = new List<ClassSession>();
 
+    // Auth
+    public string? ApplicationUserId { get; private set; }
+    public ApplicationUser? User { get; private set; }
+    // domain method to link
+    public void LinkApplicationUser(string applicationUserId)
+    {
+        ApplicationUserId = applicationUserId;
+    }
+
     // Constructors
     private Teacher() { }
 

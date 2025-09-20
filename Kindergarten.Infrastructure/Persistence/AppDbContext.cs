@@ -1,11 +1,12 @@
 ﻿using Kindergarten.Domain.Entities;
 using Kindergarten.Infrastructure.Persistence.Seeders;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace Kindergarten.Infrastructure.Persistence;
 
-public class AppDbContext(DbContextOptions<AppDbContext> opts) : DbContext(opts)
+public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 {
     public DbSet<Student> Students { get; set; } = null!;
     public DbSet<Teacher> Teachers { get; set; } = null!;

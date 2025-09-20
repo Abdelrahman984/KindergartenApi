@@ -4,6 +4,7 @@ using Kindergarten.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kindergarten.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250919230543_Auth")]
+    partial class Auth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,6 +45,7 @@ namespace Kindergarten.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FullName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -58,10 +62,14 @@ namespace Kindergarten.Infrastructure.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
@@ -69,6 +77,9 @@ namespace Kindergarten.Infrastructure.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("TeacherId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -436,7 +447,7 @@ namespace Kindergarten.Infrastructure.Migrations
                         .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -448,11 +459,12 @@ namespace Kindergarten.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId")
-                        .IsUnique()
-                        .HasFilter("[ApplicationUserId] IS NOT NULL");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Parents");
 
@@ -871,7 +883,7 @@ namespace Kindergarten.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -889,13 +901,14 @@ namespace Kindergarten.Infrastructure.Migrations
                     b.Property<Guid?>("SubjectId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId")
-                        .IsUnique()
-                        .HasFilter("[ApplicationUserId] IS NOT NULL");
-
                     b.HasIndex("SubjectId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Teachers");
 
@@ -1227,9 +1240,8 @@ namespace Kindergarten.Infrastructure.Migrations
             modelBuilder.Entity("Kindergarten.Domain.Entities.Parent", b =>
                 {
                     b.HasOne("Kindergarten.Domain.Entities.ApplicationUser", "User")
-                        .WithOne("Parent")
-                        .HasForeignKey("Kindergarten.Domain.Entities.Parent", "ApplicationUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -1253,15 +1265,14 @@ namespace Kindergarten.Infrastructure.Migrations
 
             modelBuilder.Entity("Kindergarten.Domain.Entities.Teacher", b =>
                 {
-                    b.HasOne("Kindergarten.Domain.Entities.ApplicationUser", "User")
-                        .WithOne("Teacher")
-                        .HasForeignKey("Kindergarten.Domain.Entities.Teacher", "ApplicationUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.HasOne("Kindergarten.Domain.Entities.Subject", "Subject")
                         .WithMany("Teachers")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Kindergarten.Domain.Entities.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Subject");
 
@@ -1336,13 +1347,6 @@ namespace Kindergarten.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Kindergarten.Domain.Entities.ApplicationUser", b =>
-                {
-                    b.Navigation("Parent");
-
-                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("Kindergarten.Domain.Entities.Classroom", b =>

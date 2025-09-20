@@ -10,21 +10,26 @@ public class TeacherService : ITeacherService
 {
     private readonly ITeacherRepository _teacherRepository;
     private readonly IClassroomRepository _classroomRepository;
+    private readonly IIdentityService _identityService;
     private readonly IMapper _mapper;
 
-    public TeacherService(ITeacherRepository teacherRepository, IClassroomRepository classroomRepository, IMapper mapper)
+    public TeacherService(ITeacherRepository teacherRepository, IClassroomRepository classroomRepository, IIdentityService identityService, IMapper mapper)
     {
         _teacherRepository = teacherRepository;
         _classroomRepository = classroomRepository;
+        _identityService = identityService;
         _mapper = mapper;
     }
 
     public async Task<TeacherReadDto> CreateTeacherAsync(TeacherCreateDto dto)
     {
+        var userId = await _identityService.CreateUserAsync(dto.Email, dto.PhoneNumber, dto.FullName, dto.Password, "Teacher");
+
         var teacher = new Teacher(dto.FullName, dto.PhoneNumber, dto.IsActive)
         {
-            SubjectId = dto.SubjectId // <-- Set the SubjectId here
+            SubjectId = dto.SubjectId
         };
+        teacher.LinkApplicationUser(userId);
 
         if (dto.ClassroomIds != null)
         {

@@ -116,16 +116,16 @@ public static class SeedData
 
 
         // 🔹 Teachers
-        var teacher1Id = Guid.Parse("44444444-4444-4444-4444-444444444444");
-        var teacher2Id = Guid.Parse("55555555-5555-5555-5555-555555555555");
-        var teacher3Id = Guid.Parse("66666666-6666-6666-6666-666666666666");
-        var teacher4Id = Guid.Parse("77777777-7777-7777-7777-777777777777");
-        var teacher5Id = Guid.Parse("88888888-8888-8888-8888-888888888888");
-        var teacher6Id = Guid.Parse("99999999-9999-9999-9999-999999999999");
-        var teacher7Id = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
-        var teacher8Id = Guid.Parse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb");
-        var teacher9Id = Guid.Parse("cccccccc-cccc-cccc-cccc-cccccccccccc");
-        var teacher10Id = Guid.Parse("dddddddd-dddd-dddd-dddd-dddddddddddd");
+        var teacher1Id = Guid.Parse("aaaa1111-1111-1111-1111-111111111111");
+        var teacher2Id = Guid.Parse("aaaa2222-2222-2222-2222-222222222222");
+        var teacher3Id = Guid.Parse("aaaa3333-3333-3333-3333-333333333333");
+        var teacher4Id = Guid.Parse("aaaa4444-4444-4444-4444-444444444444");
+        var teacher5Id = Guid.Parse("aaaa5555-5555-5555-5555-555555555555");
+        var teacher6Id = Guid.Parse("aaaa6666-6666-6666-6666-666666666666");
+        var teacher7Id = Guid.Parse("aaaa7777-7777-7777-7777-777777777777");
+        var teacher8Id = Guid.Parse("aaaa8888-8888-8888-8888-888888888888");
+        var teacher9Id = Guid.Parse("aaaa9999-9999-9999-9999-999999999999");
+        var teacher10Id = Guid.Parse("aaaabbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb");
 
         modelBuilder.Entity<Teacher>().HasData(
             new { Id = teacher1Id, FullName = "فاطمة إبراهيم", SubjectId = mathId, PhoneNumber = "0105551234", IsActive = true },

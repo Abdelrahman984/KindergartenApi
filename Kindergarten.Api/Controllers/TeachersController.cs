@@ -1,5 +1,6 @@
 ﻿using Kindergarten.Application.DTOs;
 using Kindergarten.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kindergarten.Api.Controllers;
@@ -50,6 +51,7 @@ public class TeachersController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Create(TeacherCreateDto dto)
     {

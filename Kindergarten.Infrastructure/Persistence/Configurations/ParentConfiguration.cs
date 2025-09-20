@@ -1,4 +1,4 @@
-using Kindergarten.Domain.Entities;
+﻿using Kindergarten.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -25,6 +25,12 @@ public class ParentConfiguration : IEntityTypeConfiguration<Parent>
         builder.HasMany(p => p.Childrens)
             .WithOne(s => s.Parent)
             .HasForeignKey(s => s.ParentId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        // ربط Parent مع User
+        builder.HasOne(p => p.User)
+            .WithOne(u => u.Parent)
+            .HasForeignKey<Parent>(p => p.ApplicationUserId)
             .OnDelete(DeleteBehavior.SetNull);
     }
 }
