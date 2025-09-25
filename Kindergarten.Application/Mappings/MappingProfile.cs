@@ -26,6 +26,9 @@ public class MappingProfile : Profile
 
         // Classroom
         CreateMap<Classroom, ClassroomReadDto>();
+        CreateMap<Classroom, TeacherClassroomReadDto>()
+            .ForMember(dest => dest.StudentsCount,
+            opt => opt.MapFrom(src => src.Students.Count));
         CreateMap<ClassroomCreateDto, Classroom>();
 
         // Parent

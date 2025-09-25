@@ -1,4 +1,5 @@
-﻿using Kindergarten.Application.Interfaces;
+﻿using Kindergarten.Api.Authorization;
+using Kindergarten.Application.Interfaces;
 using Kindergarten.Application.Interfaces.Repositories;
 using Kindergarten.Application.Interfaces.Services;
 using Kindergarten.Application.Mappings;
@@ -10,6 +11,7 @@ using Kindergarten.Infrastructure.Persistence.Seeders;
 using Kindergarten.Infrastructure.Repositories;
 using Kindergarten.Infrastructure.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -135,6 +137,19 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddAuthorizationBuilder()
+    // Teacher requires Role "Teacher" to manage teachers
+    .AddPolicy("CanManageTeachers", policy =>
+        policy.RequireRole("Teacher"))
+    // Parent requires Role "Parent" to manage students & view their own children's info
+    .AddPolicy("CanManageParents", policy =>
+        policy.RequireRole("Parent"))
+    // AdminOnly requires Role "Admin" for sensitive operations
+    .AddPolicy("AdminOnly", policy =>
+        policy.RequireRole("Admin"));
+
+// Admin Override: Allows Admins to bypass other policies
+builder.Services.AddSingleton<IAuthorizationHandler, AdminOverrideHandler>();
 
 var app = builder.Build();
 

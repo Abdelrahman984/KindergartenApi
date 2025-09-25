@@ -1,6 +1,7 @@
 ﻿using Kindergarten.Application.Interfaces.Repositories;
 using Kindergarten.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
 namespace Kindergarten.Infrastructure.Repositories;
@@ -29,8 +30,21 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     public async Task<IEnumerable<T>> GetAllAsync(CancellationToken ct = default)
         => await _dbSet.ToListAsync(ct);
 
-    public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate, CancellationToken ct = default)
-        => await _dbSet.Where(predicate).ToListAsync(ct);
+    public async Task<IEnumerable<T>> FindAsync(
+        Expression<Func<T, bool>> predicate,
+        Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
+        CancellationToken ct = default)
+    {
+        IQueryable<T> query = _dbSet;
+
+        if (include != null)
+            query = include(query);
+
+        if (predicate != null)
+            query = query.Where(predicate);
+
+        return await query.ToListAsync(ct);
+    }
 
     public async Task UpdateAsync(T entity, CancellationToken ct = default)
     {

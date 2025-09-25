@@ -6,6 +6,7 @@ namespace Kindergarten.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+//[Authorize(policy: "CanManageTeachers")]
 public class AttendanceController : ControllerBase
 {
     private readonly IAttendanceService _attendanceService;

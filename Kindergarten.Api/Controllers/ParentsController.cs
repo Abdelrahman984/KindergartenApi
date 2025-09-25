@@ -6,6 +6,7 @@ namespace Kindergarten.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+//[Authorize]
 public class ParentsController : ControllerBase
 {
     private readonly IParentService _parentService;
@@ -18,10 +19,12 @@ public class ParentsController : ControllerBase
     }
 
     [HttpGet]
+    //[Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> GetAll()
         => Ok(await _parentService.GetAllAsync());
 
     [HttpGet("{id:guid}")]
+    //[Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> GetById(Guid id)
     {
         var parent = await _parentService.GetByIdAsync(id);
@@ -29,6 +32,7 @@ public class ParentsController : ControllerBase
     }
     // Get parent by phone number
     [HttpGet("by-phone")]
+    //[Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> GetByPhoneNumber([FromQuery] string phoneNumber)
     {
         var parent = await _parentService.GetByPhoneAsync(phoneNumber);
@@ -36,6 +40,7 @@ public class ParentsController : ControllerBase
     }
 
     [HttpPost]
+    //[Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> Create(ParentCreateDto dto)
     {
         var parent = await _parentService.CreateParentAsync(dto);
@@ -43,6 +48,7 @@ public class ParentsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    //[Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> Update(Guid id, ParentUpdateDto dto)
     {
         await _parentService.UpdateInfoAsync(id, dto);
@@ -50,10 +56,12 @@ public class ParentsController : ControllerBase
     }
 
     [HttpGet("{id:guid}/students")]
+    //[Authorize(Policy = "CanManageTeachers")]
     public async Task<IActionResult> GetStudents(Guid id)
         => Ok(await _studentService.GetByParentIdAsync(id));
 
     [HttpGet("{id:guid}/with-childs")]
+    //[Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> GetParentWithChilds(Guid id)
         => Ok(await _parentService.GetWithChildrenAsync(id));
 }

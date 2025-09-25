@@ -6,6 +6,7 @@ namespace Kindergarten.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+//[Authorize]
 public class FeesController : ControllerBase
 {
     private readonly IFeeService _feeService;
@@ -17,6 +18,7 @@ public class FeesController : ControllerBase
 
     // GET: api/Fee
     [HttpGet]
+    //[Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> GetAll()
     {
         var fees = await _feeService.GetAllAsync();
@@ -25,6 +27,7 @@ public class FeesController : ControllerBase
 
     // GET: api/Fee/{id}
     [HttpGet("{id:guid}")]
+    //[Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> GetById(Guid id)
     {
         var fee = await _feeService.GetByIdAsync(id);
@@ -34,6 +37,7 @@ public class FeesController : ControllerBase
 
     // GET: api/Fee/ByStudent/{studentId}
     [HttpGet("ByStudent/{studentId:guid}")]
+    //[Authorize(Policy = "CanManageParents")]
     public async Task<IActionResult> GetByStudent(Guid studentId)
     {
         var fees = await _feeService.GetByStudentIdAsync(studentId);
@@ -42,6 +46,7 @@ public class FeesController : ControllerBase
 
     // GET: api/Fee/ByParent/{parentId}
     [HttpGet("ByParent/{parentId:guid}")]
+    //[Authorize(Policy = "CanManageParents")]
     public async Task<IActionResult> GetByParent(Guid parentId)
     {
         var fees = await _feeService.GetByParentIdAsync(parentId);
@@ -50,6 +55,7 @@ public class FeesController : ControllerBase
 
     // GET: api/Fee/Overdue
     [HttpGet("Overdue")]
+    //[Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> GetOverdue()
     {
         var fees = await _feeService.GetOverdueAsync();
@@ -58,6 +64,7 @@ public class FeesController : ControllerBase
 
     // POST: api/Fee
     [HttpPost]
+    //[Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> Create([FromBody] FeeCreateDto dto)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -68,6 +75,7 @@ public class FeesController : ControllerBase
 
     // POST: api/Fee/{id}/mark-paid
     [HttpPost("{id}/mark-paid")]
+    //[Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> MarkAsPaid(Guid id)
     {
         await _feeService.MarkAsPaidAsync(id);
@@ -76,6 +84,7 @@ public class FeesController : ControllerBase
 
     // POST: api/Fee/{id}/pay
     [HttpPost("{id}/pay")]
+    //[Authorize(Policy = "CanManageParents")]
     public async Task<IActionResult> PayFee(Guid id, [FromBody] PayFeeDto dto)
     {
         // dto يحتوي على: طريقة الدفع، رقم الهاتف/الحساب، transactionId إلخ
@@ -85,6 +94,7 @@ public class FeesController : ControllerBase
 
     // DELETE: api/Fee/{id}
     [HttpDelete("{id:guid}")]
+    //[Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var result = await _feeService.DeleteAsync(id);

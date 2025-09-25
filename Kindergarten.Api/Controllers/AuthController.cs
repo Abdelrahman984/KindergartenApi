@@ -1,6 +1,7 @@
 ﻿using Kindergarten.Application.DTOs;
 using Kindergarten.Domain.Entities;
 using Kindergarten.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using System.Text;
 
 namespace Kindergarten.Api.Controllers;
 
+[AllowAnonymous]
 [ApiController]
 [Route("api/[controller]")]
 public class AuthController : ControllerBase

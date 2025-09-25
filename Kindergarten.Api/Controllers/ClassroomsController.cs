@@ -16,10 +16,12 @@ public class ClassroomsController : ControllerBase
     }
 
     [HttpGet]
+    //[Authorize(Policy = "CanManageTeachers")]
     public async Task<IActionResult> GetAll()
         => Ok(await _classroomService.GetAllAsync());
 
     [HttpGet("{id:guid}")]
+    //[Authorize(Policy = "CanManageTeachers")]
     public async Task<IActionResult> GetById(Guid id)
     {
         var classroom = await _classroomService.GetByIdAsync(id);
@@ -27,6 +29,7 @@ public class ClassroomsController : ControllerBase
     }
 
     [HttpPost]
+    //[Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> Create(ClassroomCreateDto dto)
     {
         var classroom = await _classroomService.CreateClassroomAsync(dto);
@@ -34,6 +37,7 @@ public class ClassroomsController : ControllerBase
     }
 
     [HttpPut("{id:guid}/capacity")]
+    //[Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> UpdateCapacity(Guid id, [FromQuery] int capacity)
     {
         await _classroomService.UpdateCapacityAsync(id, capacity);
@@ -41,6 +45,7 @@ public class ClassroomsController : ControllerBase
     }
 
     [HttpPut("{id:guid}/assign-teacher/{teacherId:guid}")]
+    //[Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> AssignTeacher(Guid id, Guid teacherId)
     {
         await _classroomService.AssignTeacherAsync(id, teacherId);
@@ -48,6 +53,7 @@ public class ClassroomsController : ControllerBase
     }
 
     [HttpGet("{id:guid}/students")]
+    //[Authorize(Policy = "CanManageTeachers")]
     public async Task<IActionResult> GetStudents(Guid id)
         => Ok(await _classroomService.GetStudentsAsync(id));
 }

@@ -6,6 +6,7 @@ namespace Kindergarten.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    //[Authorize]
     public class SubjectsController : ControllerBase
     {
         private readonly ISubjectService _service;
@@ -16,6 +17,7 @@ namespace Kindergarten.Api.Controllers
         }
 
         [HttpGet]
+        //[Authorize(Policy = "CanManageTeachers")]
         public async Task<IActionResult> GetAll()
         {
             var subjects = await _service.GetAllAsync();
@@ -23,6 +25,7 @@ namespace Kindergarten.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        //[Authorize(Policy = "CanManageTeachers")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var subject = await _service.GetByIdAsync(id);
@@ -31,6 +34,7 @@ namespace Kindergarten.Api.Controllers
         }
 
         [HttpPost]
+        //[Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> Create([FromBody] SubjectCreateDto dto)
         {
             var created = await _service.CreateAsync(dto);
@@ -38,6 +42,7 @@ namespace Kindergarten.Api.Controllers
         }
 
         [HttpPost("{subjectId}/teachers")]
+        //[Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> UpdateTeachers(Guid subjectId, [FromBody] List<Guid> teacherIds)
         {
             await _service.UpdateSubjectTeachersAsync(subjectId, teacherIds);
@@ -45,6 +50,7 @@ namespace Kindergarten.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        //[Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> Update(Guid id, [FromBody] SubjectUpdateDto dto)
         {
             if (id != dto.Id) return BadRequest();
@@ -56,6 +62,7 @@ namespace Kindergarten.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        //[Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var deleted = await _service.DeleteAsync(id);

@@ -16,3 +16,12 @@ public record ClassroomReadDto
         Capacity = capacity;
     }
 }
+public class TeacherClassroomReadDto
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public int Capacity { get; set; }
+    public int StudentsCount { get; set; }
+
+    public List<StudentReadDto> Students { get; set; } = new();
+}
