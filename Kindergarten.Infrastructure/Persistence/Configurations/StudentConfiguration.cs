@@ -14,10 +14,6 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
             .IsRequired()
             .HasMaxLength(200);
 
-        builder.Property(s => s.ParentPhone)
-            .IsRequired()
-            .HasMaxLength(50);
-
         builder.HasOne(s => s.Parent)
             .WithMany(p => p.Childrens)
             .HasForeignKey(s => s.ParentId)
@@ -28,7 +24,12 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
             .HasForeignKey(s => s.ClassroomId)
             .OnDelete(DeleteBehavior.SetNull);
 
-        // تجاهل خاصية لو مش عايزها في DB
-        builder.Ignore(s => s.FullName);
+        builder.Property(s => s.Age)
+            .HasComputedColumnSql(
+                "DATEDIFF(YEAR, DateOfBirth, GETDATE()) - " +
+                "CASE WHEN (MONTH(DateOfBirth) > MONTH(GETDATE())) " +
+                "OR (MONTH(DateOfBirth) = MONTH(GETDATE()) AND DAY(DateOfBirth) > DAY(GETDATE())) " +
+                "THEN 1 ELSE 0 END",
+                stored: false);
     }
 }

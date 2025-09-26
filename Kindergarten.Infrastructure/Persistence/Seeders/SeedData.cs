@@ -61,38 +61,33 @@ public static class SeedData
         var student20Id = Guid.Parse("fffffff6-eeee-eeee-eeee-ffffffffffff");
 
         modelBuilder.Entity<Student>().HasData(
-            new { Id = student1Id, FirstName = "عمر", FatherName = "أحمد", GrandpaName = "محمد", DateOfBirth = new DateTime(2019, 5, 12), ParentPhone = "01012345678", Address = "١٢٣ شارع الرئيسي، القاهرة", IsActive = true, ParentId = parent1Id, ClassroomId = class1Id },
-            new { Id = student2Id, FirstName = "ملك", FatherName = "أحمد", GrandpaName = "محمد", DateOfBirth = new DateTime(2020, 6, 15), ParentPhone = "01012345678", Address = "١٢٣ شارع الرئيسي، القاهرة", IsActive = true, ParentId = parent1Id, ClassroomId = class1Id },
-            new { Id = student3Id, FirstName = "سيف", FatherName = "أحمد", GrandpaName = "محمد", DateOfBirth = new DateTime(2020, 5, 17), ParentPhone = "01012345678", Address = "١٢٣ شارع الرئيسي، القاهرة", IsActive = true, ParentId = parent1Id, ClassroomId = class1Id },
+            new { Id = student1Id, FullName = "عمر أحمد محمد", DateOfBirth = new DateTime(2019, 5, 12), Address = "١٢٣ شارع الرئيسي، القاهرة", IsActive = true, ParentId = parent1Id, ClassroomId = class1Id },
+            new { Id = student2Id, FullName = "ملك أحمد محمد", DateOfBirth = new DateTime(2020, 6, 15), Address = "١٢٣ شارع الرئيسي، القاهرة", IsActive = true, ParentId = parent1Id, ClassroomId = class1Id },
+            new { Id = student3Id, FullName = "سيف أحمد محمد", DateOfBirth = new DateTime(2020, 5, 17), Address = "١٢٣ شارع الرئيسي، القاهرة", IsActive = true, ParentId = parent1Id, ClassroomId = class1Id },
 
+            new { Id = student4Id, FullName = "سارة بكري علي", DateOfBirth = new DateTime(2020, 3, 25), Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
+            new { Id = student5Id, FullName = "علا بكري علي", DateOfBirth = new DateTime(2021, 1, 10), Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
+            new { Id = student6Id, FullName = "ريم بكري علي", DateOfBirth = new DateTime(2021, 3, 27), Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
 
-            new { Id = student4Id, FirstName = "سارة", FatherName = "بكري", GrandpaName = "علي", DateOfBirth = new DateTime(2020, 3, 25), ParentPhone = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
-            new { Id = student5Id, FirstName = "علا", FatherName = "بكري", GrandpaName = "علي", DateOfBirth = new DateTime(2021, 1, 10), ParentPhone = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
-            new { Id = student6Id, FirstName = "ريم", FatherName = "بكري", GrandpaName = "علي", DateOfBirth = new DateTime(2021, 3, 27), ParentPhone = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
+            new { Id = student7Id, FullName = "يوسف حسام كامل", DateOfBirth = new DateTime(2019, 10, 2), Address = "٧٨٩ طريق الحديقة، الجيزة", IsActive = true, ParentId = parent3Id, ClassroomId = class3Id },
+            new { Id = student8Id, FullName = "ليلى حسام كامل", DateOfBirth = new DateTime(2020, 2, 20), Address = "٧٨٩ طريق الحديقة، الجيزة", IsActive = true, ParentId = parent3Id, ClassroomId = class3Id },
+            new { Id = student9Id, FullName = "طارق حسام كامل", DateOfBirth = new DateTime(2019, 12, 3), Address = "٧٨٩ طريق الحديقة، الجيزة", IsActive = true, ParentId = parent3Id, ClassroomId = class3Id },
 
+            new { Id = student10Id, FullName = "محمود طارق سمير", DateOfBirth = new DateTime(2019, 8, 5), Address = "١٠١ شارع النيل، القاهرة", IsActive = true, ParentId = parent4Id, ClassroomId = class1Id },
+            new { Id = student11Id, FullName = "نور طارق سمير", DateOfBirth = new DateTime(2020, 11, 30), Address = "١٠١ شارع النيل، القاهرة", IsActive = true, ParentId = parent4Id, ClassroomId = class2Id },
+            new { Id = student12Id, FullName = "سلمى طارق سمير", DateOfBirth = new DateTime(2020, 7, 21), Address = "١٠١ شارع النيل، القاهرة", IsActive = true, ParentId = parent4Id, ClassroomId = class1Id },
 
-            new { Id = student7Id, FirstName = "يوسف", FatherName = "حسام", GrandpaName = "كامل", DateOfBirth = new DateTime(2019, 10, 2), ParentPhone = "0103334444", Address = "٧٨٩ طريق الحديقة، الجيزة", IsActive = true, ParentId = parent3Id, ClassroomId = class3Id },
-            new { Id = student8Id, FirstName = "ليلى", FatherName = "حسام", GrandpaName = "كامل", DateOfBirth = new DateTime(2020, 2, 20), ParentPhone = "0103334444", Address = "٧٨٩ طريق الحديقة، الجيزة", IsActive = true, ParentId = parent3Id, ClassroomId = class3Id },
-            new { Id = student9Id, FirstName = "طارق", FatherName = "حسام", GrandpaName = "كامل", DateOfBirth = new DateTime(2019, 12, 3), ParentPhone = "0103334444", Address = "٧٨٩ طريق الحديقة، الجيزة", IsActive = true, ParentId = parent3Id, ClassroomId = class3Id },
+            new { Id = student13Id, FullName = "زياد خالد عادل", DateOfBirth = new DateTime(2019, 7, 18), Address = "٢٠٢ شارع الحرية، الإسكندرية", IsActive = true, ParentId = parent5Id, ClassroomId = class3Id },
+            new { Id = student14Id, FullName = "جنى خالد عادل", DateOfBirth = new DateTime(2020, 4, 22), Address = "٢٠٢ شارع الحرية، الإسكندرية", IsActive = true, ParentId = parent5Id, ClassroomId = class1Id },
+            new { Id = student15Id, FullName = "حسن خالد عادل", DateOfBirth = new DateTime(2020, 2, 28), Address = "٢٠٢ شارع الحرية، الإسكندرية", IsActive = true, ParentId = parent5Id, ClassroomId = class3Id },
 
+            new { Id = student16Id, FullName = "فارس عمر ناصر", DateOfBirth = new DateTime(2021, 2, 14), Address = "٣٠٣ شارع الجامعة، الجيزة", IsActive = true, ParentId = parent6Id, ClassroomId = class2Id },
+            new { Id = student17Id, FullName = "هناء عمر ناصر", DateOfBirth = new DateTime(2019, 9, 9), Address = "٣٠٣ شارع الجامعة، الجيزة", IsActive = true, ParentId = parent6Id, ClassroomId = class3Id },
+            new { Id = student18Id, FullName = "مريم عمر ناصر", DateOfBirth = new DateTime(2019, 8, 15), Address = "٣٠٣ شارع الجامعة، الجيزة", IsActive = true, ParentId = parent6Id, ClassroomId = class1Id },
 
-            new { Id = student10Id, FirstName = "محمود", FatherName = "طارق", GrandpaName = "سمير", DateOfBirth = new DateTime(2019, 8, 5), ParentPhone = "0104445555", Address = "١٠١ شارع النيل، القاهرة", IsActive = true, ParentId = parent4Id, ClassroomId = class1Id },
-            new { Id = student11Id, FirstName = "نور", FatherName = "طارق", GrandpaName = "سمير", DateOfBirth = new DateTime(2020, 11, 30), ParentPhone = "0104445555", Address = "١٠١ شارع النيل، القاهرة", IsActive = true, ParentId = parent4Id, ClassroomId = class2Id },
-            new { Id = student12Id, FirstName = "سلمى", FatherName = "طارق", GrandpaName = "سمير", DateOfBirth = new DateTime(2020, 7, 21), ParentPhone = "0104445555", Address = "١٠١ شارع النيل، القاهرة", IsActive = true, ParentId = parent4Id, ClassroomId = class1Id },
-
-
-            new { Id = student13Id, FirstName = "زياد", FatherName = "خالد", GrandpaName = "عادل", DateOfBirth = new DateTime(2019, 7, 18), ParentPhone = "0106667777", Address = "٢٠٢ شارع الحرية، الإسكندرية", IsActive = true, ParentId = parent5Id, ClassroomId = class3Id },
-            new { Id = student14Id, FirstName = "جنى", FatherName = "خالد", GrandpaName = "عادل", DateOfBirth = new DateTime(2020, 4, 22), ParentPhone = "0106667777", Address = "٢٠٢ شارع الحرية، الإسكندرية", IsActive = true, ParentId = parent5Id, ClassroomId = class1Id },
-            new { Id = student15Id, FirstName = "حسن", FatherName = "خالد", GrandpaName = "عادل", DateOfBirth = new DateTime(2020, 2, 28), ParentPhone = "0106667777", Address = "٢٠٢ شارع الحرية، الإسكندرية", IsActive = true, ParentId = parent5Id, ClassroomId = class3Id },
-
-
-            new { Id = student16Id, FirstName = "فارس", FatherName = "عمر", GrandpaName = "ناصر", DateOfBirth = new DateTime(2021, 2, 14), ParentPhone = "0108889999", Address = "٣٠٣ شارع الجامعة، الجيزة", IsActive = true, ParentId = parent6Id, ClassroomId = class2Id },
-            new { Id = student17Id, FirstName = "هناء", FatherName = "عمر", GrandpaName = "ناصر", DateOfBirth = new DateTime(2019, 9, 9), ParentPhone = "0108889999", Address = "٣٠٣ شارع الجامعة، الجيزة", IsActive = true, ParentId = parent6Id, ClassroomId = class3Id },
-            new { Id = student18Id, FirstName = "مريم", FatherName = "عمر", GrandpaName = "ناصر", DateOfBirth = new DateTime(2019, 8, 15), ParentPhone = "0108889999", Address = "٣٠٣ شارع الجامعة، الجيزة", IsActive = true, ParentId = parent6Id, ClassroomId = class1Id },
-
-            new { Id = student19Id, FirstName = "ياسمين", FatherName = "بكري", GrandpaName = "حسن", DateOfBirth = new DateTime(2021, 1, 19), ParentPhone = "01098765432", Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
-            new { Id = student20Id, FirstName = "آدم", FatherName = "خالد", GrandpaName = "عادل", DateOfBirth = new DateTime(2020, 11, 11), ParentPhone = "0106667777", Address = "٢٠٢ شارع الحرية، الإسكندرية", IsActive = true, ParentId = parent5Id, ClassroomId = class2Id }
-            );
+            new { Id = student19Id, FullName = "ياسمين بكري حسن", DateOfBirth = new DateTime(2021, 1, 19), Address = "٤٥٦ شارع الحديقة، الإسكندرية", IsActive = true, ParentId = parent2Id, ClassroomId = class2Id },
+            new { Id = student20Id, FullName = "آدم خالد عادل", DateOfBirth = new DateTime(2020, 11, 11), Address = "٢٠٢ شارع الحرية، الإسكندرية", IsActive = true, ParentId = parent5Id, ClassroomId = class2Id }
+        );
 
 
         // 🔹 Subjects

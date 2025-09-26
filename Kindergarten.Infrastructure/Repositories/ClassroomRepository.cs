@@ -1,4 +1,5 @@
-﻿using Kindergarten.Application.Interfaces.Repositories;
+﻿using Kindergarten.Application.DTOs;
+using Kindergarten.Application.Interfaces.Repositories;
 using Kindergarten.Domain.Entities;
 using Kindergarten.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -17,4 +18,28 @@ public class ClassroomRepository : GenericRepository<Classroom>, IClassroomRepos
             .Where(c => c.TeacherClassrooms.Any(tc => tc.TeacherId == teacherId))
             .SelectMany(c => c.Students)
             .ToListAsync();
+
+    public async Task<int> GetTotalCountAsync() =>
+    await _dbSet.CountAsync();
+
+    public async Task<double> GetAverageCapacityAsync() =>
+        await _dbSet.AverageAsync(c => c.Capacity);
+
+    public async Task<int> GetWithStudentsCountAsync() =>
+        await _dbSet.CountAsync(c => c.Students.Any());
+
+    public async Task<int> GetWithoutStudentsCountAsync() =>
+        await _dbSet.CountAsync(c => !c.Students.Any());
+    public async Task<IEnumerable<ClassroomStudentCountDto>> GetStudentCountsAsync()
+    {
+        return await _dbSet
+            .Select(c => new ClassroomStudentCountDto
+            {
+                ClassroomId = c.Id,
+                ClassroomName = c.Name,
+                Capacity = c.Capacity,
+                StudentCount = c.Students.Count
+            })
+            .ToListAsync();
+    }
 }

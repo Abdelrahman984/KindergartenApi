@@ -14,17 +14,20 @@ public class TeacherService : ITeacherService
     private readonly IIdentityService _identityService;
     private readonly IMapper _mapper;
     private readonly IClassSessionRepository _classSessionRepository;
+    private readonly ITeacherRepository _teacherRepo;
 
     public TeacherService(
         IUnitOfWork unitOfWork,
         IIdentityService identityService,
         IMapper mapper,
-        IClassSessionRepository classSessionRepository)
+        IClassSessionRepository classSessionRepository,
+        ITeacherRepository teacherRepo)
     {
         _unitOfWork = unitOfWork;
         _identityService = identityService;
         _mapper = mapper;
         _classSessionRepository = classSessionRepository;
+        _teacherRepo = teacherRepo;
     }
 
     public async Task<TeacherReadDto> CreateTeacherAsync(TeacherCreateDto dto)
@@ -195,4 +198,17 @@ public class TeacherService : ITeacherService
 
         return _mapper.Map<IEnumerable<ClassSessionReadDto>>(sessions);
     }
+
+    public async Task<TeacherStatsDto> GetStatsAsync()
+    {
+        return new TeacherStatsDto
+        {
+            Total = await _teacherRepo.GetTotalCountAsync(),
+            Active = await _teacherRepo.GetActiveCountAsync(),
+            Inactive = await _teacherRepo.GetInactiveCountAsync(),
+            WithSubjects = await _teacherRepo.GetWithSubjectsCountAsync(),
+            WithoutSubjects = await _teacherRepo.GetWithoutSubjectsCountAsync()
+        };
+    }
+
 }

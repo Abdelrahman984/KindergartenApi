@@ -18,9 +18,6 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
     public async Task<IEnumerable<Student>> GetActiveStudentsAsync()
         => await _dbSet.Where(s => s.IsActive).ToListAsync();
 
-    public async Task<int> GetStudentsCountAsync() =>
-         await _context.Students.CountAsync();
-
     public async Task<IEnumerable<Student>> GetByFilterAsync(Guid? classroomId, string? name, bool? isActive)
     {
         var query = _dbSet
@@ -53,4 +50,18 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
             .Include(s => s.Classroom)
             .Where(s => EF.Property<Guid?>(s, "ParentId") == parentId)
             .ToListAsync();
+
+    // Statistics
+    public async Task<int> GetTotalCountAsync() =>
+    await _dbSet.CountAsync();
+
+    public async Task<int> GetActiveCountAsync() =>
+        await _dbSet.CountAsync(s => s.IsActive);
+
+    public async Task<int> GetInactiveCountAsync() =>
+        await _dbSet.CountAsync(s => !s.IsActive);
+
+    public async Task<double> GetAverageAgeAsync() =>
+        await _dbSet.AverageAsync(s => s.Age);
+
 }

@@ -56,4 +56,11 @@ public class ClassroomsController : ControllerBase
     //[Authorize(Policy = "CanManageTeachers")]
     public async Task<IActionResult> GetStudents(Guid id)
         => Ok(await _classroomService.GetStudentsAsync(id));
+
+    [HttpGet("stats")]
+    public async Task<IActionResult> GetStats()
+    {
+        var stats = await _classroomService.GetOverviewAsync();
+        return Ok(stats);
+    }
 }

@@ -73,4 +73,12 @@ public class StudentsController : ControllerBase
     public async Task<IActionResult> GetByParent(Guid parentId)
         => Ok(await _studentService.GetByParentIdAsync(parentId));
 
+    // Statistics Endpoints
+    [HttpGet("stats")]
+    public async Task<IActionResult> GetStats()
+    {
+        var stats = await _studentService.GetStatsAsync();
+        return Ok(stats);
+    }
+
 }

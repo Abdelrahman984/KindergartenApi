@@ -12,4 +12,7 @@ public interface IStudentService
     Task DeleteStudentAsync(Guid id);
     Task<IEnumerable<StudentReadDto>> GetByClassroomIdAsync(Guid classroomId);
     Task<IEnumerable<StudentReadDto>> GetByParentIdAsync(Guid parentId);
+
+    // Statistics
+    Task<StudentStatsDto> GetStatsAsync();
 }

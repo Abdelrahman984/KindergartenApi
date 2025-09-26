@@ -69,4 +69,22 @@ public class ClassroomService : IClassroomService
 
         return _mapper.Map<IEnumerable<StudentReadDto>>(classroom.Students);
     }
+
+    public async Task<ClassroomReportDto> GetOverviewAsync()
+    {
+        var total = await _classroomRepository.GetTotalCountAsync();
+        var avgCapacity = await _classroomRepository.GetAverageCapacityAsync();
+        var withStudents = await _classroomRepository.GetWithStudentsCountAsync();
+        var withoutStudents = await _classroomRepository.GetWithoutStudentsCountAsync();
+        var studentCounts = await _classroomRepository.GetStudentCountsAsync();
+
+        return new ClassroomReportDto
+        {
+            TotalClassrooms = total,
+            AverageCapacity = avgCapacity,
+            WithStudents = withStudents,
+            WithoutStudents = withoutStudents,
+            StudentCounts = studentCounts
+        };
+    }
 }

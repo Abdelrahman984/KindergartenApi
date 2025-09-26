@@ -10,53 +10,47 @@ public class StudentService : IStudentService
 {
     private readonly IStudentRepository _studentRepository;
     private readonly IAttendanceService _attendanceService;
-    private readonly IParentService _parentService;
+    private readonly IParentRepository _parentRepository;
     private readonly IClassroomRepository _classroomRepository;
     private readonly IMapper _mapper;
 
-    public StudentService(IStudentRepository studentRepository, IAttendanceService attendanceService, IMapper mapper, IClassroomRepository classroomRepository, IParentService parentService)
+    public StudentService(IStudentRepository studentRepository, IAttendanceService attendanceService, IMapper mapper, IClassroomRepository classroomRepository, IParentRepository parentRepository)
     {
         _studentRepository = studentRepository;
         _attendanceService = attendanceService;
         _mapper = mapper;
         _classroomRepository = classroomRepository;
-        _parentService = parentService;
+        _parentRepository = parentRepository;
     }
 
     public async Task<StudentReadDto> CreateStudentAsync(StudentCreateDto dto)
     {
-        // Validate classroom
-        var classroom = await _classroomRepository.GetByIdAsync(dto.ClassroomId)
-            ?? throw new ArgumentException("Invalid classroom selected");
+        // 1️⃣ هل الأب موجود برقم التليفون؟
+        var parent = await _parentRepository.GetByPhoneAsync(dto.ParentPhone);
 
-        // Check if parent exists
-        var parent = await _parentService.GetByPhoneAsync(dto.ParentPhone);
-
+        // 2️⃣ لو مش موجود، أنشئ Parent جديد
         if (parent == null)
         {
-            string fullFatherName = $"{dto.FatherName} {dto.GrandpaName}";
-            var newParent = new ParentCreateDto(fullFatherName, dto.ParentPhone, dto.Address);
-
-            // نخلي CreateParentAsync يرجع ParentReadDto أو Entity
-            parent = await _parentService.CreateParentAsync(newParent);
+            parent = new Parent(dto.ParentName, dto.ParentPhone, dto.ParentAddress);
+            await _parentRepository.AddAsync(parent);
         }
 
-        // Create student
-        var student = _mapper.Map<Student>(dto);
+        // 3️⃣ أنشئ الطالب
+        var student = new Student(dto.FullName, dto.DateOfBirth, dto.Address);
         student.AssignParent(parent.Id);
-        student.AssignClassroom(classroom.Id);
+        student.AssignClassroom(dto.ClassroomId);
 
         await _studentRepository.AddAsync(student);
 
-        // Map to DTO
+        // 4️⃣ رجّع StudentReadDto عن طريق AutoMapper
         var studentDto = _mapper.Map<StudentReadDto>(student);
-        studentDto.ParentFullName = parent.FullName;
-        studentDto.ParentPhone = parent.PhoneNumber;
-        studentDto.ParentAddress = parent.Address;
-        studentDto.ClassroomName = classroom.Name;
+
+        // 5️⃣ حساب AttendanceRate (ممكن تستعمل _attendanceService بعدين)
+        studentDto.AttendanceRate = 0;
 
         return studentDto;
     }
+
 
 
     public async Task<IEnumerable<StudentReadDto>> GetAllAsync(Guid? classroomId = null, string? name = null, bool? isActive = null)
@@ -112,4 +106,16 @@ public class StudentService : IStudentService
         var studentDtos = _mapper.Map<IEnumerable<StudentReadDto>>(students);
         return studentDtos;
     }
+
+    public async Task<StudentStatsDto> GetStatsAsync()
+    {
+        return new StudentStatsDto
+        {
+            Total = await _studentRepository.GetTotalCountAsync(),
+            Active = await _studentRepository.GetActiveCountAsync(),
+            Inactive = await _studentRepository.GetInactiveCountAsync(),
+            AverageAge = await _studentRepository.GetAverageAgeAsync()
+        };
+    }
+
 }

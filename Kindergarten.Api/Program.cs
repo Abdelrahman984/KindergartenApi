@@ -48,6 +48,7 @@ builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IClassSessionService, ClassSessionService>();
 builder.Services.AddScoped<IFeeService, FeeService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<IReportsService, ReportsService>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

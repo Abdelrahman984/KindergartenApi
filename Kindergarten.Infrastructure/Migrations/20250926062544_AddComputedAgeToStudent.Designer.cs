@@ -4,6 +4,7 @@ using Kindergarten.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kindergarten.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250926062544_AddComputedAgeToStudent")]
+    partial class AddComputedAgeToStudent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -522,16 +525,28 @@ namespace Kindergarten.Infrastructure.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FullName")
+                    b.Property<string>("FatherName")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GrandpaName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ParentPhone")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -548,9 +563,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "١٢٣ شارع الرئيسي، القاهرة",
                             ClassroomId = new Guid("77777777-7777-7777-7777-777777777777"),
                             DateOfBirth = new DateTime(2019, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "عمر أحمد محمد",
+                            FatherName = "أحمد",
+                            FirstName = "عمر",
+                            GrandpaName = "محمد",
                             IsActive = true,
-                            ParentId = new Guid("11111111-1111-1111-1111-111111111111")
+                            ParentId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            ParentPhone = "01012345678"
                         },
                         new
                         {
@@ -558,9 +576,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "١٢٣ شارع الرئيسي، القاهرة",
                             ClassroomId = new Guid("77777777-7777-7777-7777-777777777777"),
                             DateOfBirth = new DateTime(2020, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "ملك أحمد محمد",
+                            FatherName = "أحمد",
+                            FirstName = "ملك",
+                            GrandpaName = "محمد",
                             IsActive = true,
-                            ParentId = new Guid("11111111-1111-1111-1111-111111111111")
+                            ParentId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            ParentPhone = "01012345678"
                         },
                         new
                         {
@@ -568,9 +589,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "١٢٣ شارع الرئيسي، القاهرة",
                             ClassroomId = new Guid("77777777-7777-7777-7777-777777777777"),
                             DateOfBirth = new DateTime(2020, 5, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "سيف أحمد محمد",
+                            FatherName = "أحمد",
+                            FirstName = "سيف",
+                            GrandpaName = "محمد",
                             IsActive = true,
-                            ParentId = new Guid("11111111-1111-1111-1111-111111111111")
+                            ParentId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            ParentPhone = "01012345678"
                         },
                         new
                         {
@@ -578,9 +602,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "٤٥٦ شارع الحديقة، الإسكندرية",
                             ClassroomId = new Guid("88888888-8888-8888-8888-888888888888"),
                             DateOfBirth = new DateTime(2020, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "سارة بكري علي",
+                            FatherName = "بكري",
+                            FirstName = "سارة",
+                            GrandpaName = "علي",
                             IsActive = true,
-                            ParentId = new Guid("22222222-2222-2222-2222-222222222222")
+                            ParentId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            ParentPhone = "01098765432"
                         },
                         new
                         {
@@ -588,9 +615,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "٤٥٦ شارع الحديقة، الإسكندرية",
                             ClassroomId = new Guid("88888888-8888-8888-8888-888888888888"),
                             DateOfBirth = new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "علا بكري علي",
+                            FatherName = "بكري",
+                            FirstName = "علا",
+                            GrandpaName = "علي",
                             IsActive = true,
-                            ParentId = new Guid("22222222-2222-2222-2222-222222222222")
+                            ParentId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            ParentPhone = "01098765432"
                         },
                         new
                         {
@@ -598,9 +628,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "٤٥٦ شارع الحديقة، الإسكندرية",
                             ClassroomId = new Guid("88888888-8888-8888-8888-888888888888"),
                             DateOfBirth = new DateTime(2021, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "ريم بكري علي",
+                            FatherName = "بكري",
+                            FirstName = "ريم",
+                            GrandpaName = "علي",
                             IsActive = true,
-                            ParentId = new Guid("22222222-2222-2222-2222-222222222222")
+                            ParentId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            ParentPhone = "01098765432"
                         },
                         new
                         {
@@ -608,9 +641,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "٧٨٩ طريق الحديقة، الجيزة",
                             ClassroomId = new Guid("99999999-9999-9999-9999-999999999999"),
                             DateOfBirth = new DateTime(2019, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "يوسف حسام كامل",
+                            FatherName = "حسام",
+                            FirstName = "يوسف",
+                            GrandpaName = "كامل",
                             IsActive = true,
-                            ParentId = new Guid("33333333-3333-3333-3333-333333333333")
+                            ParentId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            ParentPhone = "0103334444"
                         },
                         new
                         {
@@ -618,9 +654,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "٧٨٩ طريق الحديقة، الجيزة",
                             ClassroomId = new Guid("99999999-9999-9999-9999-999999999999"),
                             DateOfBirth = new DateTime(2020, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "ليلى حسام كامل",
+                            FatherName = "حسام",
+                            FirstName = "ليلى",
+                            GrandpaName = "كامل",
                             IsActive = true,
-                            ParentId = new Guid("33333333-3333-3333-3333-333333333333")
+                            ParentId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            ParentPhone = "0103334444"
                         },
                         new
                         {
@@ -628,9 +667,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "٧٨٩ طريق الحديقة، الجيزة",
                             ClassroomId = new Guid("99999999-9999-9999-9999-999999999999"),
                             DateOfBirth = new DateTime(2019, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "طارق حسام كامل",
+                            FatherName = "حسام",
+                            FirstName = "طارق",
+                            GrandpaName = "كامل",
                             IsActive = true,
-                            ParentId = new Guid("33333333-3333-3333-3333-333333333333")
+                            ParentId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            ParentPhone = "0103334444"
                         },
                         new
                         {
@@ -638,9 +680,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "١٠١ شارع النيل، القاهرة",
                             ClassroomId = new Guid("77777777-7777-7777-7777-777777777777"),
                             DateOfBirth = new DateTime(2019, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "محمود طارق سمير",
+                            FatherName = "طارق",
+                            FirstName = "محمود",
+                            GrandpaName = "سمير",
                             IsActive = true,
-                            ParentId = new Guid("44444444-4444-4444-4444-444444444444")
+                            ParentId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            ParentPhone = "0104445555"
                         },
                         new
                         {
@@ -648,9 +693,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "١٠١ شارع النيل، القاهرة",
                             ClassroomId = new Guid("88888888-8888-8888-8888-888888888888"),
                             DateOfBirth = new DateTime(2020, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "نور طارق سمير",
+                            FatherName = "طارق",
+                            FirstName = "نور",
+                            GrandpaName = "سمير",
                             IsActive = true,
-                            ParentId = new Guid("44444444-4444-4444-4444-444444444444")
+                            ParentId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            ParentPhone = "0104445555"
                         },
                         new
                         {
@@ -658,9 +706,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "١٠١ شارع النيل، القاهرة",
                             ClassroomId = new Guid("77777777-7777-7777-7777-777777777777"),
                             DateOfBirth = new DateTime(2020, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "سلمى طارق سمير",
+                            FatherName = "طارق",
+                            FirstName = "سلمى",
+                            GrandpaName = "سمير",
                             IsActive = true,
-                            ParentId = new Guid("44444444-4444-4444-4444-444444444444")
+                            ParentId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            ParentPhone = "0104445555"
                         },
                         new
                         {
@@ -668,9 +719,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "٢٠٢ شارع الحرية، الإسكندرية",
                             ClassroomId = new Guid("99999999-9999-9999-9999-999999999999"),
                             DateOfBirth = new DateTime(2019, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "زياد خالد عادل",
+                            FatherName = "خالد",
+                            FirstName = "زياد",
+                            GrandpaName = "عادل",
                             IsActive = true,
-                            ParentId = new Guid("55555555-5555-5555-5555-555555555555")
+                            ParentId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            ParentPhone = "0106667777"
                         },
                         new
                         {
@@ -678,9 +732,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "٢٠٢ شارع الحرية، الإسكندرية",
                             ClassroomId = new Guid("77777777-7777-7777-7777-777777777777"),
                             DateOfBirth = new DateTime(2020, 4, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "جنى خالد عادل",
+                            FatherName = "خالد",
+                            FirstName = "جنى",
+                            GrandpaName = "عادل",
                             IsActive = true,
-                            ParentId = new Guid("55555555-5555-5555-5555-555555555555")
+                            ParentId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            ParentPhone = "0106667777"
                         },
                         new
                         {
@@ -688,9 +745,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "٢٠٢ شارع الحرية، الإسكندرية",
                             ClassroomId = new Guid("99999999-9999-9999-9999-999999999999"),
                             DateOfBirth = new DateTime(2020, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "حسن خالد عادل",
+                            FatherName = "خالد",
+                            FirstName = "حسن",
+                            GrandpaName = "عادل",
                             IsActive = true,
-                            ParentId = new Guid("55555555-5555-5555-5555-555555555555")
+                            ParentId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            ParentPhone = "0106667777"
                         },
                         new
                         {
@@ -698,9 +758,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "٣٠٣ شارع الجامعة، الجيزة",
                             ClassroomId = new Guid("88888888-8888-8888-8888-888888888888"),
                             DateOfBirth = new DateTime(2021, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "فارس عمر ناصر",
+                            FatherName = "عمر",
+                            FirstName = "فارس",
+                            GrandpaName = "ناصر",
                             IsActive = true,
-                            ParentId = new Guid("66666666-6666-6666-6666-666666666666")
+                            ParentId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            ParentPhone = "0108889999"
                         },
                         new
                         {
@@ -708,9 +771,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "٣٠٣ شارع الجامعة، الجيزة",
                             ClassroomId = new Guid("99999999-9999-9999-9999-999999999999"),
                             DateOfBirth = new DateTime(2019, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "هناء عمر ناصر",
+                            FatherName = "عمر",
+                            FirstName = "هناء",
+                            GrandpaName = "ناصر",
                             IsActive = true,
-                            ParentId = new Guid("66666666-6666-6666-6666-666666666666")
+                            ParentId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            ParentPhone = "0108889999"
                         },
                         new
                         {
@@ -718,9 +784,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "٣٠٣ شارع الجامعة، الجيزة",
                             ClassroomId = new Guid("77777777-7777-7777-7777-777777777777"),
                             DateOfBirth = new DateTime(2019, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "مريم عمر ناصر",
+                            FatherName = "عمر",
+                            FirstName = "مريم",
+                            GrandpaName = "ناصر",
                             IsActive = true,
-                            ParentId = new Guid("66666666-6666-6666-6666-666666666666")
+                            ParentId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            ParentPhone = "0108889999"
                         },
                         new
                         {
@@ -728,9 +797,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "٤٥٦ شارع الحديقة، الإسكندرية",
                             ClassroomId = new Guid("88888888-8888-8888-8888-888888888888"),
                             DateOfBirth = new DateTime(2021, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "ياسمين بكري حسن",
+                            FatherName = "بكري",
+                            FirstName = "ياسمين",
+                            GrandpaName = "حسن",
                             IsActive = true,
-                            ParentId = new Guid("22222222-2222-2222-2222-222222222222")
+                            ParentId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            ParentPhone = "01098765432"
                         },
                         new
                         {
@@ -738,9 +810,12 @@ namespace Kindergarten.Infrastructure.Migrations
                             Address = "٢٠٢ شارع الحرية، الإسكندرية",
                             ClassroomId = new Guid("88888888-8888-8888-8888-888888888888"),
                             DateOfBirth = new DateTime(2020, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "آدم خالد عادل",
+                            FatherName = "خالد",
+                            FirstName = "آدم",
+                            GrandpaName = "عادل",
                             IsActive = true,
-                            ParentId = new Guid("55555555-5555-5555-5555-555555555555")
+                            ParentId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            ParentPhone = "0106667777"
                         });
                 });
 

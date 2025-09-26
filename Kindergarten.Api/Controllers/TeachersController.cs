@@ -6,7 +6,7 @@ namespace Kindergarten.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-//[Authorize(Policy = "AdminOnly")] // 👑 الافتراضي للأدمن (ويقدر يتجاوز أي Policy)
+//[Authorize(Policy = "AdminOnly")]
 public class TeachersController : ControllerBase
 {
     private readonly ITeacherService _teacherService;
@@ -97,5 +97,12 @@ public class TeachersController : ControllerBase
     {
         var subject = await _teacherService.GetAssignedSubjectAsync(id);
         return Ok(subject);
+    }
+
+    [HttpGet("stats")]
+    public async Task<IActionResult> GetStats()
+    {
+        var stats = await _teacherService.GetStatsAsync();
+        return Ok(stats);
     }
 }

@@ -10,4 +10,6 @@ public interface IClassroomService
     Task AssignTeacherAsync(Guid classroomId, Guid teacherId);
     Task UpdateCapacityAsync(Guid classroomId, int newCapacity);
     Task<IEnumerable<StudentReadDto>> GetStudentsAsync(Guid classroomId);
+
+    Task<ClassroomReportDto> GetOverviewAsync();
 }

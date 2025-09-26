@@ -12,15 +12,15 @@ public class MappingProfile : Profile
         CreateMap<StudentCreateDto, Student>();
         CreateMap<StudentUpdateDto, Student>();
         CreateMap<Student, StudentReadDto>()
-            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FullName))
-            .ForMember(dest => dest.ParentFullName, opt => opt.MapFrom(src => src.Parent != null ? src.Parent.FullName : ""))
-            .ForMember(dest => dest.ParentAddress, opt => opt.MapFrom(src => src.Parent != null ? src.Parent.Address : ""));
-
+            .ForMember(dest => dest.ClassroomName, opt => opt.MapFrom(src => src.Classroom.Name))
+            .ForMember(dest => dest.ParentName, opt => opt.MapFrom(src => src.Parent.FullName))
+            .ForMember(dest => dest.ParentPhone, opt => opt.MapFrom(src => src.Parent.PhoneNumber))
+            .ForMember(dest => dest.ParentAddress, opt => opt.MapFrom(src => src.Parent.Address));
 
         // Teacher
         CreateMap<Teacher, TeacherReadDto>()
             .ForMember(dest => dest.SubjectName,
-                opt => opt.MapFrom(src => src.Subject.Name));
+                opt => opt.MapFrom(src => src.Subject != null ? src.Subject.Name : ""));
         CreateMap<TeacherCreateDto, Teacher>();
         CreateMap<TeacherUpdateDto, Teacher>();
 

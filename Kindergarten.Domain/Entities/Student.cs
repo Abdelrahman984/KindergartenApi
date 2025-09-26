@@ -6,15 +6,9 @@ public class Student
 {
     public Guid Id { get; private set; } = Guid.NewGuid();
     [Required]
-    public string FirstName { get; private set; } = null!;
-    public string FatherName { get; private set; } = null!;
-    public string GrandpaName { get; private set; } = null!;
-    public string FullName => $"{FirstName} {FatherName} {GrandpaName}";
+    public string FullName { get; private set; } = null!;
     public DateTime DateOfBirth { get; private set; }
-    public int Age => DateTime.Today.Year - DateOfBirth.Year
-                  - (DateOfBirth.Date > DateTime.Today.AddYears(-(DateTime.Today.Year - DateOfBirth.Year)) ? 1 : 0);
-
-    public string ParentPhone { get; private set; } = null!;
+    public int Age { get; private set; }
     public string Address { get; private set; } = null!;
     public bool IsActive { get; private set; } = true;
 
@@ -30,36 +24,27 @@ public class Student
     // ctor for ORM
     protected Student() { }
 
-    public Student(string firstName, string fatherName, string grandpaName, DateTime dob, string parentPhone, string address)
+    public Student(string fullName, DateTime dob, string address)
     {
-        FirstName = firstName;
-        FatherName = fatherName;
-        GrandpaName = grandpaName;
+        FullName = fullName;
         DateOfBirth = dob;
-        ParentPhone = parentPhone;
         Address = address;
     }
     // For seeding only
-    public Student(Guid id, string firstName, string fatherName, string grandpaName, DateTime dob, string parentPhone, string address)
+    public Student(Guid id, string fullName, DateTime dob, string address)
     {
         Id = id;
-        FirstName = firstName;
-        FatherName = fatherName;
-        GrandpaName = grandpaName;
+        FullName = fullName;
         DateOfBirth = dob;
-        ParentPhone = parentPhone;
         Address = address;
     }
 
 
     public void Deactivate() => IsActive = false;
-    public void UpdateInfo(string firstName, string fatherName, string grandpaName, DateTime dob, string parentPhone, string address)
+    public void UpdateInfo(string fullName, DateTime dob, string address)
     {
-        FirstName = firstName;
-        FatherName = fatherName;
-        GrandpaName = grandpaName;
+        FullName = fullName;
         DateOfBirth = dob;
-        ParentPhone = parentPhone;
         Address = address;
     }
 

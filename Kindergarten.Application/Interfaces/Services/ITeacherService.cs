@@ -18,4 +18,6 @@ public interface ITeacherService
     Task<IEnumerable<TeacherClassroomReadDto>> GetMyClassroomsAsync();
     Task<AssignedSubjectDto> GetMyAssignedSubjectAsync();
     Task<IEnumerable<ClassSessionReadDto>> GetMyClassSessionsAsync();
+
+    Task<TeacherStatsDto> GetStatsAsync();
 }

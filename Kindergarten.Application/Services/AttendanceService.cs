@@ -138,7 +138,7 @@ public class AttendanceService : IAttendanceService
         var weekStart = anyDate.Date.AddDays(-daysFromSaturday);
         var weekEnd = weekStart.AddDays(6);
 
-        var studentsCount = await _studentRepo.GetStudentsCountAsync();
+        var studentsCount = await _studentRepo.GetTotalCountAsync();
         var report = new AttendanceReportDto
         {
             StartDate = weekStart,
@@ -177,7 +177,7 @@ public class AttendanceService : IAttendanceService
         var monthStart = new DateTime(anyDate.Year, anyDate.Month, 1);
         var monthEnd = monthStart.AddMonths(1).AddDays(-1);
 
-        var studentsCount = await _studentRepo.GetStudentsCountAsync();
+        var studentsCount = await _studentRepo.GetTotalCountAsync();
         var report = new AttendanceReportDto
         {
             StartDate = monthStart,
