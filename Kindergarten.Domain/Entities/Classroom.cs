@@ -26,6 +26,11 @@ public class Classroom
             TeacherClassrooms.Add(new TeacherClassroom(teacherId, Id));
         }
     }
+    public void UpdateInfo(string name, int capacity)
+    {
+        Name = name;
+        Capacity = capacity;
+    }
 
     public void UpdateCapacity(int newCapacity) => Capacity = newCapacity;
 }

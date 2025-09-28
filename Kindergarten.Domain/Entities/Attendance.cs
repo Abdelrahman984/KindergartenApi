@@ -9,7 +9,7 @@ public class Attendance
     public Student Student { get; private set; } = null!;
     public DateTime Date { get; private set; }
     public TimeSpan? ArrivalTime { get; private set; }
-    public AttendanceStatus Status { get; private set; }
+    public AttendanceStatus Status { get; private set; } // Unmarked, Present, Absent, Late
     public string? Notes { get; private set; }
 
     private Attendance() { } // for ORM

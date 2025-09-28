@@ -19,6 +19,22 @@ public class ClassroomRepository : GenericRepository<Classroom>, IClassroomRepos
             .SelectMany(c => c.Students)
             .ToListAsync();
 
+    public async Task UpdateClassroomAsync(Classroom classroom)
+    {
+        _dbSet.Update(classroom);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        var classroom = await _dbSet.FindAsync(id);
+        if (classroom != null)
+        {
+            _dbSet.Remove(classroom);
+            await _context.SaveChangesAsync();
+        }
+    }
+
     public async Task<int> GetTotalCountAsync() =>
     await _dbSet.CountAsync();
 
@@ -30,6 +46,7 @@ public class ClassroomRepository : GenericRepository<Classroom>, IClassroomRepos
 
     public async Task<int> GetWithoutStudentsCountAsync() =>
         await _dbSet.CountAsync(c => !c.Students.Any());
+
     public async Task<IEnumerable<ClassroomStudentCountDto>> GetStudentCountsAsync()
     {
         return await _dbSet
@@ -37,9 +54,18 @@ public class ClassroomRepository : GenericRepository<Classroom>, IClassroomRepos
             {
                 ClassroomId = c.Id,
                 ClassroomName = c.Name,
-                Capacity = c.Capacity,
+                ClassroomCapacity = c.Capacity,
                 StudentCount = c.Students.Count
             })
             .ToListAsync();
+    }
+
+    public async Task<List<Classroom>> GetAllWithRelationsAsync(CancellationToken ct = default)
+    {
+        return await _context.Classrooms
+            .Include(c => c.Students)
+            .Include(c => c.TeacherClassrooms)
+                .ThenInclude(tc => tc.Teacher)
+            .ToListAsync(ct);
     }
 }

@@ -13,4 +13,5 @@ public interface IFeeService
     Task MarkAsPaidAsync(Guid feeId);
     Task<FeeReadDto> ProcessPaymentAsync(Guid feeId, PayFeeDto dto);
     Task<bool> DeleteAsync(Guid id);
+    Task<FeeStatsDto> GetFeeStatsAsync();
 }

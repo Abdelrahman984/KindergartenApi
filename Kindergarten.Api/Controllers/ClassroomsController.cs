@@ -63,4 +63,28 @@ public class ClassroomsController : ControllerBase
         var stats = await _classroomService.GetOverviewAsync();
         return Ok(stats);
     }
+
+    [HttpGet("student-counts")]
+    public async Task<IActionResult> GetStudentCounts()
+        => Ok(await _classroomService.GetClassroomStudentCountsAsync());
+
+    [HttpGet("details")]
+    public async Task<IActionResult> GetAllDetails(CancellationToken ct)
+        => Ok(await _classroomService.GetAllClassroomDetailsAsync(ct));
+
+    [HttpPut("{id:guid}")]
+    //[Authorize(Policy = "AdminOnly")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] ClassroomUpdateDto dto)
+    {
+        var updated = await _classroomService.UpdateClassroomAsync(id, dto);
+        return Ok(updated);
+    }
+
+    [HttpDelete("{id:guid}")]
+    //[Authorize(Policy = "AdminOnly")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        await _classroomService.DeleteClassroomAsync(id);
+        return NoContent();
+    }
 }

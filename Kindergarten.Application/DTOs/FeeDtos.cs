@@ -36,3 +36,17 @@ public record PayFeeDto(
     string Reference, // رقم الهاتف أو الحساب
     string TransactionId // كود العملية لو متاح
 );
+
+public class FeeStatsDto
+{
+    public decimal TotalAmount { get; set; }
+    public decimal PaidAmount { get; set; }
+    public decimal PendingAmount { get; set; }
+    public decimal OverdueAmount { get; set; }
+
+    public int PaidCount { get; set; }
+    public int PendingCount { get; set; }
+    public int OverdueCount { get; set; }
+
+    public double CollectionRate => TotalAmount == 0 ? 0 : (double)PaidAmount / (double)TotalAmount * 100;
+}

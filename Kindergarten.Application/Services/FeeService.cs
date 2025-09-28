@@ -83,10 +83,12 @@ public class FeeService : IFeeService
         return _mapper.Map<FeeReadDto>(fee);
     }
 
-
     public async Task<bool> DeleteAsync(Guid id)
     {
         await _feeRepository.DeleteAsync(id);
         return true;
     }
+
+    public async Task<FeeStatsDto> GetFeeStatsAsync()
+        => await _feeRepository.GetFeeStatsAsync();
 }

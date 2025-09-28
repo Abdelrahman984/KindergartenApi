@@ -1,4 +1,5 @@
-﻿using Kindergarten.Application.Interfaces.Repositories;
+﻿using Kindergarten.Application.DTOs;
+using Kindergarten.Application.Interfaces.Repositories;
 using Kindergarten.Domain.Entities;
 using Kindergarten.Domain.Enums;
 using Kindergarten.Infrastructure.Repositories;
@@ -62,4 +63,30 @@ public class FeeRepository : GenericRepository<Fee>, IFeeRepository
             .Include(f => f.Parent)
             .FirstOrDefaultAsync(f => f.Id == id);
     }
+
+    public async Task<FeeStatsDto> GetFeeStatsAsync()
+    {
+        var query = _context.Fees.AsQueryable();
+
+        var total = await query.SumAsync(f => f.Amount);
+        var paidAmount = await query.Where(f => f.Status == FeeStatus.Paid).SumAsync(f => f.Amount);
+        var pendingAmount = await query.Where(f => f.Status == FeeStatus.Pending).SumAsync(f => f.Amount);
+        var overdueAmount = await query.Where(f => f.Status == FeeStatus.Overdue).SumAsync(f => f.Amount);
+
+        var paidCount = await query.CountAsync(f => f.Status == FeeStatus.Paid);
+        var pendingCount = await query.CountAsync(f => f.Status == FeeStatus.Pending);
+        var overdueCount = await query.CountAsync(f => f.Status == FeeStatus.Overdue);
+
+        return new FeeStatsDto
+        {
+            TotalAmount = total,
+            PaidAmount = paidAmount,
+            PendingAmount = pendingAmount,
+            OverdueAmount = overdueAmount,
+            PaidCount = paidCount,
+            PendingCount = pendingCount,
+            OverdueCount = overdueCount
+        };
+    }
+
 }

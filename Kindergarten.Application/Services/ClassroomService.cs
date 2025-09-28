@@ -87,4 +87,35 @@ public class ClassroomService : IClassroomService
             StudentCounts = studentCounts
         };
     }
+    public async Task<IEnumerable<ClassroomStudentCountDto>> GetClassroomStudentCountsAsync()
+    {
+        var studentCounts = await _classroomRepository.GetStudentCountsAsync();
+        return studentCounts;
+    }
+    public async Task<List<ClassroomDetailsDto>> GetAllClassroomDetailsAsync(CancellationToken ct = default)
+    {
+        var classrooms = await _classroomRepository.GetAllWithRelationsAsync(ct);
+        return _mapper.Map<List<ClassroomDetailsDto>>(classrooms);
+    }
+
+    public async Task<ClassroomReadDto> UpdateClassroomAsync(Guid id, ClassroomUpdateDto dto)
+    {
+        var classroom = await _classroomRepository.GetByIdAsync(id)
+            ?? throw new KeyNotFoundException("Classroom not found");
+
+        classroom.UpdateInfo(dto.Name, dto.Capacity);
+
+        await _classroomRepository.UpdateClassroomAsync(classroom);
+
+        return _mapper.Map<ClassroomReadDto>(classroom);
+    }
+
+    public async Task DeleteClassroomAsync(Guid id)
+    {
+        var classroom = await _classroomRepository.GetByIdAsync(id);
+        if (classroom == null)
+            throw new KeyNotFoundException("Classroom not found");
+
+        await _classroomRepository.DeleteAsync(id);
+    }
 }

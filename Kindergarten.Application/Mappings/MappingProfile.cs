@@ -25,11 +25,19 @@ public class MappingProfile : Profile
         CreateMap<TeacherUpdateDto, Teacher>();
 
         // Classroom
+        CreateMap<ClassroomCreateDto, Classroom>();
+        CreateMap<ClassroomUpdateDto, Classroom>();
         CreateMap<Classroom, ClassroomReadDto>();
         CreateMap<Classroom, TeacherClassroomReadDto>()
             .ForMember(dest => dest.StudentsCount,
             opt => opt.MapFrom(src => src.Students.Count));
-        CreateMap<ClassroomCreateDto, Classroom>();
+        CreateMap<Classroom, ClassroomDetailsDto>()
+            .ForMember(dest => dest.StudentsCount,
+                       opt => opt.MapFrom(src => src.Students.Count))
+            .ForMember(dest => dest.TeacherIds,
+                       opt => opt.MapFrom(src => src.TeacherClassrooms.Select(tc => tc.TeacherId)))
+            .ForMember(dest => dest.TeacherNames,
+                       opt => opt.MapFrom(src => src.TeacherClassrooms.Select(tc => tc.Teacher.FullName)));
 
         // Parent
         CreateMap<Parent, ParentReadDto>()

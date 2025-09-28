@@ -1,4 +1,5 @@
-﻿using Kindergarten.Domain.Entities;
+﻿using Kindergarten.Application.DTOs;
+using Kindergarten.Domain.Entities;
 
 namespace Kindergarten.Application.Interfaces.Repositories;
 
@@ -9,4 +10,5 @@ public interface IFeeRepository : IGenericRepository<Fee>
     Task<IEnumerable<Fee>> GetFeesByStudentIdAsync(Guid studentId);
     Task<IEnumerable<Fee>> GetFeesByParentIdAsync(Guid parentId);
     Task<IEnumerable<Fee>> GetOverdueFeesAsync();
+    Task<FeeStatsDto> GetFeeStatsAsync();
 }

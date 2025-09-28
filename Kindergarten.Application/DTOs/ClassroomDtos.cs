@@ -1,6 +1,8 @@
 ﻿namespace Kindergarten.Application.DTOs;
 
 public record ClassroomCreateDto(string Name, int Capacity);
+public record ClassroomUpdateDto(string Name, int Capacity);
+
 public record ClassroomReadDto
 {
     public Guid Id { get; init; }
@@ -39,7 +41,16 @@ public class ClassroomStudentCountDto
 {
     public Guid ClassroomId { get; set; }
     public string ClassroomName { get; set; } = null!;
-    public int Capacity { get; set; }
+    public int ClassroomCapacity { get; set; }
     public int StudentCount { get; set; }
 
+}
+public class ClassroomDetailsDto
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public int Capacity { get; set; }
+    public int StudentsCount { get; set; }
+    public List<Guid> TeacherIds { get; set; } = new();
+    public List<string> TeacherNames { get; set; } = new();
 }

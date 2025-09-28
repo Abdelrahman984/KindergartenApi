@@ -5,6 +5,7 @@
         public StudentStatsDto StudentStats { get; set; } = new();
         public TeacherStatsDto TeacherStats { get; set; } = new();
         public ClassroomReportDto ClassroomStats { get; set; } = new();
+        public FeeStatsDto FeeStats { get; set; } = new();
 
     }
 }
