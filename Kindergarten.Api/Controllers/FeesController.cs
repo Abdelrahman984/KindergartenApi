@@ -101,4 +101,13 @@ public class FeesController : ControllerBase
         if (!result) return NotFound();
         return NoContent();
     }
+
+    // GET: api/Fee/stats
+    [HttpGet("stats")]
+    //[Authorize(Policy = "AdminOnly")]
+    public async Task<IActionResult> GetStats()
+    {
+        var stats = await _feeService.GetFeeStatsAsync();
+        return Ok(stats);
+    }
 }
