@@ -115,7 +115,15 @@ public class AuthController : ControllerBase
             return Unauthorized("بيانات الدخول غير صحيحة");
 
         var token = GenerateJwtToken(user);
-        return Ok(new { token });
+
+        // build user info to return using DTOs
+        var roles = await _userManager.GetRolesAsync(user);
+        var role = roles.FirstOrDefault() ?? string.Empty;
+
+        var userDto = new UserDto(user.Id, user.FullName ?? user.UserName ?? string.Empty, role);
+        var response = new LoginResponseDto(token, userDto);
+
+        return Ok(response);
     }
 
     // -------------------------Helpers--------------------------
